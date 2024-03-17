@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Cryptocoins"
 include(":app")
+include(":core")
+include(":feature")
