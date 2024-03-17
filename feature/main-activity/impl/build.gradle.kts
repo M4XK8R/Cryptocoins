@@ -40,6 +40,9 @@ android {
 
 dependencies {
 
+    implementation(project(":core:theme"))
+    implementation(project(":core:base"))
+
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

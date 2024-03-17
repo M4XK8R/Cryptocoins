@@ -19,6 +19,8 @@ dependencyResolutionManagement {
     }
 }
 
+gradle.startParameter.excludedTaskNames.addAll(listOf(":buildSrc:testClasses"))
+
 rootProject.name = "Cryptocoins"
 include(":app")
 
