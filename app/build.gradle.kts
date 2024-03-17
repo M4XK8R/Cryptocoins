@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleHiltAndroid)
+    alias(libs.plugins.googleKsp)
 }
 
 android {
@@ -53,6 +55,9 @@ dependencies {
 
     implementation(project(":core:base"))
     implementation(project(":feature:main-activity:api"))
+
+    implementation(libs.google.hilt)
+    ksp(libs.google.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
