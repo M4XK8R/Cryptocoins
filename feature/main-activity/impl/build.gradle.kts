@@ -1,14 +1,16 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleHiltAndroid)
+    alias(libs.plugins.googleKsp)
 }
 
 android {
-    namespace = "com.maxkor.feature.coins.api"
-    compileSdk = 34
+    namespace = "com.maxkor.feature.mainactivity.impl"
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 29
+        minSdk = Config.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -40,8 +42,17 @@ android {
 
 dependencies {
 
-    implementation(project(":core:theme"))
     implementation(project(":core:base"))
+    implementation(project(":core:theme"))
+    implementation(project(":feature:coins:api"))
+    implementation(project(":feature:detail:api"))
+    implementation(project(":feature:favorites:api"))
+
+    implementation(libs.google.hilt)
+    ksp(libs.google.hilt.compiler)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.compose.hilt)
+//    implementation ("com.google.accompanist:accompanist-navigation-material:0.35.0-alpha")
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

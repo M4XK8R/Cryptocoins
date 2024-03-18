@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.maxkor.core.base"
-    compileSdk = 34
+    namespace = "com.maxkor.feature.detail.api"
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 29
+        minSdk = Config.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

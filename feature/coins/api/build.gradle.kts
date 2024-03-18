@@ -1,17 +1,14 @@
-import Config.compileSdk
-import Config.minSdk
-
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
 android {
-    namespace = "com.maxkor.core.base"
-    compileSdk = 34
+    namespace = "com.maxkor.feature.coins.api"
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 29
+        minSdk = Config.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,9 +30,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Config.kotlinCompilerExtensionVersion
+    }
 }
 
 dependencies {
+
+    implementation(project(":feature:coins:impl"))
+
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

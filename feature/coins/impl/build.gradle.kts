@@ -1,19 +1,16 @@
-import Config.compileSdk
-import Config.kotlinCompilerExtensionVersion
-import Config.minSdk
-
-
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleHiltAndroid)
+    alias(libs.plugins.googleKsp)
 }
 
 android {
-    namespace = "com.maxkor.feature.coins.api"
-    compileSdk = 34
+    namespace = "com.maxkor.feature.coins.impl"
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 29
+        minSdk = Config.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -44,6 +41,13 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core:base"))
+    implementation(project(":core:theme"))
+
+    implementation(libs.google.hilt)
+    ksp(libs.google.hilt.compiler)
+    implementation(libs.androidx.navigation.compose.hilt)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

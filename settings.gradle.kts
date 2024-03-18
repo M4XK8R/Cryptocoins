@@ -37,10 +37,10 @@ include(":feature:coins")
 include(":feature:coins:api")
 include(":feature:coins:impl")
 
-include(":feature:favorites")
-include(":feature:favorites:api")
-include(":feature:favorites:impl")
-
 include(":feature:detail")
 include(":feature:detail:api")
 include(":feature:detail:impl")
+
+include(":feature:favorites")
+include(":feature:favorites:api")
+include(":feature:favorites:impl")

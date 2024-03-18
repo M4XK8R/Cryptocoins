@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "com.maxkor.core.base"
-    compileSdk = 34
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 29
+        minSdk = Config.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+
+//    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

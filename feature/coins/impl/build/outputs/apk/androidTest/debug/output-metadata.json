@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.maxkor.feature.coins.api.test",
+  "applicationId": "com.maxkor.feature.coins.impl.test",
   "variantName": "debugAndroidTest",
   "elements": [
     {
