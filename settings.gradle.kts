@@ -27,6 +27,7 @@ include(":app")
 include(":core")
 include(":core:base")
 include(":core:theme")
+include(":core:ui")
 
 include(":feature")
 include(":feature:main-activity")
