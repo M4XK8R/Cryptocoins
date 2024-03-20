@@ -9,6 +9,7 @@ import com.maxkor.feature.coins.impl.presentation.viewmodel.CoinsViewModel
 @Composable
 fun CoinsRoute(
     onBackClick: () -> Unit,
+    navigateToDetail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: CoinsViewModel = hiltViewModel()
@@ -17,6 +18,7 @@ fun CoinsRoute(
     CoinsScreen (
         viewModel = viewModel,
         onBackClick = onBackClick,
+        navigateToDetail = navigateToDetail,
         modifier = modifier
     )
 }

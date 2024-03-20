@@ -8,6 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.api.coinsGraph
+import com.maxkor.feature.detail.api.DetailFeature
+import com.maxkor.feature.detail.api.detailGraph
+import com.maxkor.feature.favorites.api.FavoritesFeature
 import com.maxkor.feature.favorites.api.favoritesGraph
 import com.maxkor.feature.mainactivity.impl.presentation.components.navbar.NavBottomBar
 import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityViewModel
@@ -28,7 +31,20 @@ internal fun AppNavigation(
             NavBottomBar(
                 currentRoute = currentRoute,
                 navigateToScreen = { route ->
-                    navController.navigate(route = route)
+                    when (route) {
+                        CoinsFeature.ROUTE_NAME -> {
+                            CoinsFeature.openCoinsScreen(
+                                navController = navController
+                            )
+                        }
+
+                        FavoritesFeature.ROUTE_NAME -> {
+                            FavoritesFeature.openFavoritesScreen(
+                                navController = navController,
+                                routePopUpTo = CoinsFeature.ROUTE_NAME
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -37,8 +53,15 @@ internal fun AppNavigation(
             navController = navController,
             startDestination = CoinsFeature.ROUTE_NAME
         ) {
-            coinsGraph(navigateBack = {})
-            favoritesGraph(navigateBack = {})
+            coinsGraph(
+                navigateBack = {},
+                navigateToDetail = { DetailFeature.openDetailScreen(navController) }
+            )
+            favoritesGraph(
+                navigateBack = {},
+                navigateToDetail = {DetailFeature.openDetailScreen(navController)}
+            )
+            detailGraph(navigateBack = {})
         }
     }
 }

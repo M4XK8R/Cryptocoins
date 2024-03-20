@@ -6,6 +6,7 @@ import com.maxkor.feature.coins.impl.presentation.navigation.CoinsRoute
 
 fun NavGraphBuilder.coinsGraph(
     navigateBack: () -> Unit,
+    navigateToDetail: () -> Unit,
 ) {
 //    dialog(
 //        route = CoinsFeature.ROUTE_NAME,
@@ -14,7 +15,8 @@ fun NavGraphBuilder.coinsGraph(
 //        )
     composable(route = CoinsFeature.ROUTE_NAME) {
         CoinsRoute(
-            onBackClick = navigateBack
+            onBackClick = navigateBack,
+            navigateToDetail = navigateToDetail
         )
     }
 }

@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":core:base"))
     implementation(project(":core:theme"))
+    implementation(project(":core:ui"))
 
     implementation(libs.google.hilt)
     ksp(libs.google.hilt.compiler)

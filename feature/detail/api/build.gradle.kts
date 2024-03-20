@@ -30,9 +30,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Config.kotlinCompilerExtensionVersion
+    }
 }
 
 dependencies {
+
+    implementation(project(":feature:detail:impl"))
+
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

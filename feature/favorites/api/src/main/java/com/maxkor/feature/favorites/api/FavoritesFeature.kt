@@ -5,8 +5,15 @@ import androidx.navigation.NavController
 object FavoritesFeature {
 
     const val ROUTE_NAME = "favoritesFeature"
-    const val COINS_NAME = "favoritesScreen"
+    const val FAVORITE_NAME = "favoritesScreen"
 
-    fun openFavoritesScreen(navController: NavController) =
-        navController.navigate(ROUTE_NAME)
+    fun openFavoritesScreen(
+        navController: NavController,
+        routePopUpTo: String,
+    ) = navController.navigate(ROUTE_NAME) {
+        launchSingleTop = true
+        popUpTo(routePopUpTo) {
+            inclusive = false
+        }
+    }
 }

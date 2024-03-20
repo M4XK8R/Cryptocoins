@@ -10,6 +10,7 @@ import com.maxkor.feature.favorites.impl.presentation.viewmodel.FavoritesViewMod
 @Composable
 fun FavoritesRoute(
     onBackClick: () -> Unit,
+    navigateToDetail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: FavoritesViewModel = hiltViewModel()
@@ -18,6 +19,7 @@ fun FavoritesRoute(
     FavoritesScreen(
         viewModel = viewModel,
         onBackClick = onBackClick,
+        navigateToDetail = navigateToDetail,
         modifier = modifier
     )
 }
