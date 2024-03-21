@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.googleHiltAndroid)
-    alias(libs.plugins.googleKsp)
+    alias(libs.plugins.androidApp)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -50,11 +50,12 @@ dependencies {
     implementation(project(":core:base"))
     implementation(project(":feature:main-activity:api"))
 
-    implementation(libs.google.hilt)
-    ksp(libs.google.hilt.compiler)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiller)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.ktx.core)
+    implementation(libs.ktx.lifecycle)
+    implementation(libs.material)
 
 //    testImplementation(libs.junit)
 //    androidTestImplementation(libs.androidx.junit)

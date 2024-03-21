@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.androidLib)
+    alias(libs.plugins.kotlin)
 }
 
 android {
@@ -43,10 +43,10 @@ dependencies {
 //    implementation(project(":core:base"))
     implementation(project(":feature:favorites:impl"))
 
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.compose.navigation)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.ktx.core)
+    implementation(libs.appcompat)
     implementation(libs.material)
 
 //    testImplementation(libs.junit)

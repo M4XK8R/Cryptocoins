@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.googleHiltAndroid)
-    alias(libs.plugins.googleKsp)
+    alias(libs.plugins.androidLib)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -49,21 +49,21 @@ dependencies {
     implementation(project(":feature:detail:api"))
     implementation(project(":feature:favorites:api"))
 
-    implementation(libs.google.hilt)
-    ksp(libs.google.hilt.compiler)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.compose.hilt)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiller)
+    implementation(libs.compose.navigation)
+    implementation(libs.hilt.navigation)
 //    implementation ("com.google.accompanist:accompanist-navigation-material:0.35.0-alpha")
 
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.compose.activity)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.ktx.core)
+    implementation(libs.appcompat)
     implementation(libs.material)
 
 //    testImplementation(libs.junit)

@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.androidLib)
+    alias(libs.plugins.kotlin)
 }
 
 android {
@@ -40,14 +40,14 @@ android {
 
 dependencies {
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
 //    implementation(libs.androidx.ui.graphics)
 //    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.compose.material3)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.ktx.core)
+    implementation(libs.appcompat)
     implementation(libs.material)
 
 //    testImplementation(libs.junit)
