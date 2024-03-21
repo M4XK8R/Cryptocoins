@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleHiltAndroid)
+    alias(libs.plugins.googleKsp)
 }
 
 android {
@@ -35,6 +37,8 @@ android {
 dependencies {
 
 //    implementation(libs.androidx.navigation.compose)
+    implementation(libs.google.hilt)
+    ksp(libs.google.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

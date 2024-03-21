@@ -50,6 +50,10 @@ dependencies {
     ksp(libs.google.hilt.compiler)
     implementation(libs.androidx.navigation.compose.hilt)
 
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)

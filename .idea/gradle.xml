@@ -26,6 +26,11 @@
             <option value="$PROJECT_DIR$/core/base" />
             <option value="$PROJECT_DIR$/core/theme" />
             <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/database" />
+            <option value="$PROJECT_DIR$/database/local" />
+            <option value="$PROJECT_DIR$/database/local/host" />
+            <option value="$PROJECT_DIR$/database/local/intermediary-coins" />
+            <option value="$PROJECT_DIR$/database/local/intermediary-favorites" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/coins" />
             <option value="$PROJECT_DIR$/feature/coins/api" />
