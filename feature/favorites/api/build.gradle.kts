@@ -39,17 +39,7 @@ android {
 }
 
 dependencies {
-
-//    implementation(project(":core:base"))
     implementation(project(":feature:favorites:impl"))
 
     implementation(libs.compose.navigation)
-
-    implementation(libs.ktx.core)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
 }

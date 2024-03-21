@@ -46,22 +46,19 @@ android {
 }
 
 dependencies {
-
     implementation(project(":core:base"))
+    implementation(project(":core:theme"))
+    implementation(project(":core:ui"))
+
     implementation(project(":feature:main-activity:api"))
+    implementation(project(":feature:main-activity:impl"))
+    implementation(project(":feature:coins:api"))
+    implementation(project(":feature:coins:impl"))
+    implementation(project(":feature:favorites:api"))
+    implementation(project(":feature:favorites:impl"))
+    implementation(project(":feature:detail:api"))
+    implementation(project(":feature:detail:impl"))
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiller)
-
-    implementation(libs.ktx.core)
-    implementation(libs.ktx.lifecycle)
-    implementation(libs.material)
-
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
-//    androidTestImplementation(platform(libs.androidx.compose.bom))
-//    androidTestImplementation(libs.androidx.ui.test.junit4)
-//    debugImplementation(libs.androidx.ui.tooling)
-//    debugImplementation(libs.androidx.ui.test.manifest)
 }

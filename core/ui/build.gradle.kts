@@ -39,20 +39,9 @@ android {
 }
 
 dependencies {
-
     implementation(project(":core:theme"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
-//    implementation(libs.androidx.ui.graphics)
-//    implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.compose.material3)
-
-    implementation(libs.ktx.core)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
 }

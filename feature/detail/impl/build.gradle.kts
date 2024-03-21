@@ -41,7 +41,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":core:base"))
     implementation(project(":core:theme"))
     implementation(project(":core:ui"))
@@ -51,16 +50,5 @@ dependencies {
     implementation(libs.hilt.navigation)
 
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-
-    implementation(libs.ktx.core)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.bundles.compose)
 }

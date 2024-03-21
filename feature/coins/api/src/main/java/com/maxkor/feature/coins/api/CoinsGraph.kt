@@ -8,11 +8,6 @@ fun NavGraphBuilder.coinsGraph(
     navigateBack: () -> Unit,
     navigateToDetail: () -> Unit,
 ) {
-//    dialog(
-//        route = CoinsFeature.ROUTE_NAME,
-//        dialogProperties = DialogProperties(
-//            usePlatformDefaultWidth = false
-//        )
     composable(route = CoinsFeature.ROUTE_NAME) {
         CoinsRoute(
             onBackClick = navigateBack,
