@@ -44,6 +44,11 @@ dependencies {
     implementation(project(":core:base"))
     implementation(project(":core:theme"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:coins:api"))
+
+    implementation(libs.room)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiller)

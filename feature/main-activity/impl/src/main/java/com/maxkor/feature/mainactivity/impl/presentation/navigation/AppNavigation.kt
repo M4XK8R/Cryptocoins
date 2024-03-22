@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.maxkor.feature.coins.api.CoinsFeature
-import com.maxkor.feature.coins.api.coinsGraph
+import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.detail.api.DetailFeature
 import com.maxkor.feature.detail.api.detailGraph
 import com.maxkor.feature.favorites.api.FavoritesFeature
@@ -20,6 +20,7 @@ import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityV
 internal fun AppNavigation(
     viewModel: MainActivityViewModel,
     navController: NavHostController,
+    coinsNavigationInteractor: CoinsNavigationInteractor,
 ) {
     val currentRoute = navController.currentBackStackEntryAsState()
         .value
@@ -33,7 +34,7 @@ internal fun AppNavigation(
                 navigateToScreen = { route ->
                     when (route) {
                         CoinsFeature.ROUTE_NAME -> {
-                            CoinsFeature.openCoinsScreen(
+                            coinsNavigationInteractor.openScreen(
                                 navController = navController
                             )
                         }
@@ -53,13 +54,13 @@ internal fun AppNavigation(
             navController = navController,
             startDestination = CoinsFeature.ROUTE_NAME
         ) {
-            coinsGraph(
+            coinsNavigationInteractor.graph(
+                navGraphBuilder = this,
                 navigateBack = {},
-                navigateToDetail = { DetailFeature.openDetailScreen(navController) }
-            )
+                navigateToDetail = { DetailFeature.openDetailScreen(navController) })
             favoritesGraph(
                 navigateBack = {},
-                navigateToDetail = {DetailFeature.openDetailScreen(navController)}
+                navigateToDetail = { DetailFeature.openDetailScreen(navController) }
             )
             detailGraph(navigateBack = {})
         }

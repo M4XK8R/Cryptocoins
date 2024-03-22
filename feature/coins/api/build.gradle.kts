@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:coins:impl"))
+//    implementation(project(":feature:coins:impl"))
 
     implementation(libs.compose.navigation)
 }

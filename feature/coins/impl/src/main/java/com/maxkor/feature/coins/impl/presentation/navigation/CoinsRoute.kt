@@ -7,7 +7,7 @@ import com.maxkor.feature.coins.impl.presentation.screen.CoinsScreen
 import com.maxkor.feature.coins.impl.presentation.viewmodel.CoinsViewModel
 
 @Composable
-fun CoinsRoute(
+internal fun CoinsRoute(
     onBackClick: () -> Unit,
     navigateToDetail: () -> Unit,
     modifier: Modifier = Modifier,

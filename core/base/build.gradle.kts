@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidLib)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -30,4 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+dependencies {
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiller)
 }
