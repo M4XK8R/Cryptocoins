@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "cryptocoins")
-internal data class CryptocoinEntity(
+data class CryptocoinEntity(
     @PrimaryKey
     val id: Int,
     @ColumnInfo(name = "name")

@@ -7,18 +7,19 @@ import com.maxkor.feature.coins.impl.presentation.screen.CoinsScreen
 import com.maxkor.feature.coins.impl.presentation.viewmodel.CoinsViewModel
 
 @Composable
-internal fun CoinsRoute(
+fun CoinsRoute(
     onBackClick: () -> Unit,
     navigateToDetail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: CoinsViewModel = hiltViewModel()
-//    val someState by viewmodel.someStateFlow.collectAsStateWithLifecycle()
+//    val coinsUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CoinsScreen (
+    CoinsScreen(
         viewModel = viewModel,
         onBackClick = onBackClick,
         navigateToDetail = navigateToDetail,
-        modifier = modifier
+        modifier = modifier,
+        coinsUiState = viewModel.coinsUiState
     )
 }

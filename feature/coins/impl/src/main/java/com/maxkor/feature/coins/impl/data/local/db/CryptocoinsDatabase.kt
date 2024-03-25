@@ -15,7 +15,7 @@ private const val DATABASE_NAME = "cryptocoins-db"
     version = DATABASE_VERSION,
     exportSchema = false
 )
-internal abstract class CryptocoinsDatabase : RoomDatabase() {
+abstract class CryptocoinsDatabase : RoomDatabase() {
 
     abstract fun cryptocoinsDao(): CryptocoinsDao
 
@@ -23,18 +23,17 @@ internal abstract class CryptocoinsDatabase : RoomDatabase() {
         @Volatile
         private var instance: CryptocoinsDatabase? = null
 
-        fun getInstance(context: Context): CryptocoinsDatabase {
-            return instance ?: synchronized(this) {
+        fun getInstance(context: Context): CryptocoinsDatabase =
+            instance ?: synchronized(this) {
                 instance ?: buildDatabase(context).also { instance = it }
             }
-        }
 
-        private fun buildDatabase(context: Context): CryptocoinsDatabase {
-            return Room.databaseBuilder(
+        private fun buildDatabase(context: Context): CryptocoinsDatabase = Room
+            .databaseBuilder(
                 context,
                 CryptocoinsDatabase::class.java,
                 DATABASE_NAME
             ).build()
-        }
+
     }
 }

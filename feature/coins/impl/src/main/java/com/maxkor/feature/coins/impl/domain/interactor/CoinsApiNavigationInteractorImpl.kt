@@ -8,7 +8,8 @@ import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.coins.impl.presentation.navigation.CoinsRoute
 import javax.inject.Inject
 
-internal class CoinsApiNavigationInteractorImpl @Inject constructor() : CoinsNavigationInteractor {
+class CoinsApiNavigationInteractorImpl @Inject constructor() : CoinsNavigationInteractor {
+
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
         navigateBack: () -> Unit,

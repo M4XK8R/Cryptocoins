@@ -54,6 +54,7 @@ dependencies {
     ksp(libs.hilt.compiller)
     implementation(libs.hilt.navigation)
 
+    implementation(libs.compose.lifecycle)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 }

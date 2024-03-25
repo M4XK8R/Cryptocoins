@@ -11,21 +11,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
-internal class CoinsApiFavoritesInteractorImpl @Inject constructor(
+class CoinsApiFavoritesInteractorImpl @Inject constructor(
     @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
     private val localDataSourceRepository: LocalDataSourceRepository,
 ) : CoinsFavoritesInteractor {
 
-    override fun getAllFlow(): Flow<List<CryptocoinFav>> =
-        localDataSourceRepository.getCoinsFlow()
-            .transform { cryptocoins ->
-                cryptocoins.filter { it.isFavorite }
-                    .map { it.toCryptocoinFav() }
-            }
+    override fun getAllFlow(): Flow<List<CryptocoinFav>> = localDataSourceRepository
+        .getCoinsFlow()
+        .transform { cryptocoins ->
+            cryptocoins.filter { it.isFavorite }
+                .map { it.toCryptocoinFav() }
+        }
 
-    override suspend fun remove(cryptocoinFav: CryptocoinFav) {
-        localDataSourceRepository.changeCoinFavoriteState(
-            cryptocoinFav.toCryptocoin()
-        )
-    }
+    override suspend fun remove(cryptocoinFav: CryptocoinFav) = localDataSourceRepository
+        .changeCoinFavoriteState(cryptocoinFav.toCryptocoin())
 }

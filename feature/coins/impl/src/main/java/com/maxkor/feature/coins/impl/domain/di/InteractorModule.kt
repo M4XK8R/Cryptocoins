@@ -13,7 +13,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface InteractorModule {
+interface InteractorModule {
 
     @Binds
     fun bindCryptocoinsInteractor(
