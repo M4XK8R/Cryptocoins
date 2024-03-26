@@ -15,6 +15,7 @@ import com.maxkor.core.theme.CryptocoinsTheme
 import com.maxkor.core.theme.LocalSpacing
 import com.maxkor.core.ui.components.ButtonText
 import com.maxkor.core.ui.components.TitleText
+import com.maxkor.core.ui.composables.DataIsAbsent
 import com.maxkor.core.ui.composables.Loading
 import com.maxkor.feature.coins.impl.presentation.viewmodel.CoinsViewModel
 
@@ -28,14 +29,15 @@ fun CoinsScreen(
 ) {
     when (coinsUiState) {
         is CoinsUiState.Loading -> Loading()
-        is CoinsUiState.Success -> Content(
+        is CoinsUiState.NoDataAvailable -> DataIsAbsent()
+        is CoinsUiState.Success -> CoinsScreenContent(
             navigateToDetail = navigateToDetail
         )
     }
 }
 
 @Composable
-fun Content(
+private fun CoinsScreenContent(
     navigateToDetail: () -> Unit,
 ) {
     val spacing = LocalSpacing.current
