@@ -17,7 +17,7 @@ sealed class BottomNavigationItem(
 
     data object Favorite : BottomNavigationItem(
         title = Screen.FAVORITES.name,
-        icon = CryptocoinsIcons.Favorites,
+        icon = CryptocoinsIcons.Favorite,
         screen = Screen.FAVORITES
     )
 

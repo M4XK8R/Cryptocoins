@@ -1,9 +1,9 @@
 package com.maxkor.feature.coins.impl.data.local.mapper
 
-import com.maxkor.feature.coins.impl.data.local.model.CryptocoinEntity
-import com.maxkor.feature.coins.impl.domain.model.Cryptocoin
+import com.maxkor.feature.coins.impl.data.local.model.CoinEntity
+import com.maxkor.feature.coins.impl.domain.model.Coin
 
-fun Cryptocoin.toCryptocoinEntity() = CryptocoinEntity(
+fun Coin.toCoinEntity() = CoinEntity(
     id = id,
     name = name,
     price = price,
@@ -11,7 +11,7 @@ fun Cryptocoin.toCryptocoinEntity() = CryptocoinEntity(
     isFavorite = isFavorite
 )
 
-fun CryptocoinEntity.toCryptocoin() = Cryptocoin(
+fun CoinEntity.toCoin() = Coin(
     id = id,
     name = name,
     price = price,

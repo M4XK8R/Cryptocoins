@@ -7,8 +7,11 @@ interface CoinsNavigationInteractor {
 
     fun graph(
         navGraphBuilder: NavGraphBuilder,
-        navigateBack: () -> Unit,
-        navigateToDetail: () -> Unit,
+        navigateToDetail: (
+            name: String,
+            price: String,
+            imageUrl: String,
+        ) -> Unit,
     )
 
     fun openScreen(navController: NavController)

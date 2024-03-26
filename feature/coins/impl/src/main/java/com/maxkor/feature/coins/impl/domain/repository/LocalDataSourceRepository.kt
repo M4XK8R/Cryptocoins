@@ -1,19 +1,19 @@
 package com.maxkor.feature.coins.impl.domain.repository
 
-import com.maxkor.feature.coins.impl.domain.model.Cryptocoin
+import com.maxkor.feature.coins.impl.domain.model.Coin
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSourceRepository {
 
-    suspend fun getCoins(): List<Cryptocoin>
+    suspend fun getCoins(): List<Coin>
 
-    suspend fun getCoinById(id: Int): Cryptocoin
+    suspend fun getCoinById(id: Int): Coin
 
-    suspend fun addCoins(cryptocoins: List<Cryptocoin>)
+    suspend fun addCoins(coins: List<Coin>)
 
-    suspend fun changeCoinFavoriteState(cryptocoin: Cryptocoin)
+    suspend fun changeCoinFavoriteState(coin: Coin)
 
-    suspend fun updateDatabaseData(cryptocoins: List<Cryptocoin>)
+    suspend fun updateDatabaseData(coins: List<Coin>)
 
-    fun getCoinsFlow(): Flow<List<Cryptocoin>>
+    fun getCoinsFlow(): Flow<List<Coin>>
 }

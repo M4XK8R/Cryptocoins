@@ -2,10 +2,10 @@ package com.maxkor.feature.coins.impl.domain.di
 
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
-import com.maxkor.feature.coins.impl.domain.interactor.CoinsApiFavoritesInteractorImpl
-import com.maxkor.feature.coins.impl.domain.interactor.CoinsApiNavigationInteractorImpl
-import com.maxkor.feature.coins.impl.domain.interactor.CryptocoinsInteractor
-import com.maxkor.feature.coins.impl.domain.interactor.CryptocoinsInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
+import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.api.FavoritesInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.api.NavigationInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,18 +16,18 @@ import dagger.hilt.components.SingletonComponent
 interface InteractorModule {
 
     @Binds
-    fun bindCryptocoinsInteractor(
-        impl: CryptocoinsInteractorImpl,
-    ): CryptocoinsInteractor
+    fun bindCoinsInteractor(
+        impl: CoinsInteractorImpl,
+    ): CoinsInteractor
 
     @Binds
     fun bindCoinsNavigationInteractor(
-        impl: CoinsApiNavigationInteractorImpl,
+        impl: NavigationInteractorImpl,
     ): CoinsNavigationInteractor
 
     @Binds
     fun bindCoinsFavoritesInteractor(
-        impl: CoinsApiFavoritesInteractorImpl,
+        impl: FavoritesInteractorImpl,
     ): CoinsFavoritesInteractor
 
 }

@@ -3,9 +3,9 @@ package com.maxkor.feature.coins.impl.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxkor.core.base.utils.createDebugLog
-import com.maxkor.feature.coins.impl.domain.interactor.CryptocoinsInteractor
-import com.maxkor.feature.coins.impl.domain.model.Cryptocoin
-import com.maxkor.feature.coins.impl.presentation.mapper.toCryptocoinVo
+import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
+import com.maxkor.feature.coins.impl.domain.model.Coin
+import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
 import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState
 import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CoinsViewModel @Inject constructor(
-    private val interactor: CryptocoinsInteractor,
+    private val interactor: CoinsInteractor,
 ) : ViewModel() {
 
     init {
@@ -33,10 +33,10 @@ class CoinsViewModel @Inject constructor(
         .getCoinsFlow()
         .onStart { delay(4000) }
         .onEach { createDebugLog("onEach") }
-        .map { cryptocoins ->
-            if (cryptocoins.isNotEmpty()) {
-                val cryptocoinsVos = cryptocoins.map { it.toCryptocoinVo() }
-                Success(coins = cryptocoinsVos)
+        .map { coins ->
+            if (coins.isNotEmpty()) {
+                val coinsVos = coins.map { it.toCoinVo() }
+                Success(coins = coinsVos)
             } else {
                 CoinsUiState.NoDataAvailable
             }
@@ -47,9 +47,9 @@ class CoinsViewModel @Inject constructor(
             initialValue = CoinsUiState.Loading
         )
 
-    fun changeCoinFavoriteState(cryptocoin: Cryptocoin) {
+    fun changeCoinFavoriteState(coin: Coin) {
         viewModelScope.launch {
-            interactor.changeCoinFavoriteState(cryptocoin)
+            interactor.changeCoinFavoriteState(coin)
         }
     }
 
@@ -70,8 +70,8 @@ class CoinsViewModel @Inject constructor(
         viewModelScope.launch {
             while (true) {
                 delay(10000)
-                interactor.updateDatabaseData(Cryptocoin.testExemplars)
-//                interactor.addCoins(Cryptocoin.testExemplars)
+                interactor.updateDatabaseData(Coin.testExemplars)
+//                interactor.addCoins(Coin.testExemplars)
             }
         }
     }

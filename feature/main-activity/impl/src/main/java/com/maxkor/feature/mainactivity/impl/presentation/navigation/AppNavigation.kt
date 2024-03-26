@@ -56,8 +56,10 @@ internal fun AppNavigation(
         ) {
             coinsNavigationInteractor.graph(
                 navGraphBuilder = this,
-                navigateBack = {},
-                navigateToDetail = { DetailFeature.openDetailScreen(navController) })
+                navigateToDetail = { name, price, imageUrl ->
+                    DetailFeature.openDetailScreen(navController)
+                }
+            )
             favoritesGraph(
                 navigateBack = {},
                 navigateToDetail = { DetailFeature.openDetailScreen(navController) }

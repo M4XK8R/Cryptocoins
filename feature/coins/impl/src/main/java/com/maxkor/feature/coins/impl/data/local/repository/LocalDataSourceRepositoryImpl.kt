@@ -1,46 +1,46 @@
 package com.maxkor.feature.coins.impl.data.local.repository
 
-import com.maxkor.feature.coins.impl.data.local.dao.CryptocoinsDao
-import com.maxkor.feature.coins.impl.data.local.mapper.toCryptocoin
-import com.maxkor.feature.coins.impl.data.local.mapper.toCryptocoinEntity
-import com.maxkor.feature.coins.impl.domain.model.Cryptocoin
+import com.maxkor.feature.coins.impl.data.local.dao.CoinsDao
+import com.maxkor.feature.coins.impl.data.local.mapper.toCoin
+import com.maxkor.feature.coins.impl.data.local.mapper.toCoinEntity
+import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.LocalDataSourceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LocalDataSourceRepositoryImpl @Inject constructor(
-    private val cryptocoinsDao: CryptocoinsDao,
+    private val coinsDao: CoinsDao,
 ) : LocalDataSourceRepository {
 
-    override suspend fun getCoins(): List<Cryptocoin> = cryptocoinsDao
+    override suspend fun getCoins(): List<Coin> = coinsDao
         .getAll()
-        .map { it.toCryptocoin() }
+        .map {it.toCoin()}
 
-    override suspend fun getCoinById(id: Int): Cryptocoin = cryptocoinsDao
+    override suspend fun getCoinById(id: Int): Coin = coinsDao
         .getById(id)
-        .toCryptocoin()
+        .toCoin()
 
-    override suspend fun addCoins(cryptocoins: List<Cryptocoin>) {
-        val cryptocoinEntities = cryptocoins.map { it.toCryptocoinEntity() }
-        cryptocoinsDao.insertAll(cryptocoinEntities)
+    override suspend fun addCoins(coins: List<Coin>) {
+        val coinsEntities = coins.map { it.toCoinEntity() }
+        coinsDao.insertAll(coinsEntities)
     }
 
-    override suspend fun changeCoinFavoriteState(cryptocoin: Cryptocoin) {
-        val changedCryptocoin = cryptocoin.copy(
-            isFavorite = !cryptocoin.isFavorite
+    override suspend fun changeCoinFavoriteState(coin: Coin) {
+        val changedCoin = coin.copy(
+            isFavorite = !coin.isFavorite
         )
-        cryptocoinsDao.updateData(changedCryptocoin.toCryptocoinEntity())
+        coinsDao.updateData(changedCoin.toCoinEntity())
     }
 
-    override suspend fun updateDatabaseData(cryptocoins: List<Cryptocoin>) =
-        cryptocoins.forEach { cryptocoin ->
-            cryptocoinsDao.updateData(cryptocoin.toCryptocoinEntity())
+    override suspend fun updateDatabaseData(coins: List<Coin>) =
+        coins.forEach { coin ->
+            coinsDao.updateData(coin.toCoinEntity())
         }
 
-    override fun getCoinsFlow(): Flow<List<Cryptocoin>> = cryptocoinsDao
+    override fun getCoinsFlow(): Flow<List<Coin>> = coinsDao
         .getAllFlow()
-        .map { cryptocoinsEntities ->
-            cryptocoinsEntities.map { it.toCryptocoin() }
+        .map { coinsEntities ->
+            coinsEntities.map { it.toCoin() }
         }
 }

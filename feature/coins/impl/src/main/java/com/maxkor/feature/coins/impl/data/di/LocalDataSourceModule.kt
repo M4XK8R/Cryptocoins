@@ -1,8 +1,8 @@
 package com.maxkor.feature.coins.impl.data.di
 
 import android.content.Context
-import com.maxkor.feature.coins.impl.data.local.dao.CryptocoinsDao
-import com.maxkor.feature.coins.impl.data.local.db.CryptocoinsDatabase
+import com.maxkor.feature.coins.impl.data.local.dao.CoinsDao
+import com.maxkor.feature.coins.impl.data.local.db.CoinsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,13 +16,13 @@ object LocalDataSourceModule {
 
     @Provides
     @Singleton
-    fun provideCryptocoinsDatabase(
+    fun provideCoinsDatabase(
         @ApplicationContext context: Context,
-    ): CryptocoinsDatabase = CryptocoinsDatabase.getInstance(context)
+    ): CoinsDatabase = CoinsDatabase.getInstance(context)
 
     @Provides
-    fun provideCryptocoinsDao(
-        appDatabase: CryptocoinsDatabase,
-    ): CryptocoinsDao = appDatabase.cryptocoinsDao()
+    fun provideCoinsDao(
+        appDatabase: CoinsDatabase,
+    ): CoinsDao = appDatabase.coinsDao()
 
 }

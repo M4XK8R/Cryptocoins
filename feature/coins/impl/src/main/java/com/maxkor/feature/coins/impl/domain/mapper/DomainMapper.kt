@@ -1,9 +1,9 @@
 package com.maxkor.feature.coins.impl.domain.mapper
 
-import com.maxkor.feature.coins.api.domain.model.CryptocoinFav
-import com.maxkor.feature.coins.impl.domain.model.Cryptocoin
+import com.maxkor.feature.coins.api.domain.model.CoinFav
+import com.maxkor.feature.coins.impl.domain.model.Coin
 
-fun Cryptocoin.toCryptocoinFav() = CryptocoinFav(
+fun Coin.toCoinFav() = CoinFav(
     id = id,
     name = name,
     price = price,
@@ -11,7 +11,7 @@ fun Cryptocoin.toCryptocoinFav() = CryptocoinFav(
     isFavorite = isFavorite
 )
 
-fun CryptocoinFav.toCryptocoin() = Cryptocoin(
+fun CoinFav.toCoin() = Coin(
     id = id,
     name = name,
     price = price,

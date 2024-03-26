@@ -46,6 +46,8 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":feature:coins:api"))
 
+    implementation(libs.coil)
+
     implementation(libs.room)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
@@ -54,6 +56,7 @@ dependencies {
     ksp(libs.hilt.compiller)
     implementation(libs.hilt.navigation)
 
+    implementation(libs.compose.constraint)
     implementation(libs.compose.lifecycle)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
