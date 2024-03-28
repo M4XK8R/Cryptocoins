@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoinsDao {
+
     @Query("SELECT * FROM  cryptocoins")
     suspend fun getAll(): List<CoinEntity>
 
@@ -21,6 +22,9 @@ interface CoinsDao {
 
     @Upsert
     suspend fun updateData(vararg coinsEntities: CoinEntity)
+
+    @Upsert
+    suspend fun updateData(coinsEntities: List<CoinEntity>)
 
     @Query("SELECT * FROM  cryptocoins")
     fun getAllFlow(): Flow<List<CoinEntity>>

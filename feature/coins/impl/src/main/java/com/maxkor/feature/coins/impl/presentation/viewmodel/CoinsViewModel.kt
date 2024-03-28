@@ -25,13 +25,14 @@ class CoinsViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-//        createFakeData()
-//        addEmptyDataToDatabase()
+        viewModelScope.launch {
+            interactor.updateData()
+        }
     }
 
     val coinsUiState: StateFlow<CoinsUiState> = interactor
         .getCoinsFlow()
-        .onStart { delay(4000) }
+        .onStart { delay(1000) }
         .onEach { createDebugLog("onEach") }
         .map { coins ->
             if (coins.isNotEmpty()) {
@@ -56,23 +57,4 @@ class CoinsViewModel @Inject constructor(
     /**
      * Private functions
      */
-
-    private fun addEmptyDataToDatabase() {
-        viewModelScope.launch {
-            while (true) {
-                delay(10000)
-                interactor.addCoins(emptyList())
-            }
-        }
-    }
-
-    private fun addFakeDataToDatabase() {
-        viewModelScope.launch {
-            while (true) {
-                delay(10000)
-                interactor.updateDatabaseData(Coin.testExemplars)
-//                interactor.addCoins(Coin.testExemplars)
-            }
-        }
-    }
 }

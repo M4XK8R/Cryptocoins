@@ -5,15 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsInteractor {
 
-    suspend fun getCoins(): List<Coin>
-
-    suspend fun getCoinById(id: Int): Coin
-
-    suspend fun addCoins(coins: List<Coin>)
+    fun getCoinsFlow(): Flow<List<Coin>>
 
     suspend fun changeCoinFavoriteState(coin: Coin)
 
-    suspend fun updateDatabaseData(coins: List<Coin>)
-
-    fun getCoinsFlow(): Flow<List<Coin>>
+    suspend fun updateData()
 }

@@ -46,6 +46,13 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":feature:coins:api"))
 
+    implementation(libs.moshi)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
+
     implementation(libs.coil)
 
     implementation(libs.room)

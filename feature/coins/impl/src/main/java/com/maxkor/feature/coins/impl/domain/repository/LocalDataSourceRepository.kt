@@ -13,7 +13,7 @@ interface LocalDataSourceRepository {
 
     suspend fun changeCoinFavoriteState(coin: Coin)
 
-    suspend fun updateDatabaseData(coins: List<Coin>)
+    suspend fun updateCoinsData(coins: List<Coin>)
 
     fun getCoinsFlow(): Flow<List<Coin>>
 }
