@@ -24,12 +24,6 @@ class CoinsViewModel @Inject constructor(
     private val interactor: CoinsInteractor,
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            interactor.updateData()
-        }
-    }
-
     val coinsUiState: StateFlow<CoinsUiState> = interactor
         .getCoinsFlow()
         .onStart { delay(1000) }
@@ -54,7 +48,6 @@ class CoinsViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Private functions
-     */
+    suspend fun updateData() =
+        interactor.updateData()
 }

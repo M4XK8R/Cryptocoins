@@ -5,9 +5,12 @@ import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.LocalDataSourceRepository
 import com.maxkor.feature.coins.impl.domain.repository.RemoteDataSourceRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+private const val DOWNTIME = 30_000L
 
 class CoinsInteractorImpl @Inject constructor(
     @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
@@ -39,5 +42,6 @@ class CoinsInteractorImpl @Inject constructor(
                 }
                 localDataSourceRepository.updateCoinsData(updatedData)
             }
+            delay(DOWNTIME)
         }
 }

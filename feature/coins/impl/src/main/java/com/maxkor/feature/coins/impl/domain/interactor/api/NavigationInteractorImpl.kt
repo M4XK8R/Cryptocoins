@@ -21,11 +21,7 @@ class NavigationInteractorImpl @Inject constructor() : CoinsNavigationInteractor
         CoinsRoute(navigateToDetail = navigateToDetail)
     }
 
-    override fun openScreen(navController: NavController) =
-        navController.navigate(CoinsFeature.ROUTE_NAME) {
-            launchSingleTop = true
-            popUpTo(CoinsFeature.ROUTE_NAME) {
-                inclusive = true
-            }
-        }
+    override fun openScreen(navController: NavController) {
+        navController.popBackStack()
+    }
 }
