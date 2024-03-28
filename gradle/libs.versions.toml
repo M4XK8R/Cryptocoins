@@ -20,6 +20,9 @@ hilt                                = "2.51"
 hiltNavigation                      = "1.2.0"
 room                                = "2.6.1"
 coil                                = "2.6.0"
+okhttpBom                           = "4.12.0"
+retrofit                            = "2.10.0"
+moshi                               = "1.14.0"
 
 # test
 junit                               = "4.13.2"
@@ -43,6 +46,12 @@ room                                = { group = "androidx.room", name = "room-ru
 room-compiler                       = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx                            = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 coil                                = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+okhttp-bom                          = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttpBom" }
+okhttp                              = { group = "com.squareup.okhttp3", name = "okhttp" }
+okhttp-interceptor                  = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+retrofit                            = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-moshi            = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+moshi                               = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
 
 # base
 ktx-core                            = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

@@ -15,28 +15,28 @@ class LocalDataSourceRepositoryImpl @Inject constructor(
 
     override suspend fun getCoins(): List<Coin> = coinsDao
         .getAll()
-        .map {it.toCoin()}
+        .map { it.toCoin() }
 
     override suspend fun getCoinById(id: Int): Coin = coinsDao
         .getById(id)
         .toCoin()
 
-    override suspend fun addCoins(coins: List<Coin>) {
-        val coinsEntities = coins.map { it.toCoinEntity() }
-        coinsDao.insertAll(coinsEntities)
-    }
-
-    override suspend fun changeCoinFavoriteState(coin: Coin) {
-        val changedCoin = coin.copy(
-            isFavorite = !coin.isFavorite
+    override suspend fun addCoins(coins: List<Coin>) = coinsDao
+        .insertAll(
+            coins.map { it.toCoinEntity() }
         )
-        coinsDao.updateData(changedCoin.toCoinEntity())
-    }
 
-    override suspend fun updateDatabaseData(coins: List<Coin>) =
-        coins.forEach { coin ->
-            coinsDao.updateData(coin.toCoinEntity())
-        }
+    override suspend fun changeCoinFavoriteState(coin: Coin) = coinsDao
+        .updateData(
+            coin.copy(
+                isFavorite = !coin.isFavorite
+            ).toCoinEntity()
+        )
+
+    override suspend fun updateCoinsData(coins: List<Coin>) = coinsDao
+        .updateData(
+            coins.map { it.toCoinEntity() }
+        )
 
     override fun getCoinsFlow(): Flow<List<Coin>> = coinsDao
         .getAllFlow()
