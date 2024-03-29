@@ -8,6 +8,12 @@
       <entry key="RunPreviewCoinsScreenContent">
         <State />
       </entry>
+      <entry key="RunPreviewFavoriteCoinCard">
+        <State />
+      </entry>
+      <entry key="RunPreviewFavoritesScreenContent">
+        <State />
+      </entry>
       <entry key="RunPreviewLifecycle">
         <State />
       </entry>

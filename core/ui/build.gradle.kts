@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":core:theme"))
+    implementation(project(":core:base"))
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui.tooling.preview)

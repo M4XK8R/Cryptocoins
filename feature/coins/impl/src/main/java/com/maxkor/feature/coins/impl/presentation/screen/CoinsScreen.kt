@@ -24,7 +24,7 @@ fun CoinsScreen(
 ) {
     when (coinsUiState) {
         is CoinsUiState.Loading -> Loading()
-        is CoinsUiState.NoDataAvailable -> DataIsAbsent()
+        is CoinsUiState.NoDataAvailable -> DataIsAbsent(text = "No valid data is available")
         is CoinsUiState.Success -> CoinsScreenContent(
             coinVos = coinsUiState.coins,
             lazyListState = lazyListState,

@@ -39,7 +39,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:favorites:impl"))
-
     implementation(libs.compose.navigation)
 }

@@ -10,7 +10,10 @@ import androidx.compose.ui.Modifier
 import com.maxkor.core.ui.components.TitleText
 
 @Composable
-fun DataIsAbsent(modifier: Modifier = Modifier) {
+fun DataIsAbsent(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -18,6 +21,6 @@ fun DataIsAbsent(modifier: Modifier = Modifier) {
             .then(modifier),
         contentAlignment = Alignment.Center
     ) {
-        TitleText(text = "No valid data is available")
+        TitleText(text = text)
     }
 }

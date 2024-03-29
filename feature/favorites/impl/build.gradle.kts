@@ -41,14 +41,20 @@ android {
 }
 
 dependencies {
+    api(project(":feature:coins:api"))
+    api(project(":feature:favorites:api"))
     implementation(project(":core:base"))
     implementation(project(":core:theme"))
     implementation(project(":core:ui"))
+
+    implementation(libs.coil)
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiller)
     implementation(libs.hilt.navigation)
 
+    implementation(libs.compose.lifecycle)
+    implementation(libs.compose.constraint)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 }

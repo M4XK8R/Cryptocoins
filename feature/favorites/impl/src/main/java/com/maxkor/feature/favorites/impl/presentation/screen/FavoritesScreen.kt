@@ -1,49 +1,54 @@
 package com.maxkor.feature.favorites.impl.presentation.screen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.maxkor.core.theme.CryptocoinsTheme
-import com.maxkor.core.theme.LocalSpacing
-import com.maxkor.core.ui.components.ButtonText
-import com.maxkor.core.ui.components.TitleText
-import com.maxkor.feature.favorites.impl.presentation.viewmodel.FavoritesViewModel
+import com.maxkor.core.ui.composables.DataIsAbsent
+import com.maxkor.core.ui.composables.Loading
+import com.maxkor.core.ui.preview.PreviewProvider
+import com.maxkor.core.ui.preview.annotations.RawPreview
+import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 
 @Composable
 internal fun FavoritesScreen(
-    onBackClick: () -> Unit,
-    viewModel: FavoritesViewModel,
+    favoritesUiState: FavoritesUiState,
+    lazyListState: LazyListState,
+    navigateToDetail: (
+        name: String,
+        price: String,
+        imageUrl: String,
+    ) -> Unit,
+    removeFromFavorites: (FavoriteCoinVo) -> Unit,
     modifier: Modifier = Modifier,
-    navigateToDetail: () -> Unit,
 ) {
-    val spacing = LocalSpacing.current
-    CryptocoinsTheme {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                TitleText(text = "Favorites screen")
-                Spacer(modifier = Modifier.size(spacing.spaceMedium))
-                Button(
-                    onClick = navigateToDetail
-                ) {
-                    ButtonText(text = "Navigate to detail")
-                }
-            }
-
-        }
+    when (favoritesUiState) {
+        is FavoritesUiState.Loading -> Loading()
+        is FavoritesUiState.NoDataAvailable -> DataIsAbsent(text = "Favorites list is empty")
+        is FavoritesUiState.Success -> FavoritesScreenContent(
+            favoriteCoinsVos = favoritesUiState.coins,
+            lazyListState = lazyListState,
+            navigateToDetail = navigateToDetail,
+            removeFromFavorites = removeFromFavorites,
+            modifier = modifier
+        )
     }
+}
+
+/**
+ * Preview
+ */
+@Composable
+@RawPreview
+fun RunPreviewFavoritesScreen() {
+    PreviewProvider(
+        content = {
+            FavoritesScreen(
+                favoritesUiState = FavoritesUiState.NoDataAvailable,
+                lazyListState = rememberLazyListState(),
+                navigateToDetail = { _, _, _ -> },
+                removeFromFavorites = {}
+            )
+        }
+    ).DeviceRunnable()
 }

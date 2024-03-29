@@ -34,7 +34,6 @@ fun CoinsScreenContent(
                 coinVo = cryptocoinVo,
                 navigateToDetail = navigateToDetail,
                 changeFavoriteState = changeFavoriteState,
-                modifier = modifier
             )
         }
     }
@@ -48,10 +47,8 @@ fun CoinsScreenContent(
 fun RunPreviewCoinsScreenContent() {
     PreviewProvider(
         content = {
-            CoinsScreen(
-                coinsUiState = CoinsUiState.Success(
-                    coins = Coin.testExemplars.map { it.toCoinVo() }
-                ),
+            CoinsScreenContent(
+                coinVos = Coin.testExemplars.map { it.toCoinVo() },
                 lazyListState = rememberLazyListState(),
                 navigateToDetail = { _, _, _ -> },
                 changeFavoriteState = {}

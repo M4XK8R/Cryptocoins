@@ -38,7 +38,7 @@ class CoinsViewModel @Inject constructor(
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(1000),
+            started = SharingStarted.Eagerly,
             initialValue = CoinsUiState.Loading
         )
 

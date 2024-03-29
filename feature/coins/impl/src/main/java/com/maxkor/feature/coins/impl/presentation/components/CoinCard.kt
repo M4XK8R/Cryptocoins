@@ -151,7 +151,7 @@ private fun CoinInfoText(
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinsCard() {
+fun RunPreviewCoinCard() {
     PreviewProvider(
         content = {
             CoinCard(

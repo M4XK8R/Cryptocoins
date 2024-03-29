@@ -1,8 +1,9 @@
 package com.maxkor.feature.mainactivity.impl.presentation.navigation
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -11,16 +12,16 @@ import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.detail.api.DetailFeature
 import com.maxkor.feature.detail.api.detailGraph
 import com.maxkor.feature.favorites.api.FavoritesFeature
-import com.maxkor.feature.favorites.api.favoritesGraph
+import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.mainactivity.impl.presentation.components.navbar.NavBottomBar
 import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 internal fun AppNavigation(
     viewModel: MainActivityViewModel,
     navController: NavHostController,
     coinsNavigationInteractor: CoinsNavigationInteractor,
+    favoritesNavigationInteractor: FavoritesNavigationInteractor,
 ) {
     val currentRoute = navController.currentBackStackEntryAsState()
         .value
@@ -40,16 +41,16 @@ internal fun AppNavigation(
                         }
 
                         FavoritesFeature.ROUTE_NAME -> {
-                            FavoritesFeature.openFavoritesScreen(
+                            favoritesNavigationInteractor.openScreen(
                                 navController = navController,
-                                routePopUpTo = CoinsFeature.ROUTE_NAME
+                                popUpToRoute = CoinsFeature.ROUTE_NAME
                             )
                         }
                     }
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         NavHost(
             navController = navController,
             startDestination = CoinsFeature.ROUTE_NAME
@@ -58,12 +59,18 @@ internal fun AppNavigation(
                 navGraphBuilder = this,
                 navigateToDetail = { name, price, imageUrl ->
                     DetailFeature.openDetailScreen(navController)
-                }
+                },
+                modifier = Modifier.padding(paddingValues)
             )
-            favoritesGraph(
-                navigateBack = {},
-                navigateToDetail = { DetailFeature.openDetailScreen(navController) }
+
+            favoritesNavigationInteractor.graph(
+                navGraphBuilder = this,
+                navigateToDetail = { name, price, imageUrl ->
+                    DetailFeature.openDetailScreen(navController)
+                },
+                modifier = Modifier.padding(paddingValues)
             )
+
             detailGraph(navigateBack = {})
         }
     }

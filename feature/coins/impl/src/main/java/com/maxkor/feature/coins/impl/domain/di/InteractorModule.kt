@@ -4,8 +4,8 @@ import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractorImpl
-import com.maxkor.feature.coins.impl.domain.interactor.api.FavoritesInteractorImpl
-import com.maxkor.feature.coins.impl.domain.interactor.api.NavigationInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.api.CoinsFavoritesInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.api.CoinsNavigationInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,12 +22,12 @@ interface InteractorModule {
 
     @Binds
     fun bindCoinsNavigationInteractor(
-        impl: NavigationInteractorImpl,
+        impl: CoinsNavigationInteractorImpl,
     ): CoinsNavigationInteractor
 
     @Binds
     fun bindCoinsFavoritesInteractor(
-        impl: FavoritesInteractorImpl,
+        impl: CoinsFavoritesInteractorImpl,
     ): CoinsFavoritesInteractor
 
 }
