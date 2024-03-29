@@ -39,7 +39,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:detail:impl"))
 
     implementation(libs.compose.navigation)
 }

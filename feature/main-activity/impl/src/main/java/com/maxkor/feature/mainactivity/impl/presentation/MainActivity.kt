@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.maxkor.core.theme.CryptocoinsTheme
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
+import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.mainactivity.impl.presentation.navigation.AppNavigation
 import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityViewModel
@@ -23,6 +24,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var favoritesNavigationInteractor: FavoritesNavigationInteractor
 
+    @Inject
+    lateinit var detailNavigationInteractor: DetailNavigationInteractor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     viewModel = viewModel,
                     navController = navController,
                     coinsNavigationInteractor = coinsNavigationInteractor,
-                    favoritesNavigationInteractor = favoritesNavigationInteractor
+                    favoritesNavigationInteractor = favoritesNavigationInteractor,
+                    detailNavigationInteractor = detailNavigationInteractor
                 )
             }
         }

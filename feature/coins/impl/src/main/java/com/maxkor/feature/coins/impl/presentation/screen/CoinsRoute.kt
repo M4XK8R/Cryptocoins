@@ -14,7 +14,10 @@ import com.maxkor.feature.coins.impl.presentation.components.LifecycleEventObser
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoin
 import com.maxkor.feature.coins.impl.presentation.viewmodel.CoinsViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
+private const val DOWNTIME = 30_000L
 
 @Composable
 fun CoinsRoute(
@@ -27,9 +30,11 @@ fun CoinsRoute(
 ) {
     val viewModel: CoinsViewModel = hiltViewModel()
     val coinsUiState by viewModel.coinsUiState.collectAsStateWithLifecycle()
+    val lazyListState = rememberLazyListState()
+
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val coroutineScope = rememberCoroutineScope()
-    val lazyListState = rememberLazyListState()
+
     var shouldLoadNewData: Boolean
     var dataLoaderJob: Job? = null
 
@@ -38,6 +43,7 @@ fun CoinsRoute(
         dataLoaderJob = coroutineScope.launch {
             while (shouldLoadNewData) {
                 viewModel.updateData()
+                delay(DOWNTIME)
             }
         }
     }

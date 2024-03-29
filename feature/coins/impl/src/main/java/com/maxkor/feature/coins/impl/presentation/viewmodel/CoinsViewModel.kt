@@ -50,4 +50,5 @@ class CoinsViewModel @Inject constructor(
 
     suspend fun updateData() =
         interactor.updateData()
+
 }

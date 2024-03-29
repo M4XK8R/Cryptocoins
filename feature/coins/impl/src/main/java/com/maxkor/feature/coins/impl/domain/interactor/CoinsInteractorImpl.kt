@@ -5,12 +5,9 @@ import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.LocalDataSourceRepository
 import com.maxkor.feature.coins.impl.domain.repository.RemoteDataSourceRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
-private const val DOWNTIME = 30_000L
 
 class CoinsInteractorImpl @Inject constructor(
     @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
@@ -29,6 +26,9 @@ class CoinsInteractorImpl @Inject constructor(
     override suspend fun updateData() =
         withContext(dispatcherIo) {
             val newData = remoteDataSourceRepository.getDataFromServer()
+            if (newData.isNullOrEmpty()) {
+                return@withContext
+            }
             val currentData = localDataSourceRepository.getCoins()
             if (currentData.isEmpty()) {
                 localDataSourceRepository.addCoins(newData)
@@ -42,6 +42,6 @@ class CoinsInteractorImpl @Inject constructor(
                 }
                 localDataSourceRepository.updateCoinsData(updatedData)
             }
-            delay(DOWNTIME)
         }
+
 }

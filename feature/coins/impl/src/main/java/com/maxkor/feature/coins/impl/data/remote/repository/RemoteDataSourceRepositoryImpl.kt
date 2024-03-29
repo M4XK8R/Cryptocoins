@@ -1,5 +1,6 @@
 package com.maxkor.feature.coins.impl.data.remote.repository
 
+import com.maxkor.core.base.utils.createDebugLog
 import com.maxkor.feature.coins.impl.data.remote.api.CoinsApiService
 import com.maxkor.feature.coins.impl.data.remote.mapper.toCoin
 import com.maxkor.feature.coins.impl.domain.model.Coin
@@ -10,17 +11,27 @@ class RemoteDataSourceRepositoryImpl @Inject constructor(
     private val coinsApi: CoinsApiService,
 ) : RemoteDataSourceRepository {
 
-    override suspend fun getDataFromServer(): List<Coin> {
-        val response = coinsApi.getResponse()
-        if (response.isSuccessful) {
-            val coinsDtos = response.body()?.coinsInfo?.coins
-            if (!coinsDtos.isNullOrEmpty()) {
-                return coinsDtos.map { it.toCoin() }
+    override suspend fun getDataFromServer(): List<Coin>? {
+        try {
+            val response = coinsApi.getResponse()
+            if (response.isSuccessful) {
+                val coinsDtos = response.body()?.coinsInfo?.coins
+                if (!coinsDtos.isNullOrEmpty()) {
+                    return coinsDtos.map { it.toCoin() }
+                } else {
+                    createDebugLog("RemoteDataSourceRepositoryImpl: coinsDtos is null or empty")
+                }
             } else {
-                throw Exception("RemoteDataSourceRepositoryImpl: coinsDtos is null or empty")
+                createDebugLog(
+                    "RemoteDataSourceRepositoryImpl: response is not successful" +
+                            response.message()
+                )
             }
-        } else {
-            throw Exception("RemoteDataSourceRepositoryImpl: response is not successful")
+        } catch (exception: Exception) {
+            createDebugLog("RemoteDataSourceRepositoryImpl: caught ${exception.message}")
+            exception.printStackTrace()
         }
+        return null
     }
+
 }

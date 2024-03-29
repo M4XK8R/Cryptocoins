@@ -9,8 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
-import com.maxkor.feature.detail.api.DetailFeature
-import com.maxkor.feature.detail.api.detailGraph
+import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
 import com.maxkor.feature.favorites.api.FavoritesFeature
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.mainactivity.impl.presentation.components.navbar.NavBottomBar
@@ -22,6 +21,7 @@ internal fun AppNavigation(
     navController: NavHostController,
     coinsNavigationInteractor: CoinsNavigationInteractor,
     favoritesNavigationInteractor: FavoritesNavigationInteractor,
+    detailNavigationInteractor: DetailNavigationInteractor,
 ) {
     val currentRoute = navController.currentBackStackEntryAsState()
         .value
@@ -58,7 +58,12 @@ internal fun AppNavigation(
             coinsNavigationInteractor.graph(
                 navGraphBuilder = this,
                 navigateToDetail = { name, price, imageUrl ->
-                    DetailFeature.openDetailScreen(navController)
+                    detailNavigationInteractor.openScreen(
+                        navController = navController,
+                        name = name,
+                        price = price,
+                        imageUrl = imageUrl
+                    )
                 },
                 modifier = Modifier.padding(paddingValues)
             )
@@ -66,12 +71,20 @@ internal fun AppNavigation(
             favoritesNavigationInteractor.graph(
                 navGraphBuilder = this,
                 navigateToDetail = { name, price, imageUrl ->
-                    DetailFeature.openDetailScreen(navController)
+                    detailNavigationInteractor.openScreen(
+                        navController = navController,
+                        name = name,
+                        price = price,
+                        imageUrl = imageUrl
+                    )
                 },
                 modifier = Modifier.padding(paddingValues)
             )
 
-            detailGraph(navigateBack = {})
+            detailNavigationInteractor.graph(
+                navGraphBuilder = this,
+                modifier = Modifier.padding(paddingValues)
+            )
         }
     }
 }

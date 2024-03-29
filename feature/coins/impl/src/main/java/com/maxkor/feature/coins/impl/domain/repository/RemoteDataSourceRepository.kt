@@ -4,5 +4,5 @@ import com.maxkor.feature.coins.impl.domain.model.Coin
 
 interface RemoteDataSourceRepository {
 
-    suspend fun getDataFromServer(): List<Coin>
+    suspend fun getDataFromServer(): List<Coin>?
 }
