@@ -8,6 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.maxkor.feature.detail.api.DetailFeature
 import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
+import com.maxkor.feature.detail.impl.domain.model.DetailCoin
+import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.screen.DetailRoute
 import javax.inject.Inject
 
@@ -30,9 +32,12 @@ class DetailNavigationInteractorImpl @Inject constructor() : DetailNavigationInt
         imageUrl: String,
     ) = navGraphBuilder.composable(route = DetailFeature.ROUTE_NAME) {
         DetailRoute(
-            name = name,
-            price = price,
-            imageUrl = imageUrl,
+            DetailCoin(
+                name = name,
+                price = price,
+                imageUrl = imageUrl,
+                extraInfo = ""
+            ).toDetailCoinVo(),
             modifier = modifier
         )
     }

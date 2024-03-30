@@ -46,6 +46,8 @@ dependencies {
     implementation(project(":core:theme"))
     implementation(project(":core:ui"))
 
+    implementation(libs.coil)
+
     implementation(libs.hilt)
     ksp(libs.hilt.compiller)
     implementation(libs.hilt.navigation)

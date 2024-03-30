@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
-
 android {
     namespace = "com.maxkor.feature.coins.impl"
     compileSdk = Config.compileSdk
