@@ -1,7 +1,7 @@
 package com.maxkor.feature.favorites.impl.domain.di
 
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
-import com.maxkor.feature.favorites.impl.domain.interactor.api.FavoritesNavigationInteractorImpl
+import com.maxkor.feature.favorites.impl.domain.interactor.impl.FavoritesNavigationInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -2,6 +2,7 @@ package com.maxkor.feature.detail.impl.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,9 @@ private const val MAIN_IMAGE_SIZE = 180
 internal fun DetailScreen(
     detailCoinVo: DetailCoinVo,
     modifier: Modifier = Modifier,
+    savePicture: (url: String, name: String) -> Unit,
+    sharePicture: (url: String) -> Unit,
+    createReminder: () -> Unit,
 ) {
     val spacing = LocalSpacing.current
     val fontScaling = LocalFontScaling.current
@@ -90,20 +94,31 @@ internal fun DetailScreen(
                 ) {
                     Image(
                         painter = painterResource(id = CryptocoinsImages.Download),
-                        contentDescription = "Download image"
+                        contentDescription = "Download image",
+                        modifier = Modifier.clickable {
+                            savePicture(
+                                detailCoinVo.imageUrl,
+                                detailCoinVo.name
+                            )
+                        }
                     )
                     Spacer(modifier = Modifier.size(spacing.spaceExtraSmall))
                     Image(
                         painter = painterResource(id = CryptocoinsImages.Share),
-                        contentDescription = "Share image"
+                        contentDescription = "Share image",
+                        modifier = Modifier.clickable {
+                            sharePicture(detailCoinVo.imageUrl)
+                        }
                     )
                     Spacer(modifier = Modifier.size(spacing.spaceExtraSmall))
                     Image(
                         painter = painterResource(id = CryptocoinsImages.Notify),
-                        contentDescription = "Notify image"
+                        contentDescription = "Notify image",
+                        modifier = Modifier.clickable {
+                            createReminder()
+                        }
                     )
                 }
-
             }
         }
         Spacer(modifier = Modifier.size(spacing.spaceMedium))
@@ -161,7 +176,10 @@ fun RunPreviewDetailScreen() {
     PreviewProvider(
         content = {
             DetailScreen(
-                detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo()
+                detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo(),
+                savePicture = { _, _ -> },
+                sharePicture = {},
+                createReminder = {}
             )
         }
     ).DeviceRunnable()

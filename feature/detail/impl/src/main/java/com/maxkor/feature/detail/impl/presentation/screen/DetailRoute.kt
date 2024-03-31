@@ -15,6 +15,16 @@ fun DetailRoute(
 
     DetailScreen(
         detailCoinVo = detailCoinVo,
+        savePicture = { url, name ->
+            viewModel.savePicture(
+                url = url,
+                saveName = name
+            )
+        },
+        sharePicture = { url ->
+            viewModel.sharePicture(url)
+        },
+        createReminder = { viewModel.showNotification() },
         modifier = modifier
     )
 }

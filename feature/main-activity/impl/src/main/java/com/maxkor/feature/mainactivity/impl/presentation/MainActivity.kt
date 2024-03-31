@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         setContent {
             val viewModel: MainActivityViewModel = hiltViewModel()
             val navController = rememberNavController()

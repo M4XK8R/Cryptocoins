@@ -3,31 +3,43 @@ package com.maxkor.feature.coins.impl.domain.di
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
-import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractorImpl
-import com.maxkor.feature.coins.impl.domain.interactor.api.CoinsFavoritesInteractorImpl
-import com.maxkor.feature.coins.impl.domain.interactor.api.CoinsNavigationInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsFavoritesInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsInteractorImpl
+import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsNavigationInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
-interface InteractorModule {
-
+@InstallIn(ViewModelComponent::class)
+interface CoinsInteractorModule {
+    @ViewModelScoped
     @Binds
     fun bindCoinsInteractor(
         impl: CoinsInteractorImpl,
     ): CoinsInteractor
+}
 
-    @Binds
-    fun bindCoinsNavigationInteractor(
-        impl: CoinsNavigationInteractorImpl,
-    ): CoinsNavigationInteractor
-
+@Module
+@InstallIn(ViewModelComponent::class)
+interface CoinsFavoritesInteractorModule {
+    @ViewModelScoped
     @Binds
     fun bindCoinsFavoritesInteractor(
         impl: CoinsFavoritesInteractorImpl,
     ): CoinsFavoritesInteractor
+}
 
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+interface CoinsNavigationInteractorModule {
+    @ActivityRetainedScoped
+    @Binds
+    fun bindCoinsNavigationInteractor(
+        impl: CoinsNavigationInteractorImpl,
+    ): CoinsNavigationInteractor
 }

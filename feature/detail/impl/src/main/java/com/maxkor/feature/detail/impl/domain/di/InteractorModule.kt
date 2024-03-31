@@ -1,7 +1,9 @@
 package com.maxkor.feature.detail.impl.domain.di
 
 import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
-import com.maxkor.feature.detail.impl.domain.interactor.DetailNavigationInteractorImpl
+import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
+import com.maxkor.feature.detail.impl.domain.interactor.impl.DetailInteractorImpl
+import com.maxkor.feature.detail.impl.domain.interactor.impl.DetailNavigationInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ interface InteractorModule {
     fun bindDetailNavigationInteractor(
         impl: DetailNavigationInteractorImpl,
     ): DetailNavigationInteractor
+
+    @Binds
+    fun bindDetailInteractor(
+        impl: DetailInteractorImpl,
+    ): DetailInteractor
 }
