@@ -39,6 +39,5 @@ android {
 }
 
 dependencies {
-
     implementation(libs.compose.navigation)
 }

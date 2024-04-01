@@ -7,7 +7,7 @@ interface DetailInteractor {
         saveName: String,
     )
 
-    fun shareImage(url: String)
+    fun sharePicture(url: String)
 
     fun createReminder()
 }

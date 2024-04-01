@@ -9,10 +9,8 @@ interface RemainderRepository {
         contentIntent: PendingIntent?,
     )
 
-    fun createAlarm()
-
-    companion object {
-        const val CHANNEL_ID = "channel_id"
-        const val NOTIFICATION_ID = 9738
-    }
+    fun createAlarm(
+        coinName: String,
+        time: Long,
+    )
 }

@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":core:base"))
     implementation(project(":core:theme"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:main-activity:api"))
     implementation(project(":feature:coins:api"))
     implementation(project(":feature:detail:api"))
     implementation(project(":feature:favorites:api"))

@@ -2,10 +2,10 @@ package com.maxkor.feature.detail.impl.domain.repository
 
 interface ImageRepository {
 
-    fun saveImage(
+    fun savePicture(
         url: String,
         saveName: String,
     )
 
-    fun shareImage(url: String)
+    fun sharePicture(url: String)
 }

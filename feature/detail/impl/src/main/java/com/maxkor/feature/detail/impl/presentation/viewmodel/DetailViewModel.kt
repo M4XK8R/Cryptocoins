@@ -10,7 +10,7 @@ class DetailViewModel @Inject constructor(
     private val interactor: DetailInteractor,
 ) : ViewModel() {
 
-    fun showNotification() =
+    fun createReminder() =
         interactor.createReminder()
 
     fun savePicture(
@@ -22,5 +22,5 @@ class DetailViewModel @Inject constructor(
     )
 
     fun sharePicture(url: String) =
-        interactor.shareImage(url)
+        interactor.sharePicture(url)
 }

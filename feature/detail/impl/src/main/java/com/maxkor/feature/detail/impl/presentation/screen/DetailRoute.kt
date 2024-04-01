@@ -24,7 +24,7 @@ fun DetailRoute(
         sharePicture = { url ->
             viewModel.sharePicture(url)
         },
-        createReminder = { viewModel.showNotification() },
+        createReminder = { viewModel.createReminder() },
         modifier = modifier
     )
 }

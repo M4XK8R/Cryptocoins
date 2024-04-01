@@ -52,5 +52,4 @@ object RemoteDataSourceModule {
     fun provideCoinsApi(
         retrofit: Retrofit,
     ): CoinsApi = retrofit.create(CoinsApi::class.java)
-
 }
