@@ -12,7 +12,7 @@ fun ButtonText(text: String) {
     val fontScaling = LocalFontScaling.current
     Text(
         text = text,
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
         fontSize = fontScaling.increasingExtraSmall,
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.SemiBold,

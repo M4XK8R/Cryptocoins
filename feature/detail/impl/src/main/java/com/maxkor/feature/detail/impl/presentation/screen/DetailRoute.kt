@@ -1,6 +1,8 @@
 package com.maxkor.feature.detail.impl.presentation.screen
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
@@ -12,9 +14,11 @@ fun DetailRoute(
     modifier: Modifier = Modifier,
 ) {
     val viewModel: DetailViewModel = hiltViewModel()
+    val detailUiState by viewModel.detailUiState.collectAsState()
 
     DetailScreen(
         detailCoinVo = detailCoinVo,
+        detailUiState = detailUiState,
         savePicture = { url, name ->
             viewModel.savePicture(
                 url = url,
@@ -25,6 +29,17 @@ fun DetailRoute(
             viewModel.sharePicture(url)
         },
         createReminder = { viewModel.createReminder() },
+        addCoinExtraInfo = {
+            viewModel.setModeEdit()
+        },
+        saveCoinExtraInfo = { key, extraInfo ->
+            viewModel.saveCoinExtraInfo(
+                key = key,
+                extraInfo = extraInfo
+            )
+            viewModel.setModeRead()
+        },
+        onTextSectionClick = { viewModel.swapMode() },
         modifier = modifier
     )
 }

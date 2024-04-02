@@ -9,11 +9,14 @@ import androidx.navigation.compose.composable
 import com.maxkor.feature.detail.api.DetailFeature
 import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
 import com.maxkor.feature.detail.impl.domain.model.DetailCoin
+import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.screen.DetailRoute
 import javax.inject.Inject
 
-class DetailNavigationInteractorImpl @Inject constructor() : DetailNavigationInteractor {
+class DetailNavigationInteractorImpl @Inject constructor(
+    private val detailPreferences: DetailPreferences,
+) : DetailNavigationInteractor {
 
     override val nameState: MutableState<String> =
         mutableStateOf("Unknown")
@@ -31,13 +34,15 @@ class DetailNavigationInteractorImpl @Inject constructor() : DetailNavigationInt
         price: String,
         imageUrl: String,
     ) = navGraphBuilder.composable(route = DetailFeature.ROUTE_NAME) {
+        val extraCoinInfo = detailPreferences.getCoinExtraInfo(key = name)
+        val detailCoin = DetailCoin(
+            name = name,
+            price = price,
+            imageUrl = imageUrl,
+            extraInfo = extraCoinInfo
+        )
         DetailRoute(
-            DetailCoin(
-                name = name,
-                price = price,
-                imageUrl = imageUrl,
-                extraInfo = ""
-            ).toDetailCoinVo(),
+            detailCoinVo = detailCoin.toDetailCoinVo(),
             modifier = modifier
         )
     }

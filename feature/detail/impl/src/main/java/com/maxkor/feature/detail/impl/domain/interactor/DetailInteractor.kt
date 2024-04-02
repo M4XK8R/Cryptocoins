@@ -10,4 +10,9 @@ interface DetailInteractor {
     fun sharePicture(url: String)
 
     fun createReminder()
+
+    fun saveCoinExtraInfo(
+        key: String,
+        extraInfo: String,
+    )
 }

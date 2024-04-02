@@ -16,3 +16,6 @@ interface DetailFeatureModule {
         impl: DetailFeatureAlarmServiceImpl,
     ): DetailFeatureAlarmService
 }
+
+
+
