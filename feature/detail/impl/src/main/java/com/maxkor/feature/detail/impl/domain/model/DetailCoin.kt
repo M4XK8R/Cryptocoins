@@ -7,7 +7,7 @@ data class DetailCoin(
     val name: String,
     val price: String,
     val imageUrl: String,
-    val extraInfo: String,
+    val extraInfo: ExtraCoinInfo,
 ) {
     companion object {
         val testExemplar = createTestExemplar()
@@ -21,7 +21,7 @@ data class DetailCoin(
             name = name,
             price = price,
             imageUrl = imageUrl,
-            extraInfo = extraInfo
+            extraInfo = ExtraCoinInfo(value = extraInfo)
         )
     }
 }

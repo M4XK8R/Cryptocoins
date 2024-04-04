@@ -34,7 +34,7 @@ class DetailNavigationInteractorImpl @Inject constructor(
         price: String,
         imageUrl: String,
     ) = navGraphBuilder.composable(route = DetailFeature.ROUTE_NAME) {
-        val extraCoinInfo = detailPreferences.getCoinExtraInfo(key = name)
+        val extraCoinInfo = detailPreferences.getExtraCoinInfo(key = name)
         val detailCoin = DetailCoin(
             name = name,
             price = price,

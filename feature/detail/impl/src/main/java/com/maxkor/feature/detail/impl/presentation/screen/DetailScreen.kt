@@ -65,7 +65,7 @@ internal fun DetailScreen(
     val fontScaling = LocalFontScaling.current
 
     var coinExtraInfoInput by remember {
-        mutableStateOf(detailCoinVo.extraInfo)
+        mutableStateOf(detailCoinVo.extraInfo.value)
     }
     val editCoinExtraInfoInput: (String) -> Unit = { inputText ->
         coinExtraInfoInput = inputText
