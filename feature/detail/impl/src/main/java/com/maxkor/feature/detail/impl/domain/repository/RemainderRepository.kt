@@ -11,6 +11,8 @@ interface RemainderRepository {
 
     fun createAlarm(
         coinName: String,
+        coinPrice: String,
+        coinImageUrl: String,
         time: Long,
     )
 }

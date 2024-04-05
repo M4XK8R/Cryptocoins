@@ -4,8 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.maxkor.core.base.utils.createDebugLog
-import com.maxkor.cryptocoins.broadcast.DetailFeatureReceiver
+import com.maxkor.cryptocoins.broadcast.DetailFeatureReceiverImpl
 import com.maxkor.feature.detail.api.domain.service.DetailFeatureAlarmService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.jetbrains.annotations.NotNull
@@ -17,14 +16,19 @@ class DetailFeatureAlarmServiceImpl @Inject constructor(
 ) : DetailFeatureAlarmService {
 
     override fun createAlarm(
-        name: String,
+        coinName: String,
+        coinPrice: String,
+        coinImageUrl: String,
         time: Long,
     ) {
-        createDebugLog("AlarmServiceImpl: createAlarm")
         val alarmIntent = Intent(
             context,
-            DetailFeatureReceiver::class.java
-        ).putExtra(DetailFeatureAlarmService.ITEM_NAME_KEY, name)
+            DetailFeatureReceiverImpl::class.java
+        ).apply {
+            putExtra(DetailFeatureAlarmService.COIN_NAME_KEY, coinName)
+            putExtra(DetailFeatureAlarmService.COIN_PRICE_KEY, coinPrice)
+            putExtra(DetailFeatureAlarmService.COIN_IMAGE_URL_KEY, coinImageUrl)
+        }
 
         @NotNull val pendingAlarmIntent = PendingIntent.getBroadcast(
             context,

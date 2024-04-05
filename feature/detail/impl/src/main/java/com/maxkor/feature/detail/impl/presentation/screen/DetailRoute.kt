@@ -28,7 +28,14 @@ fun DetailRoute(
         sharePicture = { url ->
             viewModel.sharePicture(url)
         },
-        createReminder = { viewModel.createReminder() },
+        createReminder = { coinName, coinPrice, coinImageUrl, time ->
+            viewModel.createReminder(
+                coinName = coinName,
+                coinPrice = coinPrice,
+                coinImageUrl = coinImageUrl,
+                time = time
+            )
+        },
         addCoinExtraInfo = {
             viewModel.setModeEdit()
         },

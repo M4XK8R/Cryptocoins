@@ -1,8 +1,5 @@
 package com.maxkor.feature.detail.impl.presentation.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
@@ -41,8 +38,17 @@ class DetailViewModel @Inject constructor(
     }
 
 
-    fun createReminder() =
-        interactor.createReminder()
+    fun createReminder(
+        coinName: String,
+        coinPrice: String,
+        coinImageUrl: String,
+        time: Long,
+    ) = interactor.createReminder(
+        coinName = coinName,
+        coinPrice = coinPrice,
+        coinImageUrl = coinImageUrl,
+        time = time
+    )
 
     fun savePicture(
         url: String,

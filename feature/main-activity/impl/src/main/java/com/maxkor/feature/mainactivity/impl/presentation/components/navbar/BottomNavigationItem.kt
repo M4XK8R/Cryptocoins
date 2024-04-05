@@ -8,13 +8,11 @@ sealed class BottomNavigationItem(
     val icon: ImageVector,
     val screen: Screen,
 ) {
-
     data object Home : BottomNavigationItem(
         title = Screen.COINS.name,
         icon = CryptocoinsIcons.Home,
         screen = Screen.COINS
     )
-
     data object Favorite : BottomNavigationItem(
         title = Screen.FAVORITES.name,
         icon = CryptocoinsIcons.Favorite,

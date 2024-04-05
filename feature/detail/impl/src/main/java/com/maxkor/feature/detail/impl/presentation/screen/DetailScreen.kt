@@ -55,7 +55,12 @@ internal fun DetailScreen(
     detailUiState: DetailUiState,
     savePicture: (url: String, name: String) -> Unit,
     sharePicture: (url: String) -> Unit,
-    createReminder: () -> Unit,
+    createReminder: (
+        coinName: String,
+        coinPrice: String,
+        coinImageUrl: String,
+        time: Long,
+    ) -> Unit,
     addCoinExtraInfo: () -> Unit,
     saveCoinExtraInfo: (key: String, extraInfo: String) -> Unit,
     onTextSectionClick: () -> Unit,
@@ -130,7 +135,14 @@ internal fun DetailScreen(
             Spacer(modifier = Modifier.size(spacing.spaceExtraSmall))
             ActionImage(
                 imageResId = CryptocoinsImages.Notify,
-                onClick = { createReminder() }
+                onClick = {
+                    createReminder(
+                        detailCoinVo.name,
+                        detailCoinVo.price,
+                        detailCoinVo.imageUrl,
+                        1000L
+                    )
+                }
             )
         }
         Box(
@@ -299,7 +311,7 @@ fun RunPreviewDetailScreen() {
                 detailUiState = DetailUiState.ModeRead,
                 savePicture = { _, _ -> },
                 sharePicture = {},
-                createReminder = {},
+                createReminder = { _, _, _, _ -> },
                 saveCoinExtraInfo = { _, _ -> },
                 addCoinExtraInfo = {},
                 onTextSectionClick = {}

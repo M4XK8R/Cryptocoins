@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidLib)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -39,5 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiller)
     implementation(libs.compose.navigation)
 }

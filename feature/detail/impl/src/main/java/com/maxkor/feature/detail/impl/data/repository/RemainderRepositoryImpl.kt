@@ -24,9 +24,13 @@ class RemainderRepositoryImpl @Inject constructor(
 
     override fun createAlarm(
         coinName: String,
+        coinPrice: String,
+        coinImageUrl: String,
         time: Long,
     ) = alarmService.createAlarm(
-        name = coinName,
+        coinName = coinName,
+        coinPrice = coinPrice,
+        coinImageUrl = coinImageUrl,
         time = time
     )
 }

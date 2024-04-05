@@ -1,6 +1,5 @@
 package com.maxkor.feature.detail.impl.domain.interactor.impl
 
-import com.maxkor.core.base.utils.createDebugLog
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
@@ -24,10 +23,22 @@ class DetailInteractorImpl @Inject constructor(
     override fun sharePicture(url: String) =
         imageRepository.sharePicture(url)
 
-    override fun createReminder() {
-        createDebugLog("DetailInteractorImpl: createReminder")
-        remainderRepository.createAlarm("Bitcoin", 3000L)
-        remainderRepository.showNotification("createReminder", null)
+    override fun createReminder(
+        coinName: String,
+        coinPrice: String,
+        coinImageUrl: String,
+        time: Long,
+    ) {
+        remainderRepository.createAlarm(
+            coinName = coinName,
+            coinPrice = coinPrice,
+            coinImageUrl = coinImageUrl,
+            time = time
+        )
+        remainderRepository.showNotification(
+            contentText = "You will be notified about $coinName in ${(time / 1000.0).toInt()} seconds",
+            contentIntent = null
+        )
     }
 
     override fun saveCoinExtraInfo(

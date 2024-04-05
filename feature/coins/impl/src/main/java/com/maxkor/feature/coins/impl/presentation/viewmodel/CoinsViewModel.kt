@@ -3,6 +3,7 @@ package com.maxkor.feature.coins.impl.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxkor.core.base.utils.createDebugLog
+import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
@@ -26,7 +27,7 @@ class CoinsViewModel @Inject constructor(
 
     val coinsUiState: StateFlow<CoinsUiState> = interactor
         .getCoinsFlow()
-        .onStart { delay(1000) }
+        .onStart { delay(CoinsFeature.LOADING_DATA_TIME) }
         .onEach { createDebugLog("onEach") }
         .map { coins ->
             if (coins.isNotEmpty()) {
