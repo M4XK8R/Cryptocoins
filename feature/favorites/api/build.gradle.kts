@@ -39,5 +39,6 @@ android {
 }
 
 dependencies {
+    api(project(":core:base"))
     implementation(libs.compose.navigation)
 }

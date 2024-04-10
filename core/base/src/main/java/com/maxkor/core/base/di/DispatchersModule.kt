@@ -1,6 +1,6 @@
 package com.maxkor.core.base.di
 
-import com.maxkor.core.base.dispatchers.IoDispatcher
+import com.maxkor.core.base.domain.dispatchers.IoDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

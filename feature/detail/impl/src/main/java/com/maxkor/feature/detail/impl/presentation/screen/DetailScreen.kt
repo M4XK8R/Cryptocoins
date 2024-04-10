@@ -40,7 +40,7 @@ import com.maxkor.core.theme.LocalSpacing
 import com.maxkor.core.ui.components.ButtonText
 import com.maxkor.core.ui.components.TitleText
 import com.maxkor.core.ui.icons.CryptocoinsIcons
-import com.maxkor.core.ui.images.CryptocoinsImages
+import com.maxkor.core.base.data.images.CryptocoinsImages
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.feature.detail.impl.domain.model.DetailCoin

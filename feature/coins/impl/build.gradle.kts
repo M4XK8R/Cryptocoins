@@ -41,8 +41,6 @@ android {
 
 dependencies {
     implementation(project(":feature:coins:api"))
-    implementation(project(":core:base"))
-    implementation(project(":core:theme"))
     implementation(project(":core:ui"))
 
     implementation(libs.moshi)
@@ -67,3 +65,4 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 }
+

@@ -1,6 +1,6 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
-import com.maxkor.core.base.dispatchers.IoDispatcher
+import com.maxkor.core.base.domain.dispatchers.IoDispatcher
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository

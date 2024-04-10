@@ -41,9 +41,7 @@ android {
 }
 
 dependencies {
-    api(project(":feature:detail:api"))
-    implementation(project(":core:base"))
-    implementation(project(":core:theme"))
+    implementation(project(":feature:detail:api"))
     implementation(project(":core:ui"))
 
     implementation(libs.coil)

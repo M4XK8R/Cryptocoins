@@ -31,3 +31,7 @@ android {
         jvmTarget = "1.8"
     }
 }
+
+dependencies {
+    api(project(":core:base"))
+}

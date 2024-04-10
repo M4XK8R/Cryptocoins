@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:base"))
+    api(project(":core:base"))
 
     implementation(libs.compose.navigation)
 }

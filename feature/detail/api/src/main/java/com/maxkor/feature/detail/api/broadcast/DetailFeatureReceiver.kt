@@ -5,26 +5,28 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.maxkor.feature.detail.api.domain.service.DetailFeatureAlarmService
-import com.maxkor.feature.detail.api.domain.service.DetailFeatureNotificationService
+import com.maxkor.core.base.domain.service.NotificationService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class DetailFeatureReceiver(
+    private val coinNameKey: String,
+    private val coinPriceKey: String,
+    private val coinImageUrlKey: String,
     private val activityToLaunch: Activity,
 ) : BroadcastReceiver() {
 
     @Inject
-    lateinit var notificationService: DetailFeatureNotificationService
+    lateinit var notificationService: NotificationService
 
     override fun onReceive(
         context: Context?,
         intent: Intent?,
     ) {
-        val coinName = intent?.getStringExtra(DetailFeatureAlarmService.COIN_NAME_KEY)
-        val coinPrice = intent?.getStringExtra(DetailFeatureAlarmService.COIN_PRICE_KEY)
-        val coinImageUrl = intent?.getStringExtra(DetailFeatureAlarmService.COIN_IMAGE_URL_KEY)
+        val coinName = intent?.getStringExtra(coinNameKey)
+        val coinPrice = intent?.getStringExtra(coinPriceKey)
+        val coinImageUrl = intent?.getStringExtra(coinImageUrlKey)
 
         val launchActivityIntent = Intent(
             context,

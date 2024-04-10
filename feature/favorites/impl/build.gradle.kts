@@ -41,10 +41,8 @@ android {
 }
 
 dependencies {
-    api(project(":feature:coins:api"))
-    api(project(":feature:favorites:api"))
-    implementation(project(":core:base"))
-    implementation(project(":core:theme"))
+    implementation(project(":feature:favorites:api"))
+    implementation(project(":feature:coins:api"))
     implementation(project(":core:ui"))
 
     implementation(libs.coil)
