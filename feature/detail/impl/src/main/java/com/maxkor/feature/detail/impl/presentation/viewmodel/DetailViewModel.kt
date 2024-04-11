@@ -43,19 +43,25 @@ class DetailViewModel @Inject constructor(
         coinPrice: String,
         coinImageUrl: String,
         time: Long,
+        noPostNotificationPermissionCase: () -> Unit,
     ) = interactor.createReminder(
         coinName = coinName,
         coinPrice = coinPrice,
         coinImageUrl = coinImageUrl,
-        time = time
+        time = time,
+        noPostNotificationPermissionCase = noPostNotificationPermissionCase
     )
 
     fun savePicture(
         url: String,
         saveName: String,
+        noWriteStoragePermissionCase: () -> Unit,
+        noPostNotificationPermissionCase: () -> Unit,
     ) = interactor.saveImage(
         url = url,
-        saveName = saveName
+        saveName = saveName,
+        noWriteStoragePermissionCase = noWriteStoragePermissionCase,
+        noPostNotificationPermissionCase = noPostNotificationPermissionCase
     )
 
     fun sharePicture(url: String) =

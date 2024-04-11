@@ -22,11 +22,11 @@ import kotlinx.coroutines.delay
 
 @Composable
 internal fun AppNavigation(
-    viewModel: MainActivityViewModel,
     navController: NavHostController,
     coinsNavigationInteractor: CoinsNavigationInteractor,
     favoritesNavigationInteractor: FavoritesNavigationInteractor,
     detailNavigationInteractor: DetailNavigationInteractor,
+    recreateApplication: () -> Unit,
     receivedCoinDataVo: ReceivedCoinDataVo? = null,
 ) {
     val navigateToCoins: () -> Unit = {
@@ -90,6 +90,7 @@ internal fun AppNavigation(
 
             detailNavigationInteractor.graph(
                 navGraphBuilder = this,
+                recreateApplication = recreateApplication,
                 modifier = Modifier.padding(paddingValues)
             )
         }

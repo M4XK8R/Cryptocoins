@@ -29,6 +29,7 @@ class DetailNavigationInteractorImpl @Inject constructor(
 
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
+        recreateApplication: () -> Unit,
         modifier: Modifier,
         name: String,
         price: String,
@@ -43,7 +44,8 @@ class DetailNavigationInteractorImpl @Inject constructor(
         )
         DetailRoute(
             detailCoinVo = detailCoin.toDetailCoinVo(),
-            modifier = modifier
+            modifier = modifier,
+            recreateApplication = recreateApplication
         )
     }
 

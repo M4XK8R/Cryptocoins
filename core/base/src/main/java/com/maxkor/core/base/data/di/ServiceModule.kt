@@ -1,7 +1,9 @@
-package com.maxkor.core.base.di
+package com.maxkor.core.base.data.di
 
 import com.maxkor.core.base.data.service.NotificationServiceImpl
+import com.maxkor.core.base.data.service.PermissionsCheckerServiceImpl
 import com.maxkor.core.base.domain.service.NotificationService
+import com.maxkor.core.base.domain.service.PermissionsCheckerService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,9 @@ interface ServiceModule {
     fun bindNotificationService(
         impl: NotificationServiceImpl,
     ): NotificationService
+
+    @Binds
+    fun bindPermissionsCheckerService(
+        impl: PermissionsCheckerServiceImpl,
+    ): PermissionsCheckerService
 }

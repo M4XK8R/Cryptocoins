@@ -1,4 +1,4 @@
-package com.maxkor.core.base.di
+package com.maxkor.core.base.domain.di
 
 import com.maxkor.core.base.domain.dispatchers.IoDispatcher
 import dagger.Module

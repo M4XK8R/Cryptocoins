@@ -1,5 +1,7 @@
 package com.maxkor.feature.mainactivity.impl.presentation
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -53,14 +55,22 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             CryptocoinsTheme {
                 AppNavigation(
-                    viewModel = viewModel,
                     navController = navController,
                     coinsNavigationInteractor = coinsNavigationInteractor,
                     favoritesNavigationInteractor = favoritesNavigationInteractor,
                     detailNavigationInteractor = detailNavigationInteractor,
+                    recreateApplication = ::recreateApplication,
                     receivedCoinDataVo = receivedCoinData?.toReceivedCoinDataVo()
                 )
             }
         }
+    }
+
+    private fun recreateApplication() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+        Runtime.getRuntime().exit(0)
     }
 }
