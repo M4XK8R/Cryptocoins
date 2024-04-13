@@ -69,7 +69,10 @@ fun CoinsRoute(
         coinsUiState = coinsUiState,
         lazyListState = lazyListState,
         navigateToDetail = navigateToDetail,
-        changeFavoriteState = { viewModel.changeCoinFavoriteState(it.toCoin()) },
+        changeFavoriteState = {
+            viewModel.changeCoinFavoriteState(it.toCoin())
+            viewModel.showInternetStateInfo()
+        },
         modifier = modifier
     )
 }

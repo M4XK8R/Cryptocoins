@@ -43,6 +43,9 @@ class CoinsViewModel @Inject constructor(
             initialValue = CoinsUiState.Loading
         )
 
+    fun showInternetStateInfo() =
+        interactor.showInternetStateInfo()
+
     fun changeCoinFavoriteState(coin: Coin) {
         viewModelScope.launch {
             interactor.changeCoinFavoriteState(coin)
@@ -51,5 +54,4 @@ class CoinsViewModel @Inject constructor(
 
     suspend fun updateData() =
         interactor.updateData()
-
 }

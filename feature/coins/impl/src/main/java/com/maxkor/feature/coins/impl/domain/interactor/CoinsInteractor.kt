@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsInteractor {
 
+    fun showInternetStateInfo()
+
     fun getCoinsFlow(): Flow<List<Coin>>
 
     suspend fun changeCoinFavoriteState(coin: Coin)

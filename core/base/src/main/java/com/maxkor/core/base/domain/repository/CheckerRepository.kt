@@ -1,26 +1,23 @@
 package com.maxkor.core.base.domain.repository
 
+import com.maxkor.core.base.domain.service.PermissionsCheckerService
+
 interface CheckerRepository {
 
-    fun checkNotificationPermission(): PermissionStatus
+    fun checkNotificationPermission(): PermissionsCheckerService.PermissionStatus
 
-    fun checkStoragePermission(): PermissionStatus
+    fun checkStoragePermission(): PermissionsCheckerService.PermissionStatus
 
-    fun checkInternetConnection()
+    fun checkInternetConnection(): Boolean
 
     companion object {
         fun onPermissionStateAction(
-            condition: PermissionStatus,
+            condition: PermissionsCheckerService.PermissionStatus,
             hasPermissionCase: () -> Unit,
             noPermissionCase: () -> Unit,
         ) = when (condition) {
-            PermissionStatus.IsGranted -> hasPermissionCase()
-            PermissionStatus.IsNotGranted -> noPermissionCase()
+            PermissionsCheckerService.PermissionStatus.IsGranted -> hasPermissionCase()
+            PermissionsCheckerService.PermissionStatus.IsNotGranted -> noPermissionCase()
         }
-    }
-
-    sealed class PermissionStatus() {
-        data object IsGranted : PermissionStatus()
-        data object IsNotGranted : PermissionStatus()
     }
 }

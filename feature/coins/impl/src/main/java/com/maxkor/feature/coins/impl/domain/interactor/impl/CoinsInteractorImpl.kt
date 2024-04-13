@@ -1,6 +1,8 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
 import com.maxkor.core.base.domain.dispatchers.IoDispatcher
+import com.maxkor.core.base.domain.repository.CheckerRepository
+import com.maxkor.core.base.utils.createDebugLog
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
@@ -12,7 +14,18 @@ import javax.inject.Inject
 class CoinsInteractorImpl @Inject constructor(
     @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
     private val coinsRepository: CoinsRepository,
+    private val checkerRepository: CheckerRepository,
 ) : CoinsInteractor {
+
+    override fun showInternetStateInfo() {
+        val isNetworkAvailable = checkerRepository.checkInternetConnection()
+        if (isNetworkAvailable) {
+            createDebugLog("Network is available")
+        } else {
+            createDebugLog("Network is not available")
+        }
+    }
+
 
     override fun getCoinsFlow(): Flow<List<Coin>> =
         coinsRepository.getCoinsFlow()
