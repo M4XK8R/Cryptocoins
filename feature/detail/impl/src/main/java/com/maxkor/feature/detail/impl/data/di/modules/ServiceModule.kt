@@ -1,6 +1,6 @@
 package com.maxkor.feature.detail.impl.data.di.modules
 
-import com.maxkor.core.base.data.service.NotificationServiceImpl
+import com.maxkor.feature.detail.impl.data.service.NotificationServiceImpl
 import com.maxkor.feature.detail.impl.domain.service.AlarmService
 import com.maxkor.feature.detail.impl.domain.service.DownloadImageService
 import com.maxkor.core.base.domain.service.NotificationService

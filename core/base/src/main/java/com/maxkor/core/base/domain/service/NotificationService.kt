@@ -1,16 +1,14 @@
 package com.maxkor.core.base.domain.service
 
+import android.app.Notification
 import android.app.PendingIntent
 
 interface NotificationService {
 
-    fun showNotification(
+    fun createNotification(
         contentText: String,
         contentIntent: PendingIntent?,
-    )
+    ): Notification
 
-    companion object {
-        const val CHANNEL_ID = "channel_id"
-        const val NOTIFICATION_ID = 9738
-    }
+    fun showNotification(notification: Notification)
 }

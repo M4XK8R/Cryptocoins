@@ -45,10 +45,12 @@ abstract class DetailFeatureReceiver(
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        notificationService.showNotification(
-            contentText = coinName ?: UNKNOWN,
-            contentIntent = contentIntent
-        )
+        with(notificationService) {
+            createNotification(
+                contentText = coinName ?: UNKNOWN,
+                contentIntent = contentIntent
+            ).also { showNotification(it) }
+        }
     }
 
     companion object {

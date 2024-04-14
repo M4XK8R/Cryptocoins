@@ -54,7 +54,7 @@ class DetailInteractorImpl @Inject constructor(
                 coinImageUrl = coinImageUrl,
                 time = time
             )
-            remainderRepository.showNotification(
+            remainderRepository.createAndShowNotification(
                 contentText = "You will be notified about $coinName in ${(time / 1000.0).toInt()} seconds",
                 contentIntent = null
             )

@@ -4,7 +4,7 @@ import android.app.PendingIntent
 
 interface RemainderRepository {
 
-    fun showNotification(
+    fun createAndShowNotification(
         contentText: String,
         contentIntent: PendingIntent?,
     )

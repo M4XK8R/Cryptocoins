@@ -18,7 +18,6 @@ class InternetCheckerServiceImpl @Inject constructor(
     /**
      * Private sector
      */
-
     private fun isConnectionAvailable(
         connectionType: ConnectionType,
     ): Boolean? = getNetworkCapabilities()

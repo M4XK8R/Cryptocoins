@@ -12,13 +12,15 @@ class RemainderRepositoryImpl @Inject constructor(
     private val alarmService: AlarmService,
 ) : RemainderRepository {
 
-    override fun showNotification(
+    override fun createAndShowNotification(
         contentText: String,
         contentIntent: PendingIntent?,
-    ) = notificationService.showNotification(
-        contentText = contentText,
-        contentIntent = contentIntent
-    )
+    ): Unit = with(notificationService) {
+        createNotification(
+            contentText = contentText,
+            contentIntent = contentIntent
+        ).also { showNotification(it) }
+    }
 
     override fun createAlarm(
         coinName: String,

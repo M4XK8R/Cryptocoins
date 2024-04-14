@@ -1,9 +1,9 @@
 package com.maxkor.feature.detail.impl.data.service
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.maxkor.core.base.data.images.CryptocoinsImages
@@ -13,32 +13,45 @@ import javax.inject.Inject
 
 class NotificationServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val notificationManager: NotificationManager,
 ) : NotificationService {
 
-    override fun showNotification(
+    override fun showNotification(notification: Notification) =
+        notificationManager.run {
+            createNotificationChannel(createCustomNotificationChannel())
+            notify(NOTIFICATION_ID, notification)
+        }
+
+    override fun createNotification(
         contentText: String,
         contentIntent: PendingIntent?,
-    ) {
-        val notification = NotificationCompat
-            .Builder(context, NotificationService.CHANNEL_ID)
-            .setSmallIcon(CryptocoinsImages.Notify)
-            .setContentText(contentText)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .build()
+    ): Notification = NotificationCompat
+        .Builder(context, CHANNEL_ID)
+        .setSmallIcon(CryptocoinsImages.Notify)
+        .setContentText(contentText)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setAutoCancel(true)
+        .build()
 
-        val channel = NotificationChannel(
-            NotificationService.CHANNEL_ID,
-            "channel name",
-            NotificationManager.IMPORTANCE_DEFAULT
-        ).also { it.description = "channel description" }
+    /**
+     * Private sector
+     */
+    private fun createCustomNotificationChannel(
+        channelId: String = CHANNEL_ID,
+        channelName: String = "channel name",
+        importanceLevel: Int = NotificationManager.IMPORTANCE_DEFAULT,
+        channelDescription: String = "channel description",
+    ): NotificationChannel = NotificationChannel(
+        channelId,
+        channelName,
+        importanceLevel
+    ).also { it.description = channelDescription }
 
-        val notificationManager = context.getSystemService(
-            Service.NOTIFICATION_SERVICE
-        ) as NotificationManager
-        notificationManager.run {
-            createNotificationChannel(channel)
-            notify(NotificationService.NOTIFICATION_ID, notification)
-        }
+    /**
+     * Companion
+     */
+    companion object {
+        private const val CHANNEL_ID = "channel_id"
+        private const val NOTIFICATION_ID = 9738
     }
 }

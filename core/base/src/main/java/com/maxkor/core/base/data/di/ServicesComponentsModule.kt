@@ -1,5 +1,7 @@
 package com.maxkor.core.base.data.di
 
+import android.app.NotificationManager
+import android.app.Service
 import android.content.Context
 import android.net.ConnectivityManager
 import dagger.Module
@@ -10,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object ServicesComponentsModule {
 
     @Provides
     fun provideConnectivityManager(
@@ -18,5 +20,12 @@ object NetworkModule {
     ): ConnectivityManager = context.getSystemService(
         Context.CONNECTIVITY_SERVICE
     ) as ConnectivityManager
+
+    @Provides
+    fun provideNotificationManager(
+        @ApplicationContext context: Context,
+    ): NotificationManager = context.getSystemService(
+        Service.NOTIFICATION_SERVICE
+    ) as NotificationManager
 }
 
