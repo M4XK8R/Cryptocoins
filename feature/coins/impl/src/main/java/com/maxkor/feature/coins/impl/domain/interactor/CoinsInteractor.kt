@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsInteractor {
 
-    fun showInternetStateInfo()
+    fun informIfInternetIsNotAvailable() : String?
 
     fun getCoinsFlow(): Flow<List<Coin>>
 

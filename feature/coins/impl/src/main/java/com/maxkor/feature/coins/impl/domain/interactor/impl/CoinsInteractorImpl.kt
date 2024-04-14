@@ -17,15 +17,16 @@ class CoinsInteractorImpl @Inject constructor(
     private val checkerRepository: CheckerRepository,
 ) : CoinsInteractor {
 
-    override fun showInternetStateInfo() {
+    override fun informIfInternetIsNotAvailable(): String? {
         val isNetworkAvailable = checkerRepository.checkInternetConnection()
-        if (isNetworkAvailable) {
+        return if (isNetworkAvailable) {
             createDebugLog("Network is available")
+            null
         } else {
             createDebugLog("Network is not available")
+            "Network is not available"
         }
     }
-
 
     override fun getCoinsFlow(): Flow<List<Coin>> =
         coinsRepository.getCoinsFlow()

@@ -2,8 +2,11 @@ package com.maxkor.feature.mainactivity.impl.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,15 +20,16 @@ import com.maxkor.feature.mainactivity.impl.domain.model.ReceivedCoinData
 import com.maxkor.feature.mainactivity.impl.presentation.components.navbar.NavBottomBar
 import com.maxkor.feature.mainactivity.impl.presentation.mapper.toReceivedCoinData
 import com.maxkor.feature.mainactivity.impl.presentation.model.ReceivedCoinDataVo
-import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.delay
 
 @Composable
 internal fun AppNavigation(
     navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
     coinsNavigationInteractor: CoinsNavigationInteractor,
     favoritesNavigationInteractor: FavoritesNavigationInteractor,
     detailNavigationInteractor: DetailNavigationInteractor,
+    showSnackbarMessage: (String) -> Unit,
     recreateApplication: () -> Unit,
     receivedCoinDataVo: ReceivedCoinDataVo? = null,
 ) {
@@ -66,6 +70,9 @@ internal fun AppNavigation(
                     }
                 }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
     ) { paddingValues ->
         NavHost(
@@ -76,6 +83,9 @@ internal fun AppNavigation(
                 navGraphBuilder = this,
                 navigateToDetail = { name, price, imageUrl ->
                     navigateToDetail(name, price, imageUrl)
+                },
+                onErrorMessage = { errorMessage ->
+                    errorMessage?.let(showSnackbarMessage)
                 },
                 modifier = Modifier.padding(paddingValues)
             )

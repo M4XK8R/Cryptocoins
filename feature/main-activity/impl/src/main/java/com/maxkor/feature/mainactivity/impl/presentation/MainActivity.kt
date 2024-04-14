@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
         enableEdgeToEdge()
         setContent {
             val viewModel: MainActivityViewModel = hiltViewModel()
@@ -56,9 +55,11 @@ class MainActivity : ComponentActivity() {
             CryptocoinsTheme {
                 AppNavigation(
                     navController = navController,
+                    snackbarHostState = viewModel.snackbarHostState,
                     coinsNavigationInteractor = coinsNavigationInteractor,
                     favoritesNavigationInteractor = favoritesNavigationInteractor,
                     detailNavigationInteractor = detailNavigationInteractor,
+                    showSnackbarMessage = viewModel::showSnackbarMessage,
                     recreateApplication = ::recreateApplication,
                     receivedCoinDataVo = receivedCoinData?.toReceivedCoinDataVo()
                 )

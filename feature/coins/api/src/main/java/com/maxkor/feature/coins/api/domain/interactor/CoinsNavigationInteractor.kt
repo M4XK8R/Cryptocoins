@@ -13,6 +13,7 @@ interface CoinsNavigationInteractor {
             price: String,
             imageUrl: String,
         ) -> Unit,
+        onErrorMessage: (String?) -> Unit,
         modifier: Modifier = Modifier,
     )
 

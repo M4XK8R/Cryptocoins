@@ -43,8 +43,8 @@ class CoinsViewModel @Inject constructor(
             initialValue = CoinsUiState.Loading
         )
 
-    fun showInternetStateInfo() =
-        interactor.showInternetStateInfo()
+    fun informIfInternetIsNotAvailable(): String? =
+        interactor.informIfInternetIsNotAvailable()
 
     fun changeCoinFavoriteState(coin: Coin) {
         viewModelScope.launch {
