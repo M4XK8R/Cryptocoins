@@ -15,7 +15,7 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
     fun showSnackbarMessage(message: String) {
         viewModelScope.launch {
-            snackbarHostState.showSnackbar(message = message)
+            snackbarHostState.showSnackbar(message)
         }
     }
 }

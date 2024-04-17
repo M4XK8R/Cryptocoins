@@ -28,5 +28,4 @@ object LocalDataSourceModule {
     fun provideCoinsDao(
         appDatabase: CoinsDatabase,
     ): CoinsDao = appDatabase.coinsDao()
-
 }

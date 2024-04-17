@@ -27,4 +27,8 @@ interface DetailNavigationInteractor {
         price: String,
         imageUrl: String,
     )
+
+    companion object {
+        const val EMPTY_VALUE = ""
+    }
 }

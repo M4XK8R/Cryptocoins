@@ -7,6 +7,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.TextUnitType
 fun NavBottomBar(
     currentRoute: String?,
     navigateToScreen: (route: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val navItems = listOf(
         BottomNavigationItem.Home,
@@ -22,6 +24,7 @@ fun NavBottomBar(
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
+        modifier = modifier
     ) {
         navItems.forEach() { item ->
             val route = item.screen.route
@@ -37,7 +40,6 @@ fun NavBottomBar(
                     Icon(
                         imageVector = item.icon,
                         contentDescription = item.icon.name,
-//                        modifier = Modifier.size(24.dp)
                     )
                 },
                 label = {

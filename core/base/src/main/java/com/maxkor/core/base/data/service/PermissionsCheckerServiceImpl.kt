@@ -26,9 +26,8 @@ class PermissionsCheckerServiceImpl @Inject constructor(
                 )
 
     /**
-     * Private functions
+     * Private sector
      */
-
     private fun checkIfPermissionIsGranted(permission: String): Boolean =
         ContextCompat.checkSelfPermission(
             context,

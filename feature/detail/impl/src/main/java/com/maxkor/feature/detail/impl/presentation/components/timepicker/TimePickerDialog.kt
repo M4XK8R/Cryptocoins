@@ -16,19 +16,22 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.maxkor.core.theme.LocalSpacing
 import com.maxkor.core.ui.preview.PreviewProvider
+import com.maxkor.feature.detail.impl.R
 
 @Composable
 fun TimePickerDialog(
-    title: String = "Select Time",
     onCancel: () -> Unit,
     onConfirm: () -> Unit,
     toggle: @Composable () -> Unit,
     content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    title: String = stringResource(id = R.string.select_time),
 ) {
     val spacing = LocalSpacing.current
 
@@ -46,6 +49,7 @@ fun TimePickerDialog(
                     shape = MaterialTheme.shapes.extraLarge,
                     color = MaterialTheme.colorScheme.surface
                 )
+                .then(modifier)
         ) {
             Column(
                 modifier = Modifier.padding(spacing.spaceExtraLarge),
@@ -67,10 +71,14 @@ fun TimePickerDialog(
                     toggle()
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(onClick = onCancel) {
-                        Text("Cancel")
+                        Text(
+                            stringResource(com.maxkor.core.base.R.string.cancel)
+                        )
                     }
                     TextButton(onClick = onConfirm) {
-                        Text("OK")
+                        Text(
+                            stringResource(com.maxkor.core.base.R.string.ok)
+                        )
                     }
                 }
             }
@@ -87,9 +95,9 @@ fun TimePickerDialogPreview() {
     PreviewProvider(
         content = {
             TimePickerDialog(
-                onCancel = { /*TODO*/ },
-                onConfirm = { /*TODO*/ },
-                toggle = { /*TODO*/ },
+                onCancel = { },
+                onConfirm = { },
+                toggle = { },
                 content = {}
             )
         }

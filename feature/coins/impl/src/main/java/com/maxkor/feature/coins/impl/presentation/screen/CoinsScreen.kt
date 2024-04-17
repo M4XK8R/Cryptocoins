@@ -4,10 +4,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.maxkor.core.ui.composables.DataIsAbsent
 import com.maxkor.core.ui.composables.Loading
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
+import com.maxkor.core.base.R
 import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 
 @Composable
@@ -24,7 +26,9 @@ fun CoinsScreen(
 ) {
     when (coinsUiState) {
         is CoinsUiState.Loading -> Loading()
-        is CoinsUiState.NoDataAvailable -> DataIsAbsent(text = "No valid data is available")
+        is CoinsUiState.NoDataAvailable -> DataIsAbsent(
+            text = stringResource(id = R.string.no_valid_data)
+        )
         is CoinsUiState.Success -> CoinsScreenContent(
             coinVos = coinsUiState.coins,
             lazyListState = lazyListState,

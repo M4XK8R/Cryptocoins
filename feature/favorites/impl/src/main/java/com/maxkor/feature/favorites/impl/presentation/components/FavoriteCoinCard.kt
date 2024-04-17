@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -30,6 +31,7 @@ import com.maxkor.core.ui.icons.CryptocoinsIcons
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.feature.coins.api.domain.model.FavoriteCoin
+import com.maxkor.feature.favorites.impl.R
 import com.maxkor.feature.favorites.impl.presentation.mapper.toFavoriteCoinVo
 import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 
@@ -76,7 +78,9 @@ fun FavoriteCoinCard(
 
             AsyncImage(
                 model = favoriteCoinVo.imageUrl,
-                contentDescription = "Avatar image",
+                contentDescription = stringResource(
+                    com.maxkor.core.base.R.string.avatar_image
+                ),
                 modifier
                     .constrainAs(imageCoinRef) {
                         start.linkTo(parent.start, spacing.spaceMedium)
@@ -110,7 +114,9 @@ fun FavoriteCoinCard(
 
             Image(
                 imageVector = CryptocoinsIcons.Favorite,
-                contentDescription = "Favorite image",
+                contentDescription = stringResource(
+                    com.maxkor.core.base.R.string.favorite_image
+                ),
                 modifier = Modifier
                     .constrainAs(imageFavRef) {
                         top.linkTo(parent.top, spacing.spaceSmall)
@@ -124,9 +130,8 @@ fun FavoriteCoinCard(
 }
 
 /**
- * Private functions
+ * Private sector
  */
-
 @Composable
 private fun CoinInfoText(
     text: String,

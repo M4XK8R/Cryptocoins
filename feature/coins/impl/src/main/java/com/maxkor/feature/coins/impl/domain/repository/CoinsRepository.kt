@@ -15,5 +15,7 @@ interface CoinsRepository {
 
     suspend fun updateCoins(coins: List<Coin>)
 
-    suspend fun getCoinsFromServer(): List<Coin>?
+    suspend fun getCoinsFromServer(
+        informUserOnFailure: (String) -> Unit,
+    ): List<Coin>?
 }

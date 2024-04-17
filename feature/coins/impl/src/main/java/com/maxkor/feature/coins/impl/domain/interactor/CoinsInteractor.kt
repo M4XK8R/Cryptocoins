@@ -5,11 +5,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsInteractor {
 
-    fun informIfInternetIsNotAvailable() : String?
+    fun informIfInternetIsNotAvailable(): String?
 
     fun getCoinsFlow(): Flow<List<Coin>>
 
     suspend fun changeCoinFavoriteState(coin: Coin)
 
-    suspend fun updateData()
+    suspend fun updateData(
+        informUserOnFailure: (String) -> Unit,
+    )
 }

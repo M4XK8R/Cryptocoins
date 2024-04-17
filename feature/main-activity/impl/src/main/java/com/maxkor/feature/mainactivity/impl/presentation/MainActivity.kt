@@ -1,6 +1,5 @@
 package com.maxkor.feature.mainactivity.impl.presentation
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -72,6 +71,7 @@ class MainActivity : ComponentActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
-        Runtime.getRuntime().exit(0)
+        Runtime.getRuntime()
+            .exit(0)
     }
 }

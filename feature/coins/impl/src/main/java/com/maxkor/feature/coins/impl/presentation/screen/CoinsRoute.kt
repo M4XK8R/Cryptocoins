@@ -45,7 +45,9 @@ fun CoinsRoute(
             while (shouldLoadNewData) {
                 val internetAvailabilityInfo = viewModel.informIfInternetIsNotAvailable()
                 informUser(internetAvailabilityInfo)
-                viewModel.updateData()
+                viewModel.updateData(
+                    informUserOnFailure = informUser
+                )
                 delay(DOWNTIME)
             }
         }

@@ -12,8 +12,10 @@ import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.maxkor.core.ui.preview.PreviewProvider
+import com.maxkor.feature.detail.impl.R
 
 private const val REQUIRED_HEIGHT = 400
 
@@ -33,8 +35,8 @@ fun TimePickerSwitchable(
 
     TimePickerDialog(
         title = when (timePickerMode) {
-            TimePickerMode.Pick -> "Select Time"
-            TimePickerMode.Input -> "Enter Time"
+            TimePickerMode.Pick -> stringResource(R.string.select_time)
+            TimePickerMode.Input -> stringResource(R.string.enter_time)
         },
         onCancel = { onDecline() },
         onConfirm = {
@@ -55,8 +57,8 @@ fun TimePickerSwitchable(
                     Icon(
                         imageVector = switchIcon,
                         contentDescription = when (timePickerMode) {
-                            TimePickerMode.Pick -> "Switch to Text Input"
-                            TimePickerMode.Input -> "Switch to Touch Input"
+                            TimePickerMode.Pick -> stringResource(R.string.switch_to_text_input)
+                            TimePickerMode.Input -> stringResource(R.string.switch_to_touch_input)
                         }
                     )
                 }

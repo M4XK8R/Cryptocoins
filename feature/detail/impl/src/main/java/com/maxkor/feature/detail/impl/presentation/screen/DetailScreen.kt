@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
+import com.maxkor.feature.detail.impl.R
 import com.maxkor.core.base.data.images.CryptocoinsImages
 import com.maxkor.core.theme.LocalFontScaling
 import com.maxkor.core.theme.LocalSpacing
@@ -130,7 +132,9 @@ internal fun DetailScreen(
 
         AsyncImage(
             model = detailCoinVo.imageUrl,
-            contentDescription = "Cryptocoin picture",
+            contentDescription = stringResource(
+                com.maxkor.core.base.R.string.cryptocoin_picture
+            ),
             modifier = Modifier
                 .constrainAs(imageMainRef) {
                     start.linkTo(parent.start)
@@ -208,11 +212,17 @@ internal fun DetailScreen(
                         )
                     )
                     ExtendedFloatingActionButton(
-                        text = { ButtonText(text = "Save") },
+                        text = {
+                            ButtonText(
+                                text = stringResource(R.string.save)
+                            )
+                        },
                         icon = {
                             Icon(
                                 imageVector = CryptocoinsIcons.Done,
-                                contentDescription = "Icon"
+                                contentDescription = stringResource(
+                                    com.maxkor.core.base.R.string.icon
+                                )
                             )
                         },
                         onClick = {
@@ -256,7 +266,7 @@ private fun ActionImage(
 ) {
     Image(
         painter = painterResource(id = imageResId),
-        contentDescription = "Action image",
+        contentDescription = stringResource(R.string.action_image),
         modifier = Modifier.clickable { onClick() }
     )
 }
@@ -284,7 +294,7 @@ private fun CoinExtraInfoText(
 ) {
     Text(
         text = text.ifEmpty {
-            "Click to add some info"
+            stringResource(R.string.coin_extra_info_hint)
         },
         color = MaterialTheme.colorScheme.onBackground,
         fontSize = fontScaling,
@@ -316,7 +326,7 @@ private fun CoinExtraInfoEditText(
         ),
         placeholder = {
             Text(
-                text = "Add some info",
+                text = stringResource(R.string.coin_extra_info_et_hint),
                 fontSize = hintFontScaling,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.displaySmall,

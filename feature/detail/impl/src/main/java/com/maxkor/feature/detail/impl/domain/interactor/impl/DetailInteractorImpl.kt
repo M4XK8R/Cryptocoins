@@ -1,6 +1,8 @@
 package com.maxkor.feature.detail.impl.domain.interactor.impl
 
+import android.content.Context
 import com.maxkor.core.base.domain.repository.CheckerRepository
+import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
@@ -8,9 +10,11 @@ import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository
 import com.maxkor.feature.detail.impl.domain.utils.getCalendar
 import com.maxkor.feature.detail.impl.domain.utils.getCalendarTime
 import com.maxkor.feature.detail.impl.domain.utils.setUpCalendar
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class DetailInteractorImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val imageRepository: ImageRepository,
     private val remainderRepository: RemainderRepository,
     private val checkerRepository: CheckerRepository,
@@ -63,7 +67,11 @@ class DetailInteractorImpl @Inject constructor(
             )
             val targetTime = calendar.getCalendarTime()
             if (targetTime <= currentTime) {
-                onIncorrectTimeInput("This time has already passed")
+                onIncorrectTimeInput(
+                    context.getString(
+                        R.string.time_has_already_passed
+                    )
+                )
             } else {
                 remainderRepository.createAlarm(
                     coinName = coinName,
@@ -72,7 +80,11 @@ class DetailInteractorImpl @Inject constructor(
                     time = targetTime
                 )
                 remainderRepository.createAndShowNotification(
-                    contentText = "You will be notified about $coinName at ${calendar.time}",
+                    contentText = context.getString(
+                        R.string.remind_about_coin_message,
+                        coinName,
+                        calendar.time
+                    ),
                     contentIntent = null
                 )
             }

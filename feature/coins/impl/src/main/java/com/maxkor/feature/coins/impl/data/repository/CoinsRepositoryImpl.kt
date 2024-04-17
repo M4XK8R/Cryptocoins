@@ -1,6 +1,7 @@
 package com.maxkor.feature.coins.impl.data.repository
 
-import com.maxkor.core.base.utils.createDebugLog
+import android.content.Context
+import com.maxkor.feature.coins.impl.R
 import com.maxkor.feature.coins.impl.data.local.dao.CoinsDao
 import com.maxkor.feature.coins.impl.data.local.mapper.toCoin
 import com.maxkor.feature.coins.impl.data.local.mapper.toCoinEntity
@@ -8,11 +9,13 @@ import com.maxkor.feature.coins.impl.data.remote.api.CoinsApi
 import com.maxkor.feature.coins.impl.data.remote.mapper.toCoin
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CoinsRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val dao: CoinsDao,
     private val api: CoinsApi,
 ) : CoinsRepository {
@@ -39,7 +42,9 @@ class CoinsRepositoryImpl @Inject constructor(
             coins.map { it.toCoinEntity() }
         )
 
-    override suspend fun getCoinsFromServer(): List<Coin>? {
+    override suspend fun getCoinsFromServer(
+        informUserOnFailure: (String) -> Unit,
+    ): List<Coin>? {
         try {
             val response = api.getResponse()
             if (response.isSuccessful) {
@@ -47,21 +52,25 @@ class CoinsRepositoryImpl @Inject constructor(
                 if (!coinsDtos.isNullOrEmpty()) {
                     return coinsDtos.map { it.toCoin() }
                 } else {
-                    createDebugLog(
-                        "RemoteDataSourceRepositoryImpl: coinsDtos is null or empty"
+                    informUserOnFailure(
+                        context.getString(
+                            R.string.data_from_server_is_null_or_empty
+                        )
                     )
                 }
             } else {
-                createDebugLog(
-                    "RemoteDataSourceRepositoryImpl: response is not successful" +
-                            response.message()
+                informUserOnFailure(
+                    context.getString(
+                        R.string.response_is_not_successful
+                    )
                 )
             }
         } catch (exception: Exception) {
-            createDebugLog(
-                "RemoteDataSourceRepositoryImpl: caught ${exception.message}"
+            informUserOnFailure(
+                context.getString(
+                    R.string.load_data_error
+                )
             )
-            exception.printStackTrace()
         }
         return null
     }

@@ -1,16 +1,19 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
+import android.content.Context
 import com.maxkor.core.base.domain.dispatchers.IoDispatcher
 import com.maxkor.core.base.domain.repository.CheckerRepository
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoinsInteractorImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
     private val coinsRepository: CoinsRepository,
     private val checkerRepository: CheckerRepository,
@@ -21,7 +24,9 @@ class CoinsInteractorImpl @Inject constructor(
         return if (isNetworkAvailable) {
             null
         } else {
-            "Network is not available"
+            context.getString(
+                com.maxkor.core.base.R.string.no_internet_connection_warning
+            )
         }
     }
 
@@ -36,24 +41,27 @@ class CoinsInteractorImpl @Inject constructor(
             coinsRepository.updateCoin(updatedCoin)
         }
 
-    override suspend fun updateData() =
-        withContext(dispatcherIo) {
-            val newCoins = coinsRepository.getCoinsFromServer()
-            if (newCoins.isNullOrEmpty()) {
-                return@withContext
-            }
-            val currentCoins = coinsRepository.getCoins()
-            if (currentCoins.isEmpty()) {
-                coinsRepository.updateCoins(newCoins)
-            }
-            if (currentCoins.isNotEmpty()) {
-                val parsedCoins = parseCoins(
-                    updatedCoins = newCoins,
-                    currentCoins = currentCoins
-                )
-                coinsRepository.updateCoins(parsedCoins)
-            }
+    override suspend fun updateData(
+        informUserOnFailure: (String) -> Unit,
+    ) = withContext(dispatcherIo) {
+        val newCoins = coinsRepository.getCoinsFromServer(
+            informUserOnFailure = informUserOnFailure
+        )
+        if (newCoins.isNullOrEmpty()) {
+            return@withContext
         }
+        val currentCoins = coinsRepository.getCoins()
+        if (currentCoins.isEmpty()) {
+            coinsRepository.updateCoins(newCoins)
+        }
+        if (currentCoins.isNotEmpty()) {
+            val parsedCoins = parseCoins(
+                updatedCoins = newCoins,
+                currentCoins = currentCoins
+            )
+            coinsRepository.updateCoins(parsedCoins)
+        }
+    }
 
     /**
      * Private sector

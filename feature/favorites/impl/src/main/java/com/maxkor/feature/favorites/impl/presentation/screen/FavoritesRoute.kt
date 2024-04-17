@@ -26,7 +26,11 @@ fun FavoritesRoute(
         favoritesUiState = favoritesUiState,
         lazyListState = lazyListState,
         navigateToDetail = navigateToDetail,
-        removeFromFavorites = { viewModel.removeFromFavorites(it.toFavoriteCoin()) },
+        removeFromFavorites = { favoriteCoinVo ->
+            viewModel.removeFromFavorites(
+                favoriteCoinVo.toFavoriteCoin()
+            )
+        },
         modifier = modifier
     )
 }

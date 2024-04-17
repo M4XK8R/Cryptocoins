@@ -4,10 +4,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.maxkor.core.ui.composables.DataIsAbsent
 import com.maxkor.core.ui.composables.Loading
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
+import com.maxkor.feature.favorites.impl.R
 import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 
 @Composable
@@ -24,7 +26,9 @@ internal fun FavoritesScreen(
 ) {
     when (favoritesUiState) {
         is FavoritesUiState.Loading -> Loading()
-        is FavoritesUiState.NoDataAvailable -> DataIsAbsent(text = "Favorites list is empty")
+        is FavoritesUiState.NoDataAvailable -> DataIsAbsent(
+            text = stringResource(R.string.favorites_list_is_empty)
+        )
         is FavoritesUiState.Success -> FavoritesScreenContent(
             favoriteCoinsVos = favoritesUiState.coins,
             lazyListState = lazyListState,

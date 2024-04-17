@@ -10,8 +10,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.maxkor.core.base.R
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 
@@ -23,6 +25,8 @@ fun DetailRoute(
     informUser: (message: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+
     val viewModel: DetailViewModel = hiltViewModel()
     val detailUiState by viewModel.detailUiState.collectAsStateWithLifecycle()
 
@@ -32,7 +36,11 @@ fun DetailRoute(
             if (isGranted) {
                 recreateApplication()
             } else {
-                informUser("The app won't work properly without the permission")
+                informUser(
+                    context.getString(
+                        R.string.no_permission_warning
+                    )
+                )
             }
         }
     )

@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -76,7 +77,9 @@ fun CoinCard(
 
             AsyncImage(
                 model = coinVo.imageUrl,
-                contentDescription = "Avatar image",
+                contentDescription = stringResource(
+                    com.maxkor.core.base.R.string.avatar_image
+                ),
                 modifier
                     .constrainAs(imageCoinRef) {
                         start.linkTo(parent.start, spacing.spaceMedium)
@@ -114,7 +117,9 @@ fun CoinCard(
                 } else {
                     CryptocoinsIcons.NotFavorite
                 },
-                contentDescription = "Favorite image",
+                contentDescription = stringResource(
+                    com.maxkor.core.base.R.string.favorite_image
+                ),
                 modifier = Modifier
                     .constrainAs(imageFavRef) {
                         top.linkTo(parent.top, spacing.spaceSmall)
@@ -128,9 +133,8 @@ fun CoinCard(
 }
 
 /**
- * Private functions
+ * Private sector
  */
-
 @Composable
 private fun CoinInfoText(
     text: String,

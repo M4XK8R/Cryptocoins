@@ -39,7 +39,7 @@ class CoinsViewModel @Inject constructor(
         }
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.Eagerly,
+            started = SharingStarted.WhileSubscribed(),
             initialValue = CoinsUiState.Loading
         )
 
@@ -52,6 +52,9 @@ class CoinsViewModel @Inject constructor(
         }
     }
 
-    suspend fun updateData() =
-        interactor.updateData()
+    suspend fun updateData(
+        informUserOnFailure: (String) -> Unit,
+    ) = interactor.updateData(
+        informUserOnFailure = informUserOnFailure
+    )
 }

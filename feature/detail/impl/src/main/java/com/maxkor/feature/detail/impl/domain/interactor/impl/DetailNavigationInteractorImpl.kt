@@ -19,13 +19,13 @@ class DetailNavigationInteractorImpl @Inject constructor(
 ) : DetailNavigationInteractor {
 
     override val nameState: MutableState<String> =
-        mutableStateOf("Unknown")
+        mutableStateOf(DetailNavigationInteractor.EMPTY_VALUE)
 
     override val priceState: MutableState<String> =
-        mutableStateOf("Unknown")
+        mutableStateOf(DetailNavigationInteractor.EMPTY_VALUE)
 
     override val imageUrlState: MutableState<String> =
-        mutableStateOf("Unknown")
+        mutableStateOf(DetailNavigationInteractor.EMPTY_VALUE)
 
     override fun graph(
         navGraphBuilder: NavGraphBuilder,

@@ -13,7 +13,11 @@ class FavoritesNavigationInteractorImpl @Inject constructor() : FavoritesNavigat
 
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
-        navigateToDetail: (name: String, price: String, imageUrl: String) -> Unit,
+        navigateToDetail: (
+            name: String,
+            price: String,
+            imageUrl: String,
+        ) -> Unit,
         modifier: Modifier,
     ) = navGraphBuilder.composable(route = FavoritesFeature.ROUTE_NAME) {
         FavoritesRoute(

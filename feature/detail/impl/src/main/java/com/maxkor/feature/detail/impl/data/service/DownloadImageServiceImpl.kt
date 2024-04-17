@@ -7,7 +7,7 @@ import android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
-import android.widget.Toast
+import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.domain.service.DownloadImageService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -31,15 +31,17 @@ class DownloadImageServiceImpl @Inject constructor(
                     saveName = saveName
                 )
             )
-            onDownloadState("Image download started")
+            onDownloadState(context.getString(R.string.image_download_started))
         } catch (javaException: java.lang.Exception) {
             onDownloadState(
-                "Image download failed with ${javaException.message}"
+                context.getString(R.string.image_download_failed)
             )
         }
     } else {
         onDownloadState(
-            "No internet connection"
+            context.getString(
+                com.maxkor.core.base.R.string.no_internet_connection_warning
+            )
         )
     }
 

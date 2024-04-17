@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="time_has_already_passed">This time has already passed</string>
+    <string name="remind_about_coin_message">You will be notified about %1$s at %2$s</string>
+    <string name="save">Save</string>
+    <string name="action_image">Action image</string>
+    <string name="coin_extra_info_hint">Click to add some info</string>
+    <string name="coin_extra_info_et_hint">Add some info</string>
+    <string name="image_download_started">Image download started</string>
+    <string name="image_download_failed">Image download failed</string>
+    <string name="select_time">Select Time</string>
+    <string name="enter_time">Enter Time</string>
+    <string name="switch_to_text_input">Switch to text input</string>
+    <string name="switch_to_touch_input">Switch to touch input</string>
+</resources>
