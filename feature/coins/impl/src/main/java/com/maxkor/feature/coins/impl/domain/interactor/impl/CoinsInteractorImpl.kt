@@ -2,7 +2,6 @@ package com.maxkor.feature.coins.impl.domain.interactor.impl
 
 import com.maxkor.core.base.domain.dispatchers.IoDispatcher
 import com.maxkor.core.base.domain.repository.CheckerRepository
-import com.maxkor.core.base.utils.createDebugLog
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
@@ -20,10 +19,8 @@ class CoinsInteractorImpl @Inject constructor(
     override fun informIfInternetIsNotAvailable(): String? {
         val isNetworkAvailable = checkerRepository.checkInternetConnection()
         return if (isNetworkAvailable) {
-            createDebugLog("Network is available")
             null
         } else {
-            createDebugLog("Network is not available")
             "Network is not available"
         }
     }
@@ -59,9 +56,8 @@ class CoinsInteractorImpl @Inject constructor(
         }
 
     /**
-     * Private functions
+     * Private sector
      */
-
     private fun parseCoins(
         updatedCoins: List<Coin>,
         currentCoins: List<Coin>,

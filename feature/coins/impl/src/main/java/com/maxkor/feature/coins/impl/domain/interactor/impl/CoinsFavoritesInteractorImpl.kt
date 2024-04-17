@@ -20,10 +20,10 @@ class CoinsFavoritesInteractorImpl @Inject constructor(
     override fun getFavoriteCoinsFlow(): Flow<List<FavoriteCoin>> = coinsRepository
         .getCoinsFlow()
         .transform { coins ->
-            val coinsFavs = coins
+            val favoriteCoins = coins
                 .filter { it.isFavorite }
                 .map { it.toFavoriteCoin() }
-            emit(coinsFavs)
+            emit(favoriteCoins)
         }
 
     override suspend fun removeFromFavorites(favoriteCoin: FavoriteCoin) =

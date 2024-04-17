@@ -7,6 +7,7 @@ interface DetailInteractor {
         saveName: String,
         noPostNotificationPermissionCase: () -> Unit,
         noWriteStoragePermissionCase: () -> Unit,
+        onDownloadState: (message: String) -> Unit,
     )
 
     fun sharePicture(url: String)
@@ -15,8 +16,10 @@ interface DetailInteractor {
         coinName: String,
         coinPrice: String,
         coinImageUrl: String,
-        time: Long,
+        hour: Int,
+        minute: Int,
         noPostNotificationPermissionCase: () -> Unit,
+        onIncorrectTimeInput: (String) -> Unit,
     )
 
     fun saveCoinExtraInfo(

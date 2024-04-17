@@ -5,6 +5,9 @@ import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
 import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository
+import com.maxkor.feature.detail.impl.domain.utils.getCalendar
+import com.maxkor.feature.detail.impl.domain.utils.getCalendarTime
+import com.maxkor.feature.detail.impl.domain.utils.setUpCalendar
 import javax.inject.Inject
 
 class DetailInteractorImpl @Inject constructor(
@@ -19,6 +22,7 @@ class DetailInteractorImpl @Inject constructor(
         saveName: String,
         noPostNotificationPermissionCase: () -> Unit,
         noWriteStoragePermissionCase: () -> Unit,
+        onDownloadState: (message: String) -> Unit,
     ) = CheckerRepository.onPermissionStateAction(
         condition = checkerRepository.checkStoragePermission(),
         hasPermissionCase = {
@@ -27,7 +31,8 @@ class DetailInteractorImpl @Inject constructor(
                 hasPermissionCase = {
                     imageRepository.savePicture(
                         url = url,
-                        saveName = saveName
+                        saveName = saveName,
+                        onDownloadState = onDownloadState,
                     )
                 },
                 noPermissionCase = noPostNotificationPermissionCase
@@ -43,21 +48,34 @@ class DetailInteractorImpl @Inject constructor(
         coinName: String,
         coinPrice: String,
         coinImageUrl: String,
-        time: Long,
+        hour: Int,
+        minute: Int,
         noPostNotificationPermissionCase: () -> Unit,
+        onIncorrectTimeInput: (String) -> Unit,
     ) = CheckerRepository.onPermissionStateAction(
         condition = checkerRepository.checkNotificationPermission(),
         hasPermissionCase = {
-            remainderRepository.createAlarm(
-                coinName = coinName,
-                coinPrice = coinPrice,
-                coinImageUrl = coinImageUrl,
-                time = time
+            val calendar = getCalendar()
+            val currentTime = calendar.getCalendarTime()
+            calendar.setUpCalendar(
+                hour = hour,
+                minute = minute
             )
-            remainderRepository.createAndShowNotification(
-                contentText = "You will be notified about $coinName in ${(time / 1000.0).toInt()} seconds",
-                contentIntent = null
-            )
+            val targetTime = calendar.getCalendarTime()
+            if (targetTime <= currentTime) {
+                onIncorrectTimeInput("This time has already passed")
+            } else {
+                remainderRepository.createAlarm(
+                    coinName = coinName,
+                    coinPrice = coinPrice,
+                    coinImageUrl = coinImageUrl,
+                    time = targetTime
+                )
+                remainderRepository.createAndShowNotification(
+                    contentText = "You will be notified about $coinName at ${calendar.time}",
+                    contentIntent = null
+                )
+            }
         },
         noPermissionCase = noPostNotificationPermissionCase,
     )

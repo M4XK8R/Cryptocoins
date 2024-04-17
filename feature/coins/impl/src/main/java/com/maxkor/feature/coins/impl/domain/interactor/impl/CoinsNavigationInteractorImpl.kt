@@ -18,12 +18,12 @@ class CoinsNavigationInteractorImpl @Inject constructor() : CoinsNavigationInter
             price: String,
             imageUrl: String,
         ) -> Unit,
-        onErrorMessage: (String?) -> Unit,
+        informUser: (String?) -> Unit,
         modifier: Modifier,
     ) = navGraphBuilder.composable(route = CoinsFeature.ROUTE_NAME) {
         CoinsRoute(
             navigateToDetail = navigateToDetail,
-            onErrorMessage = onErrorMessage,
+            informUser = informUser,
             modifier = modifier
         )
     }

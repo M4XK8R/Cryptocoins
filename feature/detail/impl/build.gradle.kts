@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.hilt.navigation)
 
     implementation(libs.compose.constraint)
+    implementation(libs.compose.lifecycle)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
 }

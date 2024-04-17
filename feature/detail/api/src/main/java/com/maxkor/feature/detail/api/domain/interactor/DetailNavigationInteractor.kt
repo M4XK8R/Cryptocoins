@@ -14,6 +14,7 @@ interface DetailNavigationInteractor {
     fun graph(
         navGraphBuilder: NavGraphBuilder,
         recreateApplication: () -> Unit,
+        informUser: (message: String) -> Unit,
         modifier: Modifier = Modifier,
         name: String = nameState.value,
         price: String = priceState.value,

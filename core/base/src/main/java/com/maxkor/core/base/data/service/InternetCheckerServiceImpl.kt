@@ -32,7 +32,6 @@ class InternetCheckerServiceImpl @Inject constructor(
         data object MobileInternet : ConnectionType(
             NetworkCapabilities.TRANSPORT_CELLULAR
         )
-
         data object Wifi : ConnectionType(
             NetworkCapabilities.TRANSPORT_WIFI
         )

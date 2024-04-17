@@ -5,12 +5,13 @@ import com.maxkor.feature.favorites.impl.domain.interactor.impl.FavoritesNavigat
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
-interface InteractorModule {
-
+@InstallIn(ActivityRetainedComponent::class)
+interface FavoritesNavigationInteractorModule {
+    @ActivityRetainedScoped
     @Binds
     fun bindFavoritesNavigationInteractor(
         impl: FavoritesNavigationInteractorImpl,

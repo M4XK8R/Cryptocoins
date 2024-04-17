@@ -15,40 +15,51 @@ import javax.inject.Inject
 
 class DownloadImageServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val downloadManager: DownloadManager,
 ) : DownloadImageService {
 
     override fun savePicture(
         url: String,
         saveName: String,
-    ) = try {
-        val downloadUri = Uri.parse(url)
-        val request = DownloadManager.Request(downloadUri).apply {
-            setAllowedNetworkTypes(NETWORK_WIFI or NETWORK_MOBILE)
-            setAllowedOverRoaming(false)
-            setTitle(saveName)
-            setMimeType("image/jpeg")
-            setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            setDestinationInExternalPublicDir(
-                Environment.DIRECTORY_PICTURES,
-                File.separator + saveName + ".jpg"
+        isNetworkAvailable: Boolean,
+        onDownloadState: (message: String) -> Unit,
+    ) = if (isNetworkAvailable) {
+        try {
+            downloadManager.enqueue(
+                createDownloadRequest(
+                    downloadUri = Uri.parse(url),
+                    saveName = saveName
+                )
+            )
+            onDownloadState("Image download started")
+        } catch (javaException: java.lang.Exception) {
+            onDownloadState(
+                "Image download failed with ${javaException.message}"
             )
         }
-        val downloadManager = context.getSystemService(
-            Context.DOWNLOAD_SERVICE
-        ) as DownloadManager?
-        downloadManager?.enqueue(request)
+    } else {
+        onDownloadState(
+            "No internet connection"
+        )
+    }
 
-        Toast.makeText(
-            context,
-            "Image download started.",
-            Toast.LENGTH_SHORT
-        ).show()
-
-    } catch (javaException: java.lang.Exception) {
-        Toast.makeText(
-            context,
-            "Image download failed.",
-            Toast.LENGTH_SHORT
-        ).show()
+    /**
+     * Private sector
+     */
+    private fun createDownloadRequest(
+        downloadUri: Uri,
+        saveName: String,
+    ): DownloadManager.Request = DownloadManager.Request(
+        downloadUri
+    ).apply {
+        setAllowedNetworkTypes(NETWORK_WIFI or NETWORK_MOBILE)
+        setAllowedOverRoaming(false)
+        setTitle(saveName)
+        setMimeType("image/jpeg")
+        setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        setDestinationInExternalPublicDir(
+            Environment.DIRECTORY_PICTURES,
+            File.separator + saveName + ".jpg"
+        )
     }
 }

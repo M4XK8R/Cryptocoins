@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,19 +38,22 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-
     fun createReminder(
         coinName: String,
         coinPrice: String,
         coinImageUrl: String,
-        time: Long,
+        hour: Int,
+        minute: Int,
         noPostNotificationPermissionCase: () -> Unit,
+        onIncorrectTimeInput: (String) -> Unit,
     ) = interactor.createReminder(
         coinName = coinName,
         coinPrice = coinPrice,
         coinImageUrl = coinImageUrl,
-        time = time,
-        noPostNotificationPermissionCase = noPostNotificationPermissionCase
+        hour = hour,
+        minute = minute,
+        noPostNotificationPermissionCase = noPostNotificationPermissionCase,
+        onIncorrectTimeInput = onIncorrectTimeInput
     )
 
     fun savePicture(
@@ -57,11 +61,13 @@ class DetailViewModel @Inject constructor(
         saveName: String,
         noWriteStoragePermissionCase: () -> Unit,
         noPostNotificationPermissionCase: () -> Unit,
+        onDownloadState: (message: String) -> Unit,
     ) = interactor.saveImage(
         url = url,
         saveName = saveName,
         noWriteStoragePermissionCase = noWriteStoragePermissionCase,
-        noPostNotificationPermissionCase = noPostNotificationPermissionCase
+        noPostNotificationPermissionCase = noPostNotificationPermissionCase,
+        onDownloadState = onDownloadState
     )
 
     fun sharePicture(url: String) =

@@ -47,7 +47,9 @@ class CoinsRepositoryImpl @Inject constructor(
                 if (!coinsDtos.isNullOrEmpty()) {
                     return coinsDtos.map { it.toCoin() }
                 } else {
-                    createDebugLog("RemoteDataSourceRepositoryImpl: coinsDtos is null or empty")
+                    createDebugLog(
+                        "RemoteDataSourceRepositoryImpl: coinsDtos is null or empty"
+                    )
                 }
             } else {
                 createDebugLog(
@@ -56,7 +58,9 @@ class CoinsRepositoryImpl @Inject constructor(
                 )
             }
         } catch (exception: Exception) {
-            createDebugLog("RemoteDataSourceRepositoryImpl: caught ${exception.message}")
+            createDebugLog(
+                "RemoteDataSourceRepositoryImpl: caught ${exception.message}"
+            )
             exception.printStackTrace()
         }
         return null

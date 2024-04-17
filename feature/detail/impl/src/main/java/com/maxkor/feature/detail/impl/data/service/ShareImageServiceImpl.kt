@@ -12,16 +12,27 @@ class ShareImageServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : ShareImageService {
 
-    override fun sharePicture(url: String) {
-        val uri = Uri.parse(url)
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "image/*"
-            putExtra(Intent.EXTRA_STREAM, uri)
-        }
-        @NotNull val chooserIntent = Intent.createChooser(
+    override fun sharePicture(url: String) =
+        context.startActivity(
+            createChooserIntent(
+                shareIntent = createShareIntent(
+                    uri = Uri.parse(url)
+                )
+            )
+        )
+
+    /**
+     * Private sector
+     */
+    private fun createChooserIntent(shareIntent: Intent): Intent =
+        Intent.createChooser(
             shareIntent,
             "Share image"
         ).also { it.flags = Intent.FLAG_ACTIVITY_NEW_TASK }
-        context.startActivity(chooserIntent)
-    }
+
+    private fun createShareIntent(uri: Uri): Intent =
+        Intent(Intent.ACTION_SEND).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_STREAM, uri)
+        }
 }

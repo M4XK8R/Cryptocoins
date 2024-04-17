@@ -30,6 +30,7 @@ class DetailNavigationInteractorImpl @Inject constructor(
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
         recreateApplication: () -> Unit,
+        informUser: (message: String) -> Unit,
         modifier: Modifier,
         name: String,
         price: String,
@@ -45,7 +46,8 @@ class DetailNavigationInteractorImpl @Inject constructor(
         DetailRoute(
             detailCoinVo = detailCoin.toDetailCoinVo(),
             modifier = modifier,
-            recreateApplication = recreateApplication
+            recreateApplication = recreateApplication,
+            informUser = informUser
         )
     }
 

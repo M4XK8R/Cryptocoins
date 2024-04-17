@@ -26,7 +26,7 @@ fun CoinsRoute(
         price: String,
         imageUrl: String,
     ) -> Unit,
-    onErrorMessage: (String?) -> Unit,
+    informUser: (String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: CoinsViewModel = hiltViewModel()
@@ -44,7 +44,7 @@ fun CoinsRoute(
         dataLoaderJob = coroutineScope.launch {
             while (shouldLoadNewData) {
                 val internetAvailabilityInfo = viewModel.informIfInternetIsNotAvailable()
-                onErrorMessage(internetAvailabilityInfo)
+                informUser(internetAvailabilityInfo)
                 viewModel.updateData()
                 delay(DOWNTIME)
             }

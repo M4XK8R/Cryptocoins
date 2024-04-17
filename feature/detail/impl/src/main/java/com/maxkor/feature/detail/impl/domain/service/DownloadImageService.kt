@@ -5,5 +5,7 @@ interface DownloadImageService {
     fun savePicture(
         url: String,
         saveName: String,
+        isNetworkAvailable: Boolean,
+        onDownloadState: (message: String) -> Unit,
     )
 }

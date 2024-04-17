@@ -5,11 +5,13 @@ import android.annotation.SuppressLint
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.maxkor.core.base.utils.createDebugLog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 
@@ -18,10 +20,11 @@ import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 fun DetailRoute(
     detailCoinVo: DetailCoinVo,
     recreateApplication: () -> Unit,
+    informUser: (message: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: DetailViewModel = hiltViewModel()
-    val detailUiState by viewModel.detailUiState.collectAsState()
+    val detailUiState by viewModel.detailUiState.collectAsStateWithLifecycle()
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -29,7 +32,7 @@ fun DetailRoute(
             if (isGranted) {
                 recreateApplication()
             } else {
-                // TODO snackbar message
+                informUser("The app won't work properly without the permission")
             }
         }
     )
@@ -38,13 +41,21 @@ fun DetailRoute(
         launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
     val grantWriteStorageRequest: () -> Unit = {
-        createDebugLog("grantWriteStorageRequest")
         launcher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    var coinExtraInfoInput by remember {
+        mutableStateOf(detailCoinVo.extraInfo.value)
+    }
+    val editCoinExtraInfoInput: (String) -> Unit = { inputText ->
+        coinExtraInfoInput = inputText
     }
 
     DetailScreen(
         detailCoinVo = detailCoinVo,
         detailUiState = detailUiState,
+        coinExtraInfoInput = coinExtraInfoInput,
+        editCoinExtraInfoInput = editCoinExtraInfoInput,
         savePicture = { url, name ->
             viewModel.savePicture(
                 url = url,
@@ -54,20 +65,25 @@ fun DetailRoute(
                 },
                 noPostNotificationPermissionCase = {
                     grantPostNotificationRequest()
-                }
+                },
+                onDownloadState = informUser
             )
         },
         sharePicture = { url ->
             viewModel.sharePicture(url)
         },
-        createReminder = { coinName, coinPrice, coinImageUrl, time ->
+        createReminder = { coinName, coinPrice, coinImageUrl, hour, minute ->
             viewModel.createReminder(
                 coinName = coinName,
                 coinPrice = coinPrice,
                 coinImageUrl = coinImageUrl,
-                time = time,
+                hour = hour,
+                minute = minute,
                 noPostNotificationPermissionCase = {
                     grantPostNotificationRequest()
+                },
+                onIncorrectTimeInput = { message ->
+                    informUser(message)
                 }
             )
         },

@@ -2,32 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="RunPreviewCoinsScreenContent">
+      <entry key="TimeInputSample">
         <State />
       </entry>
-      <entry key="RunPreviewDetailScreen">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="D:\android\AVD\Medium_Phone_API_30_11_.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-05T06:53:45.163488800Z" />
-        </State>
-      </entry>
-      <entry key="RunPreviewFavoriteCoinCard">
+      <entry key="TimePickerDialogPreview">
         <State />
       </entry>
-      <entry key="RunPreviewFavoritesScreenContent">
+      <entry key="TimePickerSwitchablePreview">
         <State />
       </entry>
-      <entry key="RunPreviewLifecycle">
+      <entry key="TimePickerSwitchableSample2">
         <State />
       </entry>
       <entry key="app">

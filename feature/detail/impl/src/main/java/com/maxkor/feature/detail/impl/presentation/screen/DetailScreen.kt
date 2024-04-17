@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -17,6 +18,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TimePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,31 +38,37 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
+import com.maxkor.core.base.data.images.CryptocoinsImages
 import com.maxkor.core.theme.LocalFontScaling
 import com.maxkor.core.theme.LocalSpacing
 import com.maxkor.core.ui.components.ButtonText
 import com.maxkor.core.ui.components.TitleText
 import com.maxkor.core.ui.icons.CryptocoinsIcons
-import com.maxkor.core.base.data.images.CryptocoinsImages
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.feature.detail.impl.domain.model.DetailCoin
+import com.maxkor.feature.detail.impl.presentation.components.timepicker.TimePickerMode
+import com.maxkor.feature.detail.impl.presentation.components.timepicker.TimePickerSwitchable
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
 
 private const val MAIN_IMAGE_SIZE = 180
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DetailScreen(
     detailCoinVo: DetailCoinVo,
     detailUiState: DetailUiState,
+    coinExtraInfoInput: String,
+    editCoinExtraInfoInput: (String) -> Unit,
     savePicture: (url: String, name: String) -> Unit,
     sharePicture: (url: String) -> Unit,
     createReminder: (
         coinName: String,
         coinPrice: String,
         coinImageUrl: String,
-        time: Long,
+        hour: Int,
+        minute: Int,
     ) -> Unit,
     addCoinExtraInfo: () -> Unit,
     saveCoinExtraInfo: (key: String, extraInfo: String) -> Unit,
@@ -69,11 +78,41 @@ internal fun DetailScreen(
     val spacing = LocalSpacing.current
     val fontScaling = LocalFontScaling.current
 
-    var coinExtraInfoInput by remember {
-        mutableStateOf(detailCoinVo.extraInfo.value)
+    val timePickerState: TimePickerState = rememberTimePickerState()
+    var shouldShowTimePicker by remember { mutableStateOf(false) }
+    val showTimePicker: () -> Unit = {
+        shouldShowTimePicker = true
     }
-    val editCoinExtraInfoInput: (String) -> Unit = { inputText ->
-        coinExtraInfoInput = inputText
+    val dismissTimePicker: () -> Unit = {
+        shouldShowTimePicker = false
+    }
+    var timePickerMode: TimePickerMode by remember {
+        mutableStateOf(TimePickerMode.Pick)
+    }
+    val changeTimePickerState: () -> Unit = {
+        timePickerMode = when (timePickerMode) {
+            TimePickerMode.Pick -> TimePickerMode.Input
+            TimePickerMode.Input -> TimePickerMode.Pick
+        }
+    }
+
+    if (shouldShowTimePicker) {
+        TimePickerSwitchable(
+            timePickerState = timePickerState,
+            timePickerMode = timePickerMode,
+            changeTimePickerState = changeTimePickerState,
+            onConfirm = { hour, minute ->
+                createReminder(
+                    detailCoinVo.name,
+                    detailCoinVo.price,
+                    detailCoinVo.imageUrl,
+                    hour,
+                    minute
+                )
+                dismissTimePicker()
+            },
+            onDecline = { dismissTimePicker() }
+        )
     }
 
     ConstraintLayout(
@@ -135,14 +174,7 @@ internal fun DetailScreen(
             Spacer(modifier = Modifier.size(spacing.spaceExtraSmall))
             ActionImage(
                 imageResId = CryptocoinsImages.Notify,
-                onClick = {
-                    createReminder(
-                        detailCoinVo.name,
-                        detailCoinVo.price,
-                        detailCoinVo.imageUrl,
-                        1000L
-                    )
-                }
+                onClick = { showTimePicker() }
             )
         }
         Box(
@@ -268,7 +300,7 @@ private fun CoinExtraInfoText(
 }
 
 @Composable
-fun CoinExtraInfoEditText(
+private fun CoinExtraInfoEditText(
     value: String,
     onValueChange: (String) -> Unit,
     editTextFontScaling: TextUnit,
@@ -309,9 +341,11 @@ fun RunPreviewDetailScreen() {
             DetailScreen(
                 detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo(),
                 detailUiState = DetailUiState.ModeRead,
+                coinExtraInfoInput = "",
+                editCoinExtraInfoInput = {},
                 savePicture = { _, _ -> },
                 sharePicture = {},
-                createReminder = { _, _, _, _ -> },
+                createReminder = { _, _, _, _, _ -> },
                 saveCoinExtraInfo = { _, _ -> },
                 addCoinExtraInfo = {},
                 onTextSectionClick = {}

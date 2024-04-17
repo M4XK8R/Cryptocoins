@@ -7,19 +7,27 @@ import com.maxkor.feature.detail.impl.domain.interactor.impl.DetailNavigationInt
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
-interface InteractorModule {
-
-    @Binds
-    fun bindDetailNavigationInteractor(
-        impl: DetailNavigationInteractorImpl,
-    ): DetailNavigationInteractor
-
+@InstallIn(ViewModelComponent::class)
+interface DetailInteractorModule {
+    @ViewModelScoped
     @Binds
     fun bindDetailInteractor(
         impl: DetailInteractorImpl,
     ): DetailInteractor
+}
+
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+interface DetailNavigationInteractorModule {
+    @ActivityRetainedScoped
+    @Binds
+    fun bindDetailNavigationInteractor(
+        impl: DetailNavigationInteractorImpl,
+    ): DetailNavigationInteractor
 }

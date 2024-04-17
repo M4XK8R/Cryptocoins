@@ -6,7 +6,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -84,8 +83,8 @@ internal fun AppNavigation(
                 navigateToDetail = { name, price, imageUrl ->
                     navigateToDetail(name, price, imageUrl)
                 },
-                onErrorMessage = { errorMessage ->
-                    errorMessage?.let(showSnackbarMessage)
+                informUser = { message ->
+                    message?.let(showSnackbarMessage)
                 },
                 modifier = Modifier.padding(paddingValues)
             )
@@ -101,6 +100,9 @@ internal fun AppNavigation(
             detailNavigationInteractor.graph(
                 navGraphBuilder = this,
                 recreateApplication = recreateApplication,
+                informUser = { message ->
+                    showSnackbarMessage(message)
+                },
                 modifier = Modifier.padding(paddingValues)
             )
         }
