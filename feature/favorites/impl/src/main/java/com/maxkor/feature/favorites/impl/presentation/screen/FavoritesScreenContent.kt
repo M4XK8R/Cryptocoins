@@ -32,8 +32,14 @@ fun FavoritesScreenContent(
         items(favoriteCoinsVos) { favoriteCoinVo ->
             FavoriteCoinCard(
                 favoriteCoinVo = favoriteCoinVo,
-                navigateToDetail = navigateToDetail,
-                removeFromFavorites = removeFromFavorites
+                onCardClick = {
+                    navigateToDetail(
+                        favoriteCoinVo.name,
+                        favoriteCoinVo.price,
+                        favoriteCoinVo.imageUrl
+                    )
+                },
+                onFavoriteIconClick = { removeFromFavorites(favoriteCoinVo) }
             )
         }
     }

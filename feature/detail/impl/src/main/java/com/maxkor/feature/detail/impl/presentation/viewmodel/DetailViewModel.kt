@@ -5,11 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
@@ -80,4 +81,26 @@ class DetailViewModel @Inject constructor(
         key = key,
         extraInfo = extraInfo
     )
+
+    fun onPermissionGranted(
+        action: () -> Unit,
+        informUserAboutAction: (delayTime: String) -> Unit,
+        delayTime: Long = 5000L,
+    ) {
+        viewModelScope.launch {
+            informUserAboutAction(
+                millisecondsToSeconds(delayTime)
+            )
+            delay(delayTime)
+            action()
+        }
+    }
+
+    /**
+     * Private sector
+     */
+    private fun millisecondsToSeconds(milliseconds: Long): String =
+        (milliseconds / 1000).toDouble()
+            .roundToInt()
+            .toString()
 }

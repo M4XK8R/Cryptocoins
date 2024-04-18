@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="favorites_list_is_empty">Favorites list is empty</string>
+    <string name="remove_coin_confirmation">Are your sure to remove this coin from favorites?</string>
 </resources>

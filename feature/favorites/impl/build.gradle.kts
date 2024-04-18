@@ -45,8 +45,6 @@ dependencies {
     implementation(project(":feature:coins:api"))
     implementation(project(":core:ui"))
 
-    implementation(libs.coil)
-
     implementation(libs.hilt)
     ksp(libs.hilt.compiller)
     implementation(libs.hilt.navigation)

@@ -29,11 +29,17 @@ fun CoinsScreenContent(
         state = lazyListState,
         modifier = modifier
     ) {
-        items(coinVos) { cryptocoinVo ->
+        items(coinVos) { coinVo ->
             CoinCard(
-                coinVo = cryptocoinVo,
-                navigateToDetail = navigateToDetail,
-                changeFavoriteState = changeFavoriteState,
+                coinVo = coinVo,
+                onCardClick = {
+                    navigateToDetail(
+                        coinVo.name,
+                        coinVo.price,
+                        coinVo.imageUrl
+                    )
+                },
+                onFavoriteIconClick = { changeFavoriteState(coinVo) },
             )
         }
     }

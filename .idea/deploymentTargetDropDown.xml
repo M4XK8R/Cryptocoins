@@ -2,17 +2,72 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="TimeInputSample">
+      <entry key="RunPreviewCoinCard (1)">
         <State />
+      </entry>
+      <entry key="RunPreviewCryptocoinCard">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_30_11_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T10:02:22.824711700Z" />
+        </State>
+      </entry>
+      <entry key="RunPreviewDetailScreen">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_30_11_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T09:55:35.159021800Z" />
+        </State>
+      </entry>
+      <entry key="RunPreviewFavoriteCoinCard">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_29_10_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T10:12:24.919810300Z" />
+        </State>
       </entry>
       <entry key="TimePickerDialogPreview">
-        <State />
-      </entry>
-      <entry key="TimePickerSwitchablePreview">
-        <State />
-      </entry>
-      <entry key="TimePickerSwitchableSample2">
-        <State />
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_29_10_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T11:24:52.361564800Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>
@@ -27,7 +82,7 @@
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-17T12:24:42.840178300Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T10:12:28.431795900Z" />
         </State>
       </entry>
     </value>

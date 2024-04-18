@@ -40,9 +40,12 @@ android {
 
 dependencies {
     api(project(":core:theme"))
+    implementation(project(":core:base"))
 
+    implementation(libs.coil)
+    implementation(libs.coil.svg)
+
+    implementation(libs.compose.constraint)
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
+    implementation(libs.bundles.compose)
 }

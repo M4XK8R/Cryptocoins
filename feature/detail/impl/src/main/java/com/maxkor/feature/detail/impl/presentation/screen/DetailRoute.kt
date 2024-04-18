@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.maxkor.core.base.R
+import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 
@@ -34,11 +34,21 @@ fun DetailRoute(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (isGranted) {
-                recreateApplication()
+                viewModel.onPermissionGranted(
+                    action = recreateApplication,
+                    informUserAboutAction = { delayTime ->
+                        informUser(
+                            context.getString(
+                                R.string.app_will_be_restarted,
+                                delayTime
+                            )
+                        )
+                    }
+                )
             } else {
                 informUser(
                     context.getString(
-                        R.string.no_permission_warning
+                        com.maxkor.core.base.R.string.no_permission_warning
                     )
                 )
             }

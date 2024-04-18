@@ -12,4 +12,5 @@
     <string name="enter_time">Enter Time</string>
     <string name="switch_to_text_input">Switch to text input</string>
     <string name="switch_to_touch_input">Switch to touch input</string>
+    <string name="app_will_be_restarted">The app will be restarted in %1$s seconds</string>
 </resources>

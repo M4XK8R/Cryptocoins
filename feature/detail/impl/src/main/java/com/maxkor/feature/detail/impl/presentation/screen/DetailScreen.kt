@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -39,15 +40,16 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
-import com.maxkor.feature.detail.impl.R
 import com.maxkor.core.base.data.images.CryptocoinsImages
 import com.maxkor.core.theme.LocalFontScaling
 import com.maxkor.core.theme.LocalSpacing
-import com.maxkor.core.ui.components.ButtonText
-import com.maxkor.core.ui.components.TitleText
+import com.maxkor.core.ui.components.view.ButtonText
+import com.maxkor.core.ui.components.view.TitleText
 import com.maxkor.core.ui.icons.CryptocoinsIcons
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
+import com.maxkor.core.ui.util.CoilImageLoader
+import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.presentation.components.timepicker.TimePickerMode
 import com.maxkor.feature.detail.impl.presentation.components.timepicker.TimePickerSwitchable
@@ -77,6 +79,7 @@ internal fun DetailScreen(
     onTextSectionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     val spacing = LocalSpacing.current
     val fontScaling = LocalFontScaling.current
 
@@ -131,7 +134,10 @@ internal fun DetailScreen(
         ) = createRefs()
 
         AsyncImage(
-            model = detailCoinVo.imageUrl,
+            model = CoilImageLoader.loadSvgImage(
+                context = context,
+                modelUrl = detailCoinVo.imageUrl
+            ),
             contentDescription = stringResource(
                 com.maxkor.core.base.R.string.cryptocoin_picture
             ),

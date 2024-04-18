@@ -18,7 +18,7 @@ data class Coin(
             id: Int = 0,
             name: String = "Name $id",
             price: String = "${((Random.nextDouble() * 10000).roundToInt()) / 100.0}$",
-            imageUrl: String = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png",
+            imageUrl: String = "https://cryptologos.cc/logos/bitcoin-btc-logo.svg",
             isFavorite: Boolean = Random.nextBoolean(),
         ) = Coin(
             id = id,

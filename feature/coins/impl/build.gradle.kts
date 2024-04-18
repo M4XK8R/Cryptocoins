@@ -50,8 +50,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor)
 
-    implementation(libs.coil)
-
     implementation(libs.room)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)

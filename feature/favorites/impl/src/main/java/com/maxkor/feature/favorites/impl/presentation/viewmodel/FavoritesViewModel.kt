@@ -2,7 +2,7 @@ package com.maxkor.feature.favorites.impl.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.maxkor.core.base.utils.createDebugLog
+import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.api.domain.model.FavoriteCoin
 import com.maxkor.feature.favorites.impl.presentation.mapper.toFavoriteCoinVo

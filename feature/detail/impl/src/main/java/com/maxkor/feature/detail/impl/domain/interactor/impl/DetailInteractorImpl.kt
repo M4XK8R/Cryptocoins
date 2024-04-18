@@ -7,9 +7,9 @@ import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
 import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository
-import com.maxkor.feature.detail.impl.domain.utils.getCalendar
-import com.maxkor.feature.detail.impl.domain.utils.getCalendarTime
-import com.maxkor.feature.detail.impl.domain.utils.setUpCalendar
+import com.maxkor.feature.detail.impl.domain.util.getCalendar
+import com.maxkor.feature.detail.impl.domain.util.getCalendarTime
+import com.maxkor.feature.detail.impl.domain.util.setUpCalendar
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
