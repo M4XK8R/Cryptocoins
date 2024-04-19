@@ -136,30 +136,26 @@ fun CryptocoinCard(
 private fun CoinInfoText(
     text: String,
     fontScaling: TextUnit,
-) {
-    Text(
-        text = text,
-        fontSize = fontScaling,
-        color = MaterialTheme.colorScheme.onSurface,
-        style = MaterialTheme.typography.headlineLarge,
-        fontFamily = FontFamily.Serif,
-        fontWeight = FontWeight.Bold,
-    )
-}
+) = Text(
+    text = text,
+    fontSize = fontScaling,
+    color = MaterialTheme.colorScheme.onSurface,
+    style = MaterialTheme.typography.headlineLarge,
+    fontFamily = FontFamily.Serif,
+    fontWeight = FontWeight.Bold,
+)
 
 /**
  * Preview
  */
 @Composable
 @RawPreview
-fun RunPreviewCryptocoinCard() {
-    PreviewProvider(
-        content = {
-            CryptocoinCard(
-                cryptocoinVo = Cryptocoin.testExemplar.toCryptocoinVo(),
-                onCardClick = { },
-                onFavoriteIconClick = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewCryptocoinCard() = PreviewProvider(
+    content = {
+        CryptocoinCard(
+            cryptocoinVo = Cryptocoin.testExemplar.toCryptocoinVo(),
+            onCardClick = { },
+            onFavoriteIconClick = {}
+        )
+    }
+).DeviceRunnable()

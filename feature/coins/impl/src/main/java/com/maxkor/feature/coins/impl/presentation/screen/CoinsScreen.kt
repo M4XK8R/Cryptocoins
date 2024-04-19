@@ -5,11 +5,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.maxkor.core.base.R
 import com.maxkor.core.ui.components.composables.DataIsAbsent
 import com.maxkor.core.ui.components.composables.Loading
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
-import com.maxkor.core.base.R
 import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 
 @Composable
@@ -23,20 +23,18 @@ fun CoinsScreen(
     ) -> Unit,
     changeFavoriteState: (CoinVo) -> Unit,
     modifier: Modifier = Modifier,
-) {
-    when (coinsUiState) {
-        is CoinsUiState.Loading -> Loading()
-        is CoinsUiState.NoDataAvailable -> DataIsAbsent(
-            text = stringResource(id = R.string.no_valid_data)
-        )
-        is CoinsUiState.Success -> CoinsScreenContent(
-            coinVos = coinsUiState.coins,
-            lazyListState = lazyListState,
-            navigateToDetail = navigateToDetail,
-            changeFavoriteState = changeFavoriteState,
-            modifier = modifier
-        )
-    }
+) = when (coinsUiState) {
+    is CoinsUiState.Loading -> Loading()
+    is CoinsUiState.NoDataAvailable -> DataIsAbsent(
+        text = stringResource(id = R.string.no_valid_data)
+    )
+    is CoinsUiState.Success -> CoinsScreenContent(
+        coinVos = coinsUiState.coins,
+        lazyListState = lazyListState,
+        navigateToDetail = navigateToDetail,
+        changeFavoriteState = changeFavoriteState,
+        modifier = modifier
+    )
 }
 
 /**
@@ -44,16 +42,14 @@ fun CoinsScreen(
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinsScreen() {
-    PreviewProvider(
-        content = {
-            CoinsScreen(
-                coinsUiState = CoinsUiState.Loading,
-                lazyListState = rememberLazyListState(),
-                navigateToDetail = { _, _, _ -> },
-                changeFavoriteState = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewCoinsScreen() = PreviewProvider(
+    content = {
+        CoinsScreen(
+            coinsUiState = CoinsUiState.Loading,
+            lazyListState = rememberLazyListState(),
+            navigateToDetail = { _, _, _ -> },
+            changeFavoriteState = {}
+        )
+    }
+).DeviceRunnable()
 

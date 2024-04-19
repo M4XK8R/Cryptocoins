@@ -13,14 +13,11 @@ import com.maxkor.core.ui.components.view.TitleText
 fun DataIsAbsent(
     text: String,
     modifier: Modifier = Modifier,
+) = Box(
+    modifier = Modifier
+        .fillMaxSize()
+        .background(MaterialTheme.colorScheme.background)
+        .then(modifier), contentAlignment = Alignment.Center
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .then(modifier),
-        contentAlignment = Alignment.Center
-    ) {
-        TitleText(text = text)
-    }
+    TitleText(text = text)
 }

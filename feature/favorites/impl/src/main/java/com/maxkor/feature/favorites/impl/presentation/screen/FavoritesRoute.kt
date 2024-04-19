@@ -34,4 +34,3 @@ fun FavoritesRoute(
         modifier = modifier
     )
 }
-

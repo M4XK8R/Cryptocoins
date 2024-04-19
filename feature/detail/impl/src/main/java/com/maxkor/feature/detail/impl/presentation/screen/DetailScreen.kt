@@ -60,7 +60,7 @@ private const val MAIN_IMAGE_SIZE = 180
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun DetailScreen(
+fun DetailScreen(
     detailCoinVo: DetailCoinVo,
     detailUiState: DetailUiState,
     coinExtraInfoInput: String,
@@ -94,7 +94,7 @@ internal fun DetailScreen(
     var timePickerMode: TimePickerMode by remember {
         mutableStateOf(TimePickerMode.Pick)
     }
-    val changeTimePickerState: () -> Unit = {
+    val swapTimePickerMode: () -> Unit = {
         timePickerMode = when (timePickerMode) {
             TimePickerMode.Pick -> TimePickerMode.Input
             TimePickerMode.Input -> TimePickerMode.Pick
@@ -105,7 +105,7 @@ internal fun DetailScreen(
         TimePickerSwitchable(
             timePickerState = timePickerState,
             timePickerMode = timePickerMode,
-            changeTimePickerState = changeTimePickerState,
+            onToggleClick = swapTimePickerMode,
             onConfirm = { hour, minute ->
                 createReminder(
                     detailCoinVo.name,
@@ -262,58 +262,51 @@ internal fun DetailScreen(
 }
 
 /**
- * Private functions
+ * Private sector
  */
-
 @Composable
 private fun ActionImage(
     imageResId: Int,
     onClick: () -> Unit,
-) {
-    Image(
-        painter = painterResource(id = imageResId),
-        contentDescription = stringResource(R.string.action_image),
-        modifier = Modifier.clickable { onClick() }
-    )
-}
+) = Image(
+    painter = painterResource(id = imageResId),
+    contentDescription = stringResource(R.string.action_image),
+    modifier = Modifier.clickable { onClick() }
+)
 
 @Composable
 private fun CoinNameText(
     text: String,
     fontScaling: TextUnit,
-) {
-    Text(
-        text = text,
-        color = MaterialTheme.colorScheme.onBackground,
-        fontSize = fontScaling,
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold,
-        fontFamily = FontFamily.Serif,
-    )
-}
+) = Text(
+    text = text,
+    color = MaterialTheme.colorScheme.onBackground,
+    fontSize = fontScaling,
+    style = MaterialTheme.typography.titleLarge,
+    fontWeight = FontWeight.Bold,
+    fontFamily = FontFamily.Serif,
+)
 
 @Composable
 private fun CoinExtraInfoText(
     text: String,
     fontScaling: TextUnit,
     modifier: Modifier = Modifier,
-) {
-    Text(
-        text = text.ifEmpty {
-            stringResource(R.string.coin_extra_info_hint)
-        },
-        color = MaterialTheme.colorScheme.onBackground,
-        fontSize = fontScaling,
-        style = MaterialTheme.typography.bodyMedium,
-        fontWeight = FontWeight.Medium,
-        fontFamily = FontFamily.Default,
-        textAlign = TextAlign.Justify,
-        maxLines = 14,
-        softWrap = true,
-        overflow = TextOverflow.Ellipsis,
-        modifier = modifier
-    )
-}
+) = Text(
+    text = text.ifEmpty {
+        stringResource(R.string.coin_extra_info_hint)
+    },
+    color = MaterialTheme.colorScheme.onBackground,
+    fontSize = fontScaling,
+    style = MaterialTheme.typography.bodyMedium,
+    fontWeight = FontWeight.Medium,
+    fontFamily = FontFamily.Default,
+    textAlign = TextAlign.Justify,
+    maxLines = 14,
+    softWrap = true,
+    overflow = TextOverflow.Ellipsis,
+    modifier = modifier
+)
 
 @Composable
 private fun CoinExtraInfoEditText(
@@ -322,50 +315,46 @@ private fun CoinExtraInfoEditText(
     editTextFontScaling: TextUnit,
     hintFontScaling: TextUnit,
     modifier: Modifier = Modifier,
-) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier,
-        textStyle = LocalTextStyle.current.copy(
-            fontSize = editTextFontScaling
-        ),
-        placeholder = {
-            Text(
-                text = stringResource(R.string.coin_extra_info_et_hint),
-                fontSize = hintFontScaling,
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.displaySmall,
-                fontFamily = FontFamily.Monospace
-            )
-        },
-        maxLines = 14,
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+) = TextField(
+    value = value,
+    onValueChange = onValueChange,
+    modifier = modifier,
+    textStyle = LocalTextStyle.current.copy(
+        fontSize = editTextFontScaling
+    ),
+    placeholder = {
+        Text(
+            text = stringResource(R.string.coin_extra_info_et_hint),
+            fontSize = hintFontScaling,
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.displaySmall,
+            fontFamily = FontFamily.Monospace
         )
+    },
+    maxLines = 14,
+    colors = TextFieldDefaults.colors(
+        focusedTextColor = MaterialTheme.colorScheme.onBackground,
     )
-}
+)
 
 /**
  * Preview
  */
 @Composable
 @RawPreview
-fun RunPreviewDetailScreen() {
-    PreviewProvider(
-        content = {
-            DetailScreen(
-                detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo(),
-                detailUiState = DetailUiState.ModeRead,
-                coinExtraInfoInput = "",
-                editCoinExtraInfoInput = {},
-                savePicture = { _, _ -> },
-                sharePicture = {},
-                createReminder = { _, _, _, _, _ -> },
-                saveCoinExtraInfo = { _, _ -> },
-                addCoinExtraInfo = {},
-                onTextSectionClick = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewDetailScreen() = PreviewProvider(
+    content = {
+        DetailScreen(
+            detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo(),
+            detailUiState = DetailUiState.ModeRead,
+            coinExtraInfoInput = "",
+            editCoinExtraInfoInput = {},
+            savePicture = { _, _ -> },
+            sharePicture = {},
+            createReminder = { _, _, _, _, _ -> },
+            saveCoinExtraInfo = { _, _ -> },
+            addCoinExtraInfo = {},
+            onTextSectionClick = {}
+        )
+    }
+).DeviceRunnable()

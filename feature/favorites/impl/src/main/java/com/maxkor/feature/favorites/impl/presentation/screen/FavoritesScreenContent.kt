@@ -24,24 +24,22 @@ fun FavoritesScreenContent(
     ) -> Unit,
     removeFromFavorites: (FavoriteCoinVo) -> Unit,
     modifier: Modifier = Modifier,
+) = LazyColumn(
+    state = lazyListState,
+    modifier = modifier
 ) {
-    LazyColumn(
-        state = lazyListState,
-        modifier = modifier
-    ) {
-        items(favoriteCoinsVos) { favoriteCoinVo ->
-            FavoriteCoinCard(
-                favoriteCoinVo = favoriteCoinVo,
-                onCardClick = {
-                    navigateToDetail(
-                        favoriteCoinVo.name,
-                        favoriteCoinVo.price,
-                        favoriteCoinVo.imageUrl
-                    )
-                },
-                onFavoriteIconClick = { removeFromFavorites(favoriteCoinVo) }
-            )
-        }
+    items(favoriteCoinsVos) { favoriteCoinVo ->
+        FavoriteCoinCard(
+            favoriteCoinVo = favoriteCoinVo,
+            onCardClick = {
+                navigateToDetail(
+                    favoriteCoinVo.name,
+                    favoriteCoinVo.price,
+                    favoriteCoinVo.imageUrl
+                )
+            },
+            onFavoriteIconClick = { removeFromFavorites(favoriteCoinVo) }
+        )
     }
 }
 
@@ -50,15 +48,13 @@ fun FavoritesScreenContent(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoritesScreenContent() {
-    PreviewProvider(
-        content = {
-            FavoritesScreenContent(
-                favoriteCoinsVos = FavoriteCoin.testExemplars.map { it.toFavoriteCoinVo() },
-                lazyListState = rememberLazyListState(),
-                navigateToDetail = { _, _, _ -> },
-                removeFromFavorites = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewFavoritesScreenContent() = PreviewProvider(
+    content = {
+        FavoritesScreenContent(
+            favoriteCoinsVos = FavoriteCoin.testExemplars.map { it.toFavoriteCoinVo() },
+            lazyListState = rememberLazyListState(),
+            navigateToDetail = { _, _, _ -> },
+            removeFromFavorites = {}
+        )
+    }
+).DeviceRunnable()

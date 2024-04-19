@@ -13,7 +13,7 @@ class PreviewProvider(
     private val content: @Composable () -> Unit,
 ) {
     @Composable
-    fun DeviceRunnable() {
+    fun DeviceRunnable() =
         CryptocoinsTheme {
             Box(
                 modifier = Modifier
@@ -23,15 +23,12 @@ class PreviewProvider(
                 content()
             }
         }
-    }
 
     @Composable
-    fun DefaultMode() {
+    fun DefaultMode() =
         CryptocoinsTheme {
             Surface() {
                 content()
             }
         }
-    }
-
 }

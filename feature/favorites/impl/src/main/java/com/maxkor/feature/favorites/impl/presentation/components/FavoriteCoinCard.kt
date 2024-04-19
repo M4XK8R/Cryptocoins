@@ -56,14 +56,12 @@ fun FavoriteCoinCard(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoriteCoinCard() {
-    PreviewProvider(
-        content = {
-            FavoriteCoinCard(
-                favoriteCoinVo = FavoriteCoin.testExemplar.toFavoriteCoinVo(),
-                onCardClick = {},
-                onFavoriteIconClick = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewFavoriteCoinCard() = PreviewProvider(
+    content = {
+        FavoriteCoinCard(
+            favoriteCoinVo = FavoriteCoin.testExemplar.toFavoriteCoinVo(),
+            onCardClick = {},
+            onFavoriteIconClick = {}
+        )
+    }
+).DeviceRunnable()

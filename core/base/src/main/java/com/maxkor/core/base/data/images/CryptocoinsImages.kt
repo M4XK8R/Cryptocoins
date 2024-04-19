@@ -16,4 +16,10 @@ object CryptocoinsImages {
 
     @DrawableRes
     val Notify = R.drawable.baseline_notification_add_32
+
+    @DrawableRes
+    val Collapse = R.drawable.baseline_zoom_in_map_24
+
+    @DrawableRes
+    val Expand = R.drawable.baseline_zoom_out_map_24
 }

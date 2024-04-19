@@ -24,24 +24,22 @@ fun CoinsScreenContent(
     ) -> Unit,
     changeFavoriteState: (CoinVo) -> Unit,
     modifier: Modifier = Modifier,
+) = LazyColumn(
+    state = lazyListState,
+    modifier = modifier
 ) {
-    LazyColumn(
-        state = lazyListState,
-        modifier = modifier
-    ) {
-        items(coinVos) { coinVo ->
-            CoinCard(
-                coinVo = coinVo,
-                onCardClick = {
-                    navigateToDetail(
-                        coinVo.name,
-                        coinVo.price,
-                        coinVo.imageUrl
-                    )
-                },
-                onFavoriteIconClick = { changeFavoriteState(coinVo) },
-            )
-        }
+    items(coinVos) { coinVo ->
+        CoinCard(
+            coinVo = coinVo,
+            onCardClick = {
+                navigateToDetail(
+                    coinVo.name,
+                    coinVo.price,
+                    coinVo.imageUrl
+                )
+            },
+            onFavoriteIconClick = { changeFavoriteState(coinVo) },
+        )
     }
 }
 
@@ -50,15 +48,13 @@ fun CoinsScreenContent(
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinsScreenContent() {
-    PreviewProvider(
-        content = {
-            CoinsScreenContent(
-                coinVos = Coin.testExemplars.map { it.toCoinVo() },
-                lazyListState = rememberLazyListState(),
-                navigateToDetail = { _, _, _ -> },
-                changeFavoriteState = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewCoinsScreenContent() = PreviewProvider(
+    content = {
+        CoinsScreenContent(
+            coinVos = Coin.testExemplars.map { it.toCoinVo() },
+            lazyListState = rememberLazyListState(),
+            navigateToDetail = { _, _, _ -> },
+            changeFavoriteState = {}
+        )
+    }
+).DeviceRunnable()

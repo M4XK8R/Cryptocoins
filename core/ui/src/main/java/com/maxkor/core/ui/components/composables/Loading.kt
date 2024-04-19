@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Loading(modifier: Modifier = Modifier) {
+fun Loading(modifier: Modifier = Modifier) =
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -20,4 +20,4 @@ fun Loading(modifier: Modifier = Modifier) {
     ) {
         CircularProgressIndicator()
     }
-}
+

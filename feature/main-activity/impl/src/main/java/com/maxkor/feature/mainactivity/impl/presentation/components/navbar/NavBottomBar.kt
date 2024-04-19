@@ -1,5 +1,6 @@
 package com.maxkor.feature.mainactivity.impl.presentation.components.navbar
 
+import android.content.ContentProvider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -8,8 +9,10 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
+import com.maxkor.core.ui.preview.PreviewProvider
 
 @Composable
 fun NavBottomBar(
@@ -57,6 +60,20 @@ fun NavBottomBar(
         }
     }
 }
+
+/**
+ * Preview
+ */
+@Composable
+@Preview
+fun RunPreviewNavBottomBar() = PreviewProvider(
+    content = {
+        NavBottomBar(
+            currentRoute = null,
+            navigateToScreen = {}
+        )
+    }
+).DeviceRunnable()
 
 
 

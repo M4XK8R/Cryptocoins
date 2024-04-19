@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.maxkor.core.base.R
 import com.maxkor.core.theme.LocalSpacing
+import com.maxkor.core.ui.components.view.ButtonText
+import com.maxkor.core.ui.components.view.TitleText
 import com.maxkor.core.ui.preview.PreviewProvider
 
 @Composable
@@ -54,12 +56,9 @@ fun ConfirmationDialog(
                 modifier = Modifier.padding(spacing.spaceExtraLarge),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = spacing.spaceLarge),
-                    text = title,
-                    style = MaterialTheme.typography.labelMedium
+                TitleText(text = title)
+                Spacer(
+                    modifier = Modifier.height(spacing.spaceMedium)
                 )
                 content()
                 Row(
@@ -68,15 +67,17 @@ fun ConfirmationDialog(
                         .fillMaxWidth()
                 ) {
                     toggle()
-                    Spacer(modifier = Modifier.weight(1f))
+                    Spacer(
+                        modifier = Modifier.weight(1f)
+                    )
                     TextButton(onClick = onCancel) {
-                        Text(
-                            stringResource(com.maxkor.core.base.R.string.cancel)
+                        ButtonText(
+                            text = stringResource(R.string.cancel)
                         )
                     }
                     TextButton(onClick = onConfirm) {
-                        Text(
-                            stringResource(com.maxkor.core.base.R.string.ok)
+                        ButtonText(
+                            text = stringResource(R.string.ok)
                         )
                     }
                 }
@@ -90,16 +91,14 @@ fun ConfirmationDialog(
  */
 @Composable
 @Preview
-fun TimePickerDialogPreview() {
-    PreviewProvider(
-        content = {
-            ConfirmationDialog(
-                title = "Confirmation Dialog",
-                onCancel = { },
-                onConfirm = { },
-                toggle = { },
-                content = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun TimePickerDialogPreview() = PreviewProvider(
+    content = {
+        ConfirmationDialog(
+            title = "Title",
+            onCancel = {},
+            onConfirm = {},
+            toggle = {},
+            content = {}
+        )
+    }
+).DeviceRunnable()

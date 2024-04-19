@@ -16,28 +16,24 @@ fun CoinCard(
     onCardClick: () -> Unit,
     onFavoriteIconClick: () -> Unit,
     modifier: Modifier = Modifier,
-) {
-    CryptocoinCard(
-        cryptocoinVo = coinVo.toCryptocoinVo(),
-        onCardClick = onCardClick,
-        onFavoriteIconClick = onFavoriteIconClick,
-        modifier = modifier
-    )
-}
+) = CryptocoinCard(
+    cryptocoinVo = coinVo.toCryptocoinVo(),
+    onCardClick = onCardClick,
+    onFavoriteIconClick = onFavoriteIconClick,
+    modifier = modifier
+)
 
 /**
  * Preview
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinCard() {
-    PreviewProvider(
-        content = {
-            CoinCard(
-                coinVo = Coin.testExemplar.toCoinVo(),
-                onCardClick = { },
-                onFavoriteIconClick = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewCoinCard() = PreviewProvider(
+    content = {
+        CoinCard(
+            coinVo = Coin.testExemplar.toCoinVo(),
+            onCardClick = { },
+            onFavoriteIconClick = {}
+        )
+    }
+).DeviceRunnable()

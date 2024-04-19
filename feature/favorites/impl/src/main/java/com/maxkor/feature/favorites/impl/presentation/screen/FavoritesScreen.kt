@@ -23,20 +23,18 @@ internal fun FavoritesScreen(
     ) -> Unit,
     removeFromFavorites: (FavoriteCoinVo) -> Unit,
     modifier: Modifier = Modifier,
-) {
-    when (favoritesUiState) {
-        is FavoritesUiState.Loading -> Loading()
-        is FavoritesUiState.NoDataAvailable -> DataIsAbsent(
-            text = stringResource(R.string.favorites_list_is_empty)
-        )
-        is FavoritesUiState.Success -> FavoritesScreenContent(
-            favoriteCoinsVos = favoritesUiState.coins,
-            lazyListState = lazyListState,
-            navigateToDetail = navigateToDetail,
-            removeFromFavorites = removeFromFavorites,
-            modifier = modifier
-        )
-    }
+) = when (favoritesUiState) {
+    is FavoritesUiState.Loading -> Loading()
+    is FavoritesUiState.NoDataAvailable -> DataIsAbsent(
+        text = stringResource(R.string.favorites_list_is_empty)
+    )
+    is FavoritesUiState.Success -> FavoritesScreenContent(
+        favoriteCoinsVos = favoritesUiState.coins,
+        lazyListState = lazyListState,
+        navigateToDetail = navigateToDetail,
+        removeFromFavorites = removeFromFavorites,
+        modifier = modifier
+    )
 }
 
 /**
@@ -44,15 +42,13 @@ internal fun FavoritesScreen(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoritesScreen() {
-    PreviewProvider(
-        content = {
-            FavoritesScreen(
-                favoritesUiState = FavoritesUiState.NoDataAvailable,
-                lazyListState = rememberLazyListState(),
-                navigateToDetail = { _, _, _ -> },
-                removeFromFavorites = {}
-            )
-        }
-    ).DeviceRunnable()
-}
+fun RunPreviewFavoritesScreen() = PreviewProvider(
+    content = {
+        FavoritesScreen(
+            favoritesUiState = FavoritesUiState.NoDataAvailable,
+            lazyListState = rememberLazyListState(),
+            navigateToDetail = { _, _, _ -> },
+            removeFromFavorites = {}
+        )
+    }
+).DeviceRunnable()

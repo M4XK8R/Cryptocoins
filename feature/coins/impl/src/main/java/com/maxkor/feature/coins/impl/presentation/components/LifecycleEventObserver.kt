@@ -10,15 +10,12 @@ import androidx.lifecycle.LifecycleOwner
 fun LifecycleEventObserver(
     lifecycleOwner: LifecycleOwner,
     onEvent: (LifecycleOwner, Lifecycle.Event) -> Unit,
-) {
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { source, event ->
-            onEvent(source, event)
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
+) = DisposableEffect(lifecycleOwner) {
+    val observer = LifecycleEventObserver { source, event ->
+        onEvent(source, event)
+    }
+    lifecycleOwner.lifecycle.addObserver(observer)
+    onDispose {
+        lifecycleOwner.lifecycle.removeObserver(observer)
     }
 }
