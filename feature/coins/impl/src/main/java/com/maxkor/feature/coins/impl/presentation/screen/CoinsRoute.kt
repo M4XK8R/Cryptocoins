@@ -75,6 +75,9 @@ fun CoinsRoute(
         lazyListState = lazyListState,
         navigateToDetail = navigateToDetail,
         changeFavoriteState = { viewModel.changeCoinFavoriteState(it.toCoin()) },
+        searchedCoin = viewModel.searchedText,
+        search = viewModel::findCoinByName,
+        filterCoinsVos = viewModel::filterCoinsVos,
         modifier = modifier
     )
 }

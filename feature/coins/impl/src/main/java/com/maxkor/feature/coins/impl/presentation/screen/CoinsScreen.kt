@@ -22,17 +22,23 @@ fun CoinsScreen(
         imageUrl: String,
     ) -> Unit,
     changeFavoriteState: (CoinVo) -> Unit,
+    searchedCoin: String,
+    search: (String) -> Unit,
+    filterCoinsVos: (List<CoinVo>) -> List<CoinVo>,
     modifier: Modifier = Modifier,
 ) = when (coinsUiState) {
     is CoinsUiState.Loading -> Loading()
     is CoinsUiState.NoDataAvailable -> DataIsAbsent(
         text = stringResource(id = R.string.no_valid_data)
     )
+
     is CoinsUiState.Success -> CoinsScreenContent(
-        coinVos = coinsUiState.coins,
+        coinVos = filterCoinsVos(coinsUiState.coinsVos),
         lazyListState = lazyListState,
         navigateToDetail = navigateToDetail,
         changeFavoriteState = changeFavoriteState,
+        searchedCoin = searchedCoin,
+        search = search,
         modifier = modifier
     )
 }
@@ -48,7 +54,10 @@ fun RunPreviewCoinsScreen() = PreviewProvider(
             coinsUiState = CoinsUiState.Loading,
             lazyListState = rememberLazyListState(),
             navigateToDetail = { _, _, _ -> },
-            changeFavoriteState = {}
+            changeFavoriteState = {},
+            searchedCoin = "",
+            search = {},
+            filterCoinsVos = { it }
         )
     }
 ).DeviceRunnable()

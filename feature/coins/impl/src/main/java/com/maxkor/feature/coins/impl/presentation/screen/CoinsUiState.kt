@@ -5,5 +5,5 @@ import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 sealed interface CoinsUiState {
     data object Loading : CoinsUiState
     data object NoDataAvailable : CoinsUiState
-    data class Success(val coins: List<CoinVo>) : CoinsUiState
+    data class Success(val coinsVos: List<CoinVo>) : CoinsUiState
 }

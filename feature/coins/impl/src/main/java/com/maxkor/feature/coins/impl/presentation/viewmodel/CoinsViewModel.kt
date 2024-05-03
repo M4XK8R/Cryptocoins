@@ -1,5 +1,8 @@
 package com.maxkor.feature.coins.impl.presentation.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maxkor.core.base.util.createDebugLog
@@ -7,8 +10,8 @@ import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
+import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState
-import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,7 +35,7 @@ class CoinsViewModel @Inject constructor(
         .map { coins ->
             if (coins.isNotEmpty()) {
                 val coinsVos = coins.map { it.toCoinVo() }
-                Success(coins = coinsVos)
+                CoinsUiState.Success(coinsVos = coinsVos)
             } else {
                 CoinsUiState.NoDataAvailable
             }
@@ -42,6 +45,21 @@ class CoinsViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(),
             initialValue = CoinsUiState.Loading
         )
+
+    var searchedText by mutableStateOf("")
+        private set
+
+    fun findCoinByName(name: String) {
+        searchedText = name
+    }
+
+    fun filterCoinsVos(coinsVos: List<CoinVo>): List<CoinVo> =
+        coinsVos.filter { coinVo ->
+            coinVo.name.lowercase()
+                .startsWith(
+                    searchedText.lowercase()
+                )
+        }
 
     fun informIfInternetIsNotAvailable(): String? =
         interactor.informIfInternetIsNotAvailable()
