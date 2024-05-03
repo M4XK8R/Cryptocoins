@@ -1,7 +1,6 @@
 package com.maxkor.feature.detail.impl.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,28 +14,22 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val interactor: DetailInteractor,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _detailUiState = MutableStateFlow<DetailUiState>(DetailUiState.ModeRead)
     val detailUiState = _detailUiState.asStateFlow()
 
-    fun swapMode() {
-        when (detailUiState.value) {
-            DetailUiState.ModeEdit -> setModeRead()
-            DetailUiState.ModeRead -> setModeEdit()
-        }
+    fun swapMode() = when (detailUiState.value) {
+        DetailUiState.ModeEdit -> setModeRead()
+        DetailUiState.ModeRead -> setModeEdit()
     }
 
-    fun setModeEdit() {
-        viewModelScope.launch {
-            _detailUiState.emit(DetailUiState.ModeEdit)
-        }
+    fun setModeEdit() = launch {
+        _detailUiState.emit(DetailUiState.ModeEdit)
     }
 
-    fun setModeRead() {
-        viewModelScope.launch {
-            _detailUiState.emit(DetailUiState.ModeRead)
-        }
+    fun setModeRead() = launch {
+        _detailUiState.emit(DetailUiState.ModeRead)
     }
 
     fun createReminder(
@@ -86,14 +79,10 @@ class DetailViewModel @Inject constructor(
         action: () -> Unit,
         informUserAboutAction: (delayTime: String) -> Unit,
         delayTime: Long = 5000L,
-    ) {
-        viewModelScope.launch {
-            informUserAboutAction(
-                millisecondsToSeconds(delayTime)
-            )
-            delay(delayTime)
-            action()
-        }
+    ) = launch {
+        informUserAboutAction(millisecondsToSeconds(delayTime))
+        delay(delayTime)
+        action()
     }
 
     /**

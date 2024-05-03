@@ -1,7 +1,6 @@
 package com.maxkor.feature.favorites.impl.presentation.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.api.domain.model.FavoriteCoin
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val interactor: CoinsFavoritesInteractor,
-) : ViewModel() {
+) : BaseViewModel() {
 
     val favoritesUiState: StateFlow<FavoritesUiState> = interactor
         .getFavoriteCoinsFlow()
@@ -35,13 +34,12 @@ class FavoritesViewModel @Inject constructor(
             }
         }
         .stateIn(
-            scope = viewModelScope,
+            scope = this,
             started = SharingStarted.WhileSubscribed(),
             initialValue = FavoritesUiState.Loading
         )
 
-    fun removeFromFavorites(favoriteCoin: FavoriteCoin) =
-        viewModelScope.launch {
-            interactor.removeFromFavorites(favoriteCoin)
-        }
+    fun removeFromFavorites(favoriteCoin: FavoriteCoin) = launch {
+        interactor.removeFromFavorites(favoriteCoin)
+    }
 }

@@ -3,8 +3,7 @@ package com.maxkor.feature.coins.impl.presentation.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
@@ -26,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinsViewModel @Inject constructor(
     private val interactor: CoinsInteractor,
-) : ViewModel() {
+) : BaseViewModel() {
 
     val coinsUiState: StateFlow<CoinsUiState> = interactor
         .getCoinsFlow()
@@ -41,7 +40,7 @@ class CoinsViewModel @Inject constructor(
             }
         }
         .stateIn(
-            scope = viewModelScope,
+            scope = this,
             started = SharingStarted.WhileSubscribed(),
             initialValue = CoinsUiState.Loading
         )
@@ -64,10 +63,8 @@ class CoinsViewModel @Inject constructor(
     fun informIfInternetIsNotAvailable(): String? =
         interactor.informIfInternetIsNotAvailable()
 
-    fun changeCoinFavoriteState(coin: Coin) {
-        viewModelScope.launch {
-            interactor.changeCoinFavoriteState(coin)
-        }
+    fun changeCoinFavoriteState(coin: Coin) = launch {
+        interactor.changeCoinFavoriteState(coin)
     }
 
     suspend fun updateData(
