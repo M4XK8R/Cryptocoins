@@ -16,7 +16,7 @@ import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteracto
 import com.maxkor.feature.favorites.api.FavoritesFeature
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.mainactivity.impl.domain.model.ReceivedCoinData
-import com.maxkor.feature.mainactivity.impl.presentation.components.navbar.NavBottomBar
+import com.maxkor.feature.mainactivity.impl.presentation.components.NavBottomBar
 import com.maxkor.feature.mainactivity.impl.presentation.mapper.toReceivedCoinData
 import com.maxkor.feature.mainactivity.impl.presentation.model.ReceivedCoinDataVo
 import kotlinx.coroutines.delay
@@ -62,6 +62,10 @@ internal fun AppNavigation(
         bottomBar = {
             NavBottomBar(
                 currentRoute = currentRoute,
+                navigationItems = listOf(
+                    BottomNavigationItem.Home,
+                    BottomNavigationItem.Favorite
+                ),
                 navigateToScreen = { route ->
                     when (route) {
                         CoinsFeature.ROUTE_NAME -> navigateToCoins()

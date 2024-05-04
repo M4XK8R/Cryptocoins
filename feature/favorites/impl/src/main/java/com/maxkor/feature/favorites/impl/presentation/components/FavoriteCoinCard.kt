@@ -7,8 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.maxkor.core.ui.components.composables.ConfirmationDialog
-import com.maxkor.core.ui.components.composables.CryptocoinCard
+import com.maxkor.core.ui.components.ConfirmationDialog
+import com.maxkor.core.ui.components.CryptocoinCard
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.feature.coins.api.domain.model.FavoriteCoin

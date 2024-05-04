@@ -2,7 +2,7 @@ package com.maxkor.feature.coins.impl.presentation.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.maxkor.core.ui.components.composables.CryptocoinCard
+import com.maxkor.core.ui.components.CryptocoinCard
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.feature.coins.impl.domain.model.Coin

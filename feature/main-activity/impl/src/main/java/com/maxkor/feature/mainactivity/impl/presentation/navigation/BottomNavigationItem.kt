@@ -1,4 +1,4 @@
-package com.maxkor.feature.mainactivity.impl.presentation.components.navbar
+package com.maxkor.feature.mainactivity.impl.presentation.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.maxkor.core.ui.icons.CryptocoinsIcons
@@ -18,8 +18,9 @@ sealed class BottomNavigationItem(
         icon = CryptocoinsIcons.Favorite,
         screen = Screen.FAVORITES
     )
-
 }
+
+
 
 
 

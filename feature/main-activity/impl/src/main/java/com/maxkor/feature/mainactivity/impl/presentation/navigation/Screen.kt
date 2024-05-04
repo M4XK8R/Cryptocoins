@@ -1,4 +1,4 @@
-package com.maxkor.feature.mainactivity.impl.presentation.components.navbar
+package com.maxkor.feature.mainactivity.impl.presentation.navigation
 
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.detail.api.DetailFeature

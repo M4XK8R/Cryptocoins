@@ -1,4 +1,4 @@
-package com.maxkor.core.ui.components.composables
+package com.maxkor.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.maxkor.core.base.R
 import com.maxkor.core.theme.LocalSpacing
-import com.maxkor.core.ui.components.view.ButtonText
-import com.maxkor.core.ui.components.view.TitleText
 import com.maxkor.core.ui.preview.PreviewProvider
 
 @Composable

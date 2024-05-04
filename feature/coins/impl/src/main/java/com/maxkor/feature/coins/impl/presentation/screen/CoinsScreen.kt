@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.maxkor.core.base.R
-import com.maxkor.core.ui.components.composables.DataIsAbsent
-import com.maxkor.core.ui.components.composables.Loading
+import com.maxkor.core.ui.components.DataIsAbsent
+import com.maxkor.core.ui.components.Loading
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.feature.coins.impl.presentation.model.CoinVo

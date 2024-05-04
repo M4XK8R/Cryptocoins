@@ -1,4 +1,4 @@
-package com.maxkor.feature.detail.impl.presentation.components.timepicker
+package com.maxkor.feature.detail.impl.presentation.components
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.maxkor.core.base.data.images.CryptocoinsImages
-import com.maxkor.core.ui.components.composables.ConfirmationDialog
+import com.maxkor.core.ui.components.ConfirmationDialog
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.feature.detail.impl.R
 
@@ -23,7 +23,7 @@ private const val REQUIRED_HEIGHT = 400
 @Composable
 fun TimePickerSwitchable(
     timePickerState: TimePickerState,
-    timePickerMode: TimePickerMode,
+    isTimePickerExpanded: Boolean,
     onConfirm: (
         hour: Int,
         minute: Int,
@@ -34,9 +34,9 @@ fun TimePickerSwitchable(
     val configuration = LocalConfiguration.current
 
     ConfirmationDialog(
-        title = when (timePickerMode) {
-            TimePickerMode.Pick -> stringResource(R.string.select_time)
-            TimePickerMode.Input -> stringResource(R.string.enter_time)
+        title = when (isTimePickerExpanded) {
+            true -> stringResource(R.string.select_time)
+            false -> stringResource(R.string.enter_time)
         },
         onCancel = { onDecline() },
         onConfirm = {
@@ -48,13 +48,13 @@ fun TimePickerSwitchable(
         toggle = {
             if (configuration.screenHeightDp > REQUIRED_HEIGHT) {
                 ToggleButton(
-                    timePickerMode = timePickerMode,
+                    isTimePickerExpanded = isTimePickerExpanded,
                     onClick = onToggleClick
                 )
             }
         },
         content = {
-            if (timePickerMode is TimePickerMode.Pick &&
+            if (isTimePickerExpanded &&
                 configuration.screenHeightDp > REQUIRED_HEIGHT
             ) {
                 TimePicker(state = timePickerState)
@@ -69,19 +69,21 @@ fun TimePickerSwitchable(
  * Private sector
  */
 @Composable
-fun ToggleButton(
-    timePickerMode: TimePickerMode,
+private fun ToggleButton(
+    isTimePickerExpanded: Boolean,
     onClick: () -> Unit,
-) = IconButton(onClick = onClick) {
-    val switchIcon = when (timePickerMode) {
-        TimePickerMode.Pick -> CryptocoinsImages.Collapse
-        TimePickerMode.Input -> CryptocoinsImages.Expand
+) = IconButton(
+    onClick = onClick
+) {
+    val switchIcon = when (isTimePickerExpanded) {
+        true -> CryptocoinsImages.Collapse
+        false -> CryptocoinsImages.Expand
     }
     Icon(
         painter = painterResource(switchIcon),
-        contentDescription = when (timePickerMode) {
-            TimePickerMode.Pick -> stringResource(R.string.switch_to_text_input)
-            TimePickerMode.Input -> stringResource(R.string.switch_to_touch_input)
+        contentDescription = when (isTimePickerExpanded) {
+            true -> stringResource(R.string.switch_to_text_input)
+            false -> stringResource(R.string.switch_to_touch_input)
         }
     )
 }
@@ -92,16 +94,17 @@ fun ToggleButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun TimePickerSwitchablePreview() = PreviewProvider(
-    content = {
-        TimePickerSwitchable(
-            timePickerState = rememberTimePickerState(),
-            timePickerMode = TimePickerMode.Pick,
-            onToggleClick = {},
-            onConfirm = { _, _ -> },
-            onDecline = {},
-        )
-    }
-).DeviceRunnable()
+fun TimePickerSwitchablePreview() =
+    PreviewProvider(
+        content = {
+            TimePickerSwitchable(
+                timePickerState = rememberTimePickerState(),
+                isTimePickerExpanded = true,
+                onToggleClick = {},
+                onConfirm = { _, _ -> },
+                onDecline = {},
+            )
+        }
+    ).DeviceRunnable()
 
 

@@ -55,9 +55,7 @@ class CoinsViewModel @Inject constructor(
     fun filterCoinsVos(coinsVos: List<CoinVo>): List<CoinVo> =
         coinsVos.filter { coinVo ->
             coinVo.name.lowercase()
-                .startsWith(
-                    searchedText.lowercase()
-                )
+                .startsWith(searchedText.lowercase())
         }
 
     fun informIfInternetIsNotAvailable(): String? =

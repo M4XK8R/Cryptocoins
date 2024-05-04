@@ -1,6 +1,5 @@
 package com.maxkor.feature.detail.impl.presentation.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,11 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -29,13 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -43,16 +31,19 @@ import coil.compose.AsyncImage
 import com.maxkor.core.base.data.images.CryptocoinsImages
 import com.maxkor.core.theme.LocalFontScaling
 import com.maxkor.core.theme.LocalSpacing
-import com.maxkor.core.ui.components.view.ButtonText
-import com.maxkor.core.ui.components.view.TitleText
+import com.maxkor.core.ui.components.ButtonText
+import com.maxkor.core.ui.components.TitleText
 import com.maxkor.core.ui.icons.CryptocoinsIcons
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.core.ui.util.CoilImageLoader
 import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.domain.model.DetailCoin
-import com.maxkor.feature.detail.impl.presentation.components.timepicker.TimePickerMode
-import com.maxkor.feature.detail.impl.presentation.components.timepicker.TimePickerSwitchable
+import com.maxkor.feature.detail.impl.presentation.components.ActionImage
+import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoEditText
+import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoText
+import com.maxkor.feature.detail.impl.presentation.components.CoinNameText
+import com.maxkor.feature.detail.impl.presentation.components.TimePickerSwitchable
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
 
@@ -104,7 +95,10 @@ fun DetailScreen(
     if (shouldShowTimePicker) {
         TimePickerSwitchable(
             timePickerState = timePickerState,
-            timePickerMode = timePickerMode,
+            isTimePickerExpanded = when (timePickerMode) {
+                TimePickerMode.Pick -> true
+                TimePickerMode.Input -> false
+            },
             onToggleClick = swapTimePickerMode,
             onConfirm = { hour, minute ->
                 createReminder(
@@ -251,9 +245,7 @@ fun DetailScreen(
                         text = coinExtraInfoInput,
                         fontScaling = fontScaling.increasingSmall,
                         modifier = Modifier
-                            .clickable {
-                                addCoinExtraInfo()
-                            }
+                            .clickable { addCoinExtraInfo() }
                             .padding(spacing.spaceMedium)
                     )
             }
@@ -264,78 +256,10 @@ fun DetailScreen(
 /**
  * Private sector
  */
-@Composable
-private fun ActionImage(
-    imageResId: Int,
-    onClick: () -> Unit,
-) = Image(
-    painter = painterResource(id = imageResId),
-    contentDescription = stringResource(R.string.action_image),
-    modifier = Modifier.clickable { onClick() }
-)
-
-@Composable
-private fun CoinNameText(
-    text: String,
-    fontScaling: TextUnit,
-) = Text(
-    text = text,
-    color = MaterialTheme.colorScheme.onBackground,
-    fontSize = fontScaling,
-    style = MaterialTheme.typography.titleLarge,
-    fontWeight = FontWeight.Bold,
-    fontFamily = FontFamily.Serif,
-)
-
-@Composable
-private fun CoinExtraInfoText(
-    text: String,
-    fontScaling: TextUnit,
-    modifier: Modifier = Modifier,
-) = Text(
-    text = text.ifEmpty {
-        stringResource(R.string.coin_extra_info_hint)
-    },
-    color = MaterialTheme.colorScheme.onBackground,
-    fontSize = fontScaling,
-    style = MaterialTheme.typography.bodyMedium,
-    fontWeight = FontWeight.Medium,
-    fontFamily = FontFamily.Default,
-    textAlign = TextAlign.Justify,
-    maxLines = 14,
-    softWrap = true,
-    overflow = TextOverflow.Ellipsis,
-    modifier = modifier
-)
-
-@Composable
-private fun CoinExtraInfoEditText(
-    value: String,
-    onValueChange: (String) -> Unit,
-    editTextFontScaling: TextUnit,
-    hintFontScaling: TextUnit,
-    modifier: Modifier = Modifier,
-) = TextField(
-    value = value,
-    onValueChange = onValueChange,
-    modifier = modifier,
-    textStyle = LocalTextStyle.current.copy(
-        fontSize = editTextFontScaling
-    ),
-    placeholder = {
-        Text(
-            text = stringResource(R.string.coin_extra_info_et_hint),
-            fontSize = hintFontScaling,
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.displaySmall,
-            fontFamily = FontFamily.Monospace
-        )
-    },
-    maxLines = 14,
-    colors = TextFieldDefaults.colors(
-        focusedTextColor = MaterialTheme.colorScheme.onBackground,
-    )
-)
+private sealed class TimePickerMode {
+    data object Pick : TimePickerMode()
+    data object Input : TimePickerMode()
+}
 
 /**
  * Preview

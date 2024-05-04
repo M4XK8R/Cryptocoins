@@ -1,4 +1,4 @@
-package com.maxkor.core.ui.components.composables
+package com.maxkor.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
