@@ -16,31 +16,33 @@ import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 fun CoinsScreen(
     coinsUiState: CoinsUiState,
     lazyListState: LazyListState,
-    navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit,
+    navigateToDetail: (CoinVo) -> Unit,
     changeFavoriteState: (CoinVo) -> Unit,
     searchedCoin: String,
     search: (String) -> Unit,
-    filterCoinsVos: (List<CoinVo>) -> List<CoinVo>,
     modifier: Modifier = Modifier,
 ) = when (coinsUiState) {
     is CoinsUiState.Loading -> Loading()
     is CoinsUiState.NoDataAvailable -> DataIsAbsent(
         text = stringResource(id = R.string.no_valid_data)
     )
+    is CoinsUiState.Success -> {
+        val filteredCoinsVos = coinsUiState.coinsVos
+            .filter { coinVo ->
+                coinVo.name.lowercase()
+                    .startsWith(searchedCoin.lowercase())
+            }
 
-    is CoinsUiState.Success -> CoinsScreenContent(
-        coinVos = filterCoinsVos(coinsUiState.coinsVos),
-        lazyListState = lazyListState,
-        navigateToDetail = navigateToDetail,
-        changeFavoriteState = changeFavoriteState,
-        searchedCoin = searchedCoin,
-        search = search,
-        modifier = modifier
-    )
+        CoinsScreenContent(
+            coinVos = filteredCoinsVos,
+            lazyListState = lazyListState,
+            onCoinCardClick = navigateToDetail,
+            onFavoriteIconClick = changeFavoriteState,
+            searchedCoin = searchedCoin,
+            search = search,
+            modifier = modifier
+        )
+    }
 }
 
 /**
@@ -53,11 +55,10 @@ fun RunPreviewCoinsScreen() = PreviewProvider(
         CoinsScreen(
             coinsUiState = CoinsUiState.Loading,
             lazyListState = rememberLazyListState(),
-            navigateToDetail = { _, _, _ -> },
+            navigateToDetail = {},
             changeFavoriteState = {},
             searchedCoin = "",
-            search = {},
-            filterCoinsVos = { it }
+            search = {}
         )
     }
 ).DeviceRunnable()

@@ -30,12 +30,8 @@ import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 fun CoinsScreenContent(
     coinVos: List<CoinVo>,
     lazyListState: LazyListState,
-    navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit,
-    changeFavoriteState: (CoinVo) -> Unit,
+    onCoinCardClick: (CoinVo) -> Unit,
+    onFavoriteIconClick: (CoinVo) -> Unit,
     searchedCoin: String,
     search: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -66,14 +62,8 @@ fun CoinsScreenContent(
             items(coinVos) { coinVo ->
                 CoinCard(
                     coinVo = coinVo,
-                    onCardClick = {
-                        navigateToDetail(
-                            coinVo.name,
-                            coinVo.price,
-                            coinVo.imageUrl
-                        )
-                    },
-                    onFavoriteIconClick = { changeFavoriteState(coinVo) },
+                    onCardClick = { onCoinCardClick(coinVo) },
+                    onFavoriteIconClick = { onFavoriteIconClick(coinVo) },
                 )
             }
         }
@@ -90,8 +80,8 @@ fun RunPreviewCoinsScreenContent() = PreviewProvider(
         CoinsScreenContent(
             coinVos = Coin.testExemplars.map { it.toCoinVo() },
             lazyListState = rememberLazyListState(),
-            navigateToDetail = { _, _, _ -> },
-            changeFavoriteState = {},
+            onCoinCardClick = {},
+            onFavoriteIconClick = {},
             searchedCoin = "",
             search = {}
         )

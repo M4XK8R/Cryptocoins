@@ -3,21 +3,26 @@ package com.maxkor.feature.coins.impl.presentation.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
 import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
-import com.maxkor.feature.coins.impl.domain.model.Coin
+import com.maxkor.feature.coins.impl.presentation.contract.CoinsEvents
+import com.maxkor.feature.coins.impl.presentation.mapper.toCoin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
+import com.maxkor.feature.coins.impl.presentation.mapper.toCryptocoinVo
 import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,29 +50,57 @@ class CoinsViewModel @Inject constructor(
             initialValue = CoinsUiState.Loading
         )
 
+    private val _uiEvent = Channel<CryptocoinsUiEvents>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     var searchedText by mutableStateOf("")
         private set
 
-    fun findCoinByName(name: String) {
+    fun onEvent(event: CoinsEvents) {
+        when (event) {
+            is CoinsEvents.OnFavoriteIconClick -> changeCoinFavoriteState(event.coinVo)
+            is CoinsEvents.OnCoinCardClick -> sendNavigateUiEvent(event.coinVo)
+            is CoinsEvents.OnSearch -> findCoinByName(name = event.query)
+            is CoinsEvents.OnInternetConnectionAbsent -> informIfInternetIsNotAvailable()
+            is CoinsEvents.OnGetCoinsRequest -> updateData()
+        }
+    }
+
+    /**
+     * Private sector
+     */
+    private  fun findCoinByName(name: String) {
         searchedText = name
     }
 
-    fun filterCoinsVos(coinsVos: List<CoinVo>): List<CoinVo> =
-        coinsVos.filter { coinVo ->
-            coinVo.name.lowercase()
-                .startsWith(searchedText.lowercase())
-        }
-
-    fun informIfInternetIsNotAvailable(): String? =
-        interactor.informIfInternetIsNotAvailable()
-
-    fun changeCoinFavoriteState(coin: Coin) = launch {
-        interactor.changeCoinFavoriteState(coin)
+    private fun informIfInternetIsNotAvailable() {
+        val message = interactor.informIfInternetIsNotAvailable()
+        message?.let(::sendShowSnackbarUiEvent)
     }
 
-    suspend fun updateData(
-        informUserOnFailure: (String) -> Unit,
-    ) = interactor.updateData(
-        informUserOnFailure = informUserOnFailure
-    )
+    private fun updateData() = launch {
+        interactor.updateData(
+            informUserOnFailure = ::sendShowSnackbarUiEvent
+        )
+    }
+
+    private fun changeCoinFavoriteState(coinVo: CoinVo) = launch {
+        interactor.changeCoinFavoriteState(
+            coin = coinVo.toCoin()
+        )
+    }
+
+    private fun sendNavigateUiEvent(coinVo: CoinVo) = launch {
+        _uiEvent.send(
+            CryptocoinsUiEvents.Navigate(
+                cryptocoinVo = coinVo.toCryptocoinVo()
+            )
+        )
+    }
+
+    private fun sendShowSnackbarUiEvent(message: String) = launch {
+        _uiEvent.send(
+            CryptocoinsUiEvents.ShowSnackbar(message)
+        )
+    }
 }
