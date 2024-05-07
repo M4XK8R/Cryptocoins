@@ -19,17 +19,6 @@ class CoinsInteractorImpl @Inject constructor(
     private val checkerRepository: CheckerRepository,
 ) : CoinsInteractor {
 
-    override fun informIfInternetIsNotAvailable(): String? {
-        val isNetworkAvailable = checkerRepository.checkInternetConnection()
-        return if (isNetworkAvailable) {
-            null
-        } else {
-            context.getString(
-                com.maxkor.core.base.R.string.no_internet_connection_warning
-            )
-        }
-    }
-
     override fun getCoinsFlow(): Flow<List<Coin>> =
         coinsRepository.getCoinsFlow()
 
@@ -41,27 +30,34 @@ class CoinsInteractorImpl @Inject constructor(
             coinsRepository.updateCoin(updatedCoin)
         }
 
-    override suspend fun updateData(
-        informUserOnFailure: (String) -> Unit,
-    ) = withContext(dispatcherIo) {
-        val newCoins = coinsRepository.getCoinsFromServer(
-            informUserOnFailure = informUserOnFailure
-        )
-        if (newCoins.isNullOrEmpty()) {
-            return@withContext
-        }
-        val currentCoins = coinsRepository.getCoins()
-        if (currentCoins.isEmpty()) {
-            coinsRepository.updateCoins(newCoins)
-        }
-        if (currentCoins.isNotEmpty()) {
-            val parsedCoins = parseCoins(
-                updatedCoins = newCoins,
-                currentCoins = currentCoins
+    override suspend fun updateData(informUserOnFailure: (String) -> Unit): Unit =
+        if (checkerRepository.hasInternetConnection()) {
+            withContext(dispatcherIo) {
+                val newCoins = coinsRepository.getCoinsFromServer(
+                    informUserOnFailure = informUserOnFailure
+                )
+                if (newCoins.isNullOrEmpty()) {
+                    return@withContext
+                }
+                val currentCoins = coinsRepository.getCoins()
+                if (currentCoins.isEmpty()) {
+                    coinsRepository.updateCoins(newCoins)
+                }
+                if (currentCoins.isNotEmpty()) {
+                    val parsedCoins = parseCoins(
+                        updatedCoins = newCoins,
+                        currentCoins = currentCoins
+                    )
+                    coinsRepository.updateCoins(parsedCoins)
+                }
+            }
+        } else {
+            informUserOnFailure(
+                context.getString(
+                    com.maxkor.core.base.R.string.no_internet_connection_warning
+                )
             )
-            coinsRepository.updateCoins(parsedCoins)
         }
-    }
 
     /**
      * Private sector

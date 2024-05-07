@@ -13,25 +13,19 @@ class PermissionsCheckerServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : PermissionsCheckerService {
 
-    override val isWriteStorageGranted: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ||
-                checkIfPermissionIsGranted(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
+    override fun isWriteStorageGranted(): Boolean =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R ||
+                isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    override val isPostNotificationsGranted: Boolean
-        get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-                checkIfPermissionIsGranted(
-                    Manifest.permission.POST_NOTIFICATIONS
-                )
+    override fun isPostNotificationsGranted(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                isPermissionGranted(Manifest.permission.POST_NOTIFICATIONS)
 
     /**
      * Private sector
      */
-    private fun checkIfPermissionIsGranted(permission: String): Boolean =
-        ContextCompat.checkSelfPermission(
-            context,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+    private fun isPermissionGranted(permission: String): Boolean =
+        ContextCompat.checkSelfPermission(context, permission) ==
+                PackageManager.PERMISSION_GRANTED
 }
 

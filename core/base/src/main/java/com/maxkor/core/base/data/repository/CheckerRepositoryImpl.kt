@@ -9,19 +9,13 @@ class CheckerRepositoryImpl @Inject constructor(
     private val permissionsCheckerService: PermissionsCheckerService,
     private val internetCheckerService: InternetCheckerService,
 ) : CheckerRepository {
-    override fun checkNotificationPermission(): PermissionsCheckerService.PermissionStatus =
-        when (permissionsCheckerService.isPostNotificationsGranted) {
-            true -> PermissionsCheckerService.PermissionStatus.IsGranted
-            false -> PermissionsCheckerService.PermissionStatus.IsNotGranted
-        }
+    override fun hasNotificationPermission(): Boolean =
+     permissionsCheckerService.isPostNotificationsGranted()
 
-    override fun checkStoragePermission(): PermissionsCheckerService.PermissionStatus =
-        when (permissionsCheckerService.isWriteStorageGranted) {
-            true -> PermissionsCheckerService.PermissionStatus.IsGranted
-            false -> PermissionsCheckerService.PermissionStatus.IsNotGranted
-        }
+    override fun hasStoragePermission(): Boolean =
+       permissionsCheckerService.isWriteStorageGranted()
 
-    override fun checkInternetConnection(): Boolean =
-        internetCheckerService.isWifiAvailable ||
-                internetCheckerService.isMobileInternetAvailable
+    override fun hasInternetConnection(): Boolean =
+        internetCheckerService.isWifiAvailable() ||
+                internetCheckerService.isMobileInternetAvailable()
 }

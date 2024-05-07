@@ -27,11 +27,11 @@ class DetailInteractorImpl @Inject constructor(
         noPostNotificationPermissionCase: () -> Unit,
         noWriteStoragePermissionCase: () -> Unit,
         onDownloadState: (message: String) -> Unit,
-    ) = CheckerRepository.onPermissionStateAction(
-        condition = checkerRepository.checkStoragePermission(),
+    ) = CheckerRepository.onPermissionState(
+        hasPermission = checkerRepository.hasStoragePermission(),
         hasPermissionCase = {
-            CheckerRepository.onPermissionStateAction(
-                condition = checkerRepository.checkNotificationPermission(),
+            CheckerRepository.onPermissionState(
+                hasPermission = checkerRepository.hasNotificationPermission(),
                 hasPermissionCase = {
                     imageRepository.savePicture(
                         url = url,
@@ -56,8 +56,8 @@ class DetailInteractorImpl @Inject constructor(
         minute: Int,
         noPostNotificationPermissionCase: () -> Unit,
         onIncorrectTimeInput: (String) -> Unit,
-    ) = CheckerRepository.onPermissionStateAction(
-        condition = checkerRepository.checkNotificationPermission(),
+    ) = CheckerRepository.onPermissionState(
+        hasPermission = checkerRepository.hasNotificationPermission(),
         hasPermissionCase = {
             val calendar = getCalendar()
             val currentTime = calendar.getCalendarTime()

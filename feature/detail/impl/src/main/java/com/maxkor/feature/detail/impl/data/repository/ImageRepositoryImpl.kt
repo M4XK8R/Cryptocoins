@@ -20,7 +20,7 @@ class ImageRepositoryImpl @Inject constructor(
         url = url,
         saveName = saveName,
         isNetworkAvailable = with(internetCheckerService) {
-            isMobileInternetAvailable or isWifiAvailable
+            isMobileInternetAvailable() or isWifiAvailable()
         },
         onDownloadState = onDownloadState
     )

@@ -4,7 +4,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,11 +14,8 @@ import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
 import com.maxkor.feature.coins.impl.presentation.components.LifecycleEventObserver
 import com.maxkor.feature.coins.impl.presentation.contract.CoinsEvents
 import com.maxkor.feature.coins.impl.presentation.viewmodel.CoinsViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-private const val DOWNTIME = 30_000L
+private const val COINS_UPDATE_INTERVAL = 30_000L
 
 @Composable
 fun CoinsRoute(
@@ -34,28 +30,7 @@ fun CoinsRoute(
     val viewModel: CoinsViewModel = hiltViewModel()
     val coinsUiState by viewModel.coinsUiState.collectAsStateWithLifecycle()
     val lazyListState = rememberLazyListState()
-
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-    val coroutineScope = rememberCoroutineScope()
-
-    var shouldLoadNewData: Boolean
-    var dataLoaderJob: Job? = null
-
-    val startUpdatingData: () -> Unit = {
-        shouldLoadNewData = true
-        dataLoaderJob = coroutineScope.launch {
-            while (shouldLoadNewData) {
-                viewModel.onEvent(CoinsEvents.OnInternetConnectionAbsent)
-                viewModel.onEvent(CoinsEvents.OnGetCoinsRequest)
-                delay(DOWNTIME)
-            }
-        }
-    }
-
-    val stopUpdatingData: () -> Unit = {
-        shouldLoadNewData = false
-        dataLoaderJob?.cancel()
-    }
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -74,10 +49,14 @@ fun CoinsRoute(
         lifecycleOwner = lifecycleOwner,
         onEvent = { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                startUpdatingData()
+                viewModel.onEvent(
+                    CoinsEvents.OnStartUpdatingCoins(COINS_UPDATE_INTERVAL)
+                )
             }
             if (event == Lifecycle.Event.ON_PAUSE) {
-                stopUpdatingData()
+                viewModel.onEvent(
+                    CoinsEvents.OnStopUpdatingCoins
+                )
             }
         }
     )

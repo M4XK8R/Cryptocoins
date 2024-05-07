@@ -15,6 +15,7 @@ import com.maxkor.feature.coins.impl.presentation.mapper.toCryptocoinVo
 import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -50,38 +51,51 @@ class CoinsViewModel @Inject constructor(
             initialValue = CoinsUiState.Loading
         )
 
+    var searchedText by mutableStateOf("")
+        private set
+
     private val _uiEvent = Channel<CryptocoinsUiEvents>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    var searchedText by mutableStateOf("")
-        private set
+    private var coinsLoaderJob: Job? = null
+    private var shouldLoadCoins: Boolean = false
 
     fun onEvent(event: CoinsEvents) {
         when (event) {
             is CoinsEvents.OnFavoriteIconClick -> changeCoinFavoriteState(event.coinVo)
             is CoinsEvents.OnCoinCardClick -> sendNavigateUiEvent(event.coinVo)
-            is CoinsEvents.OnSearch -> findCoinByName(name = event.query)
-            is CoinsEvents.OnInternetConnectionAbsent -> informIfInternetIsNotAvailable()
-            is CoinsEvents.OnGetCoinsRequest -> updateData()
+            is CoinsEvents.OnSearch -> findCoinByName(event.query)
+            is CoinsEvents.OnStartUpdatingCoins -> startUpdatingCoins(event.downtime)
+            is CoinsEvents.OnStopUpdatingCoins -> stopUpdatingCoins()
         }
     }
 
     /**
      * Private sector
      */
-    private  fun findCoinByName(name: String) {
+    private fun findCoinByName(name: String) {
         searchedText = name
     }
 
-    private fun informIfInternetIsNotAvailable() {
-        val message = interactor.informIfInternetIsNotAvailable()
-        message?.let(::sendShowSnackbarUiEvent)
+    private fun startUpdatingCoins(downtime: Long) {
+        createDebugLog("startUpdatingCoins")
+        shouldLoadCoins = true
+        coinsLoaderJob = updateCoins(downtime)
     }
 
-    private fun updateData() = launch {
-        interactor.updateData(
-            informUserOnFailure = ::sendShowSnackbarUiEvent
-        )
+    private fun stopUpdatingCoins() {
+        createDebugLog("stopUpdatingCoins")
+        shouldLoadCoins = false
+        coinsLoaderJob?.cancel()
+    }
+
+    private fun updateCoins(downtime: Long) = launch {
+        while (shouldLoadCoins) {
+            interactor.updateData(
+                informUserOnFailure = ::sendShowSnackbarUiEvent
+            )
+            delay(downtime)
+        }
     }
 
     private fun changeCoinFavoriteState(coinVo: CoinVo) = launch {

@@ -20,10 +20,7 @@ class NotificationServiceImpl @Inject constructor(
             createNotificationChannel(
                 NotificationService.createCustomNotificationChannel(context)
             )
-            notify(
-                NotificationService.NOTIFICATION_ID,
-                notification
-            )
+            notify(NotificationService.NOTIFICATION_ID, notification)
         }
 
     override fun createNotification(
