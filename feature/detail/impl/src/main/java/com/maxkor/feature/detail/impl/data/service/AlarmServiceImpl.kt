@@ -4,8 +4,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import com.maxkor.feature.coins.api.domain.model.DetailCoin
 import com.maxkor.feature.detail.api.broadcast.DetailFeatureReceiver
-import com.maxkor.feature.detail.api.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.domain.service.AlarmService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject

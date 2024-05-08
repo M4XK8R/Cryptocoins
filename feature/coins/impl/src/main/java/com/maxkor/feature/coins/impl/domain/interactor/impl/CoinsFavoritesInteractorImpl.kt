@@ -13,8 +13,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoinsFavoritesInteractorImpl @Inject constructor(
-    @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
-    private val coinsRepository: CoinsRepository,
+        @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
+        private val coinsRepository: CoinsRepository,
 ) : CoinsFavoritesInteractor {
 
     override fun getFavoriteCoinsFlow(): Flow<List<FavoriteCoin>> = coinsRepository

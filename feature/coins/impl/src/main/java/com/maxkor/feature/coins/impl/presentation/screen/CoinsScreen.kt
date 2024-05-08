@@ -16,7 +16,7 @@ import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 fun CoinsScreen(
     coinsUiState: CoinsUiState,
     lazyListState: LazyListState,
-    navigateToDetail: (CoinVo) -> Unit,
+    navigateToDetail: (coinName: String) -> Unit,
     changeFavoriteState: (CoinVo) -> Unit,
     searchedCoin: String,
     search: (String) -> Unit,

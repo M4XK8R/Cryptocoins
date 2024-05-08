@@ -30,7 +30,7 @@ import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 fun CoinsScreenContent(
     coinVos: List<CoinVo>,
     lazyListState: LazyListState,
-    onCoinCardClick: (CoinVo) -> Unit,
+    onCoinCardClick: (coinName: String) -> Unit,
     onFavoriteIconClick: (CoinVo) -> Unit,
     searchedCoin: String,
     search: (String) -> Unit,
@@ -62,7 +62,7 @@ fun CoinsScreenContent(
             items(coinVos) { coinVo ->
                 CoinCard(
                     coinVo = coinVo,
-                    onCardClick = { onCoinCardClick(coinVo) },
+                    onCardClick = { onCoinCardClick(coinVo.name) },
                     onFavoriteIconClick = { onFavoriteIconClick(coinVo) },
                 )
             }

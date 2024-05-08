@@ -11,11 +11,7 @@ import com.maxkor.feature.favorites.impl.presentation.viewmodel.FavoritesViewMod
 
 @Composable
 fun FavoritesRoute(
-    navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit,
+    navigateToDetail: (coinId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: FavoritesViewModel = hiltViewModel()

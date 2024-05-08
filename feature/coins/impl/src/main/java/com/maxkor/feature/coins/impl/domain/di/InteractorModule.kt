@@ -1,8 +1,10 @@
 package com.maxkor.feature.coins.impl.domain.di
 
+import com.maxkor.feature.coins.api.domain.interactor.CoinsDetailInteractor
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
+import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsDetailInteractorImpl
 import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsFavoritesInteractorImpl
 import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsInteractorImpl
 import com.maxkor.feature.coins.impl.domain.interactor.impl.CoinsNavigationInteractorImpl
@@ -22,6 +24,16 @@ interface CoinsInteractorModule {
     fun bindCoinsInteractor(
         impl: CoinsInteractorImpl,
     ): CoinsInteractor
+}
+
+@Module
+@InstallIn(ViewModelComponent::class)
+interface CoinsDetailInteractorModule {
+    @ViewModelScoped
+    @Binds
+    fun bindCoinsDetailInteractor(
+        impl: CoinsDetailInteractorImpl,
+    ): CoinsDetailInteractor
 }
 
 @Module

@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(project(":feature:detail:api"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:coins:api"))
 
     implementation(libs.coil)
 

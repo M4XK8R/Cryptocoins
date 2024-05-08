@@ -60,7 +60,6 @@ class MainActivity : ComponentActivity() {
                     detailNavigationInteractor = detailNavigationInteractor,
                     showSnackbarMessage = viewModel::showSnackbarMessage,
                     recreateApplication = ::recreateApplication,
-                    receivedCoinDataVo = receivedCoinData?.toReceivedCoinDataVo()
                 )
             }
         }

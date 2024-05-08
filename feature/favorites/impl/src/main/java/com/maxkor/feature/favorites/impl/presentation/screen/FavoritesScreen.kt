@@ -16,11 +16,7 @@ import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 internal fun FavoritesScreen(
     favoritesUiState: FavoritesUiState,
     lazyListState: LazyListState,
-    navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit,
+    navigateToDetail: (coinId: String) -> Unit,
     removeFromFavorites: (FavoriteCoinVo) -> Unit,
     modifier: Modifier = Modifier,
 ) = when (favoritesUiState) {
@@ -28,6 +24,7 @@ internal fun FavoritesScreen(
     is FavoritesUiState.NoDataAvailable -> DataIsAbsent(
         text = stringResource(R.string.favorites_list_is_empty)
     )
+
     is FavoritesUiState.Success -> FavoritesScreenContent(
         favoriteCoinsVos = favoritesUiState.coins,
         lazyListState = lazyListState,
@@ -47,7 +44,7 @@ fun RunPreviewFavoritesScreen() = PreviewProvider(
         FavoritesScreen(
             favoritesUiState = FavoritesUiState.NoDataAvailable,
             lazyListState = rememberLazyListState(),
-            navigateToDetail = { _, _, _ -> },
+            navigateToDetail = { },
             removeFromFavorites = {}
         )
     }

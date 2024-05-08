@@ -1,7 +1,7 @@
 package com.maxkor.feature.detail.impl.domain.interactor.impl
 
 import com.maxkor.core.base.domain.repository.CheckerRepository
-import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
@@ -59,9 +59,12 @@ class DetailInteractorImpl @Inject constructor(
 
     override fun saveCoinExtraInfo(
         key: String,
-        extraInfo: ExtraCoinInfo,
+        extraInfo: ExtraDetailCoinInfo,
     ) = detailPreferences.saveCoinExtraInfo(
         key = key,
         extraInfo = extraInfo.value
     )
+
+    override fun getCoinExtraInfo(key: String): ExtraDetailCoinInfo =
+        detailPreferences.getExtraCoinInfo(key)
 }

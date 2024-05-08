@@ -19,11 +19,7 @@ private const val COINS_UPDATE_INTERVAL = 30_000L
 
 @Composable
 fun CoinsRoute(
-    navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit,
+    navigateToDetail: (coinName: String) -> Unit,
     informUser: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -36,11 +32,7 @@ fun CoinsRoute(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is CryptocoinsUiEvents.ShowSnackbar -> informUser(event.message)
-                is CryptocoinsUiEvents.Navigate -> {
-                    with(event.cryptocoinVo) {
-                        navigateToDetail(name, price, imageUrl)
-                    }
-                }
+                is CryptocoinsUiEvents.Navigate -> { navigateToDetail(event.coinName) }
             }
         }
     }
@@ -64,9 +56,9 @@ fun CoinsRoute(
     CoinsScreen(
         coinsUiState = coinsUiState,
         lazyListState = lazyListState,
-        navigateToDetail = { coinVo ->
+        navigateToDetail = { coinName ->
             viewModel.onEvent(
-                CoinsEvents.OnCoinCardClick(coinVo)
+                CoinsEvents.OnCoinCardClick(coinName)
             )
         },
         changeFavoriteState = { coinVo ->

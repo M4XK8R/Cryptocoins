@@ -1,6 +1,6 @@
 package com.maxkor.feature.detail.impl.domain.interactor
 
-import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
 
@@ -23,6 +23,8 @@ interface DetailInteractor {
 
     fun saveCoinExtraInfo(
         key: String,
-        extraInfo: ExtraCoinInfo,
+        extraInfo: ExtraDetailCoinInfo,
     )
+
+    fun getCoinExtraInfo(key: String): ExtraDetailCoinInfo
 }

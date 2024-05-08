@@ -17,11 +17,7 @@ import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 fun FavoritesScreenContent(
     favoriteCoinsVos: List<FavoriteCoinVo>,
     lazyListState: LazyListState,
-    navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit,
+    navigateToDetail: (coinId: String) -> Unit,
     removeFromFavorites: (FavoriteCoinVo) -> Unit,
     modifier: Modifier = Modifier,
 ) = LazyColumn(
@@ -32,11 +28,7 @@ fun FavoritesScreenContent(
         FavoriteCoinCard(
             favoriteCoinVo = favoriteCoinVo,
             onCardClick = {
-                navigateToDetail(
-                    favoriteCoinVo.name,
-                    favoriteCoinVo.price,
-                    favoriteCoinVo.imageUrl
-                )
+                navigateToDetail(favoriteCoinVo.id.toString())
             },
             onFavoriteIconClick = { removeFromFavorites(favoriteCoinVo) }
         )
@@ -53,7 +45,7 @@ fun RunPreviewFavoritesScreenContent() = PreviewProvider(
         FavoritesScreenContent(
             favoriteCoinsVos = FavoriteCoin.testExemplars.map { it.toFavoriteCoinVo() },
             lazyListState = rememberLazyListState(),
-            navigateToDetail = { _, _, _ -> },
+            navigateToDetail = { },
             removeFromFavorites = {}
         )
     }

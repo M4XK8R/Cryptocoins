@@ -11,7 +11,6 @@ import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.presentation.contract.CoinsEvents
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
-import com.maxkor.feature.coins.impl.presentation.mapper.toCryptocoinVo
 import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 import com.maxkor.feature.coins.impl.presentation.screen.CoinsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,7 +62,7 @@ class CoinsViewModel @Inject constructor(
     fun onEvent(event: CoinsEvents) {
         when (event) {
             is CoinsEvents.OnFavoriteIconClick -> changeCoinFavoriteState(event.coinVo)
-            is CoinsEvents.OnCoinCardClick -> sendNavigateUiEvent(event.coinVo)
+            is CoinsEvents.OnCoinCardClick -> sendNavigateUiEvent(event.coinId)
             is CoinsEvents.OnSearch -> findCoinByName(event.query)
             is CoinsEvents.OnStartUpdatingCoins -> startUpdatingCoins(event.downtime)
             is CoinsEvents.OnStopUpdatingCoins -> stopUpdatingCoins()
@@ -104,11 +103,9 @@ class CoinsViewModel @Inject constructor(
         )
     }
 
-    private fun sendNavigateUiEvent(coinVo: CoinVo) = launch {
+    private fun sendNavigateUiEvent(coinId: String) = launch {
         _uiEvent.send(
-            CryptocoinsUiEvents.Navigate(
-                cryptocoinVo = coinVo.toCryptocoinVo()
-            )
+            CryptocoinsUiEvents.Navigate(coinId)
         )
     }
 

@@ -1,7 +1,7 @@
 package com.maxkor.feature.detail.impl.presentation.contract
 
 import androidx.activity.compose.ManagedActivityResultLauncher
-import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
@@ -23,6 +23,6 @@ sealed class DetailEvents {
 
     data class OnSaveButtonClick(
         val key: String,
-        val extraInfo: ExtraCoinInfo,
+        val extraInfo: String,
     ) : DetailEvents()
 }

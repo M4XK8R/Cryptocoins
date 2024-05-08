@@ -8,11 +8,7 @@ interface FavoritesNavigationInteractor {
 
     fun graph(
         navGraphBuilder: NavGraphBuilder,
-        navigateToDetail: (
-            name: String,
-            price: String,
-            imageUrl: String,
-        ) -> Unit,
+        navigateToDetail: (coinId: String) -> Unit,
         modifier: Modifier = Modifier,
     )
 

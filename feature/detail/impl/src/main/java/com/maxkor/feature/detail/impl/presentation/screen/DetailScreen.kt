@@ -37,7 +37,7 @@ import com.maxkor.core.ui.icons.CryptocoinsIcons
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.core.ui.util.CoilImageLoader
-import com.maxkor.feature.detail.api.domain.model.DetailCoin
+import com.maxkor.feature.coins.api.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.presentation.components.ActionImage
 import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoEditText

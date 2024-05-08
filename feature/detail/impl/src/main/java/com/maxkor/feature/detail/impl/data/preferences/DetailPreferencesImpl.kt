@@ -1,7 +1,7 @@
 package com.maxkor.feature.detail.impl.data.preferences
 
 import android.content.SharedPreferences
-import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import javax.inject.Inject
 
@@ -17,8 +17,8 @@ class DetailPreferencesImpl @Inject constructor(
         .putString(key, extraInfo)
         .apply()
 
-    override fun getExtraCoinInfo(key: String): ExtraCoinInfo =
-        ExtraCoinInfo(
+    override fun getExtraCoinInfo(key: String): ExtraDetailCoinInfo =
+        ExtraDetailCoinInfo(
             value = sharedPreferences.getString(
                 key,
                 null

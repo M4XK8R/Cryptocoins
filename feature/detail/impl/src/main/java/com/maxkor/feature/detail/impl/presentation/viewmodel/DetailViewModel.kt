@@ -4,8 +4,14 @@ import android.Manifest
 import android.os.Build
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
 import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
+import com.maxkor.feature.coins.api.domain.interactor.CoinsDetailInteractor
+import com.maxkor.feature.coins.api.domain.model.DetailCoin
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.presentation.contract.DetailEvents
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
@@ -22,7 +28,14 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val interactor: DetailInteractor,
+    private val coinsDetailInteractor: CoinsDetailInteractor,
 ) : BaseViewModel() {
+
+    var detailCoin by mutableStateOf(DetailCoin.testExemplar)
+
+    fun getCoinByName(coinName: String) = launch {
+        detailCoin = coinsDetailInteractor.getCoinByName(coinName)
+    }
 
     private val _detailUiState = MutableStateFlow<DetailUiState>(DetailUiState.ModeRead)
     val detailUiState = _detailUiState.asStateFlow()
@@ -67,7 +80,7 @@ class DetailViewModel @Inject constructor(
 
             is DetailEvents.OnSaveButtonClick -> interactor.saveCoinExtraInfo(
                 key = event.key,
-                extraInfo = event.extraInfo
+                extraInfo = ExtraDetailCoinInfo(event.extraInfo)
             )
         }
     }

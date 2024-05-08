@@ -26,12 +26,20 @@ class CoinsRepositoryImpl @Inject constructor(
             coinsEntities.map { it.toCoin() }
         }
 
+    override fun getCoinByIdFlow(id: Int): Flow<Coin> = dao
+        .getByIdFlow(id)
+        .map { it.toCoin() }
+
     override suspend fun getCoins(): List<Coin> = dao
         .getAll()
         .map { it.toCoin() }
 
     override suspend fun getCoinById(id: Int): Coin = dao
         .getById(id)
+        .toCoin()
+
+    override suspend fun getCoinByName(name: String): Coin = dao
+        .getByName(name)
         .toCoin()
 
     override suspend fun updateCoin(coin: Coin) = dao

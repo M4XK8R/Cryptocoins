@@ -13,11 +13,7 @@ class CoinsNavigationInteractorImpl @Inject constructor() : CoinsNavigationInter
 
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
-        navigateToDetail: (
-            name: String,
-            price: String,
-            imageUrl: String,
-        ) -> Unit,
+        navigateToDetail: (coinName: String) -> Unit,
         informUser: (String?) -> Unit,
         modifier: Modifier,
     ) = navGraphBuilder.composable(route = CoinsFeature.ROUTE_NAME) {

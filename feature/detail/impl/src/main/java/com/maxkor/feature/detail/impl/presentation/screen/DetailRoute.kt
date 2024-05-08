@@ -14,26 +14,30 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
-import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+import com.maxkor.core.base.util.createDebugLog
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
 import com.maxkor.feature.detail.impl.presentation.contract.DetailEvents
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoin
-import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
+import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 
 @SuppressLint("InlinedApi")
 @Composable
 fun DetailRoute(
-    detailCoinVo: DetailCoinVo,
+    coinName: String,
+    coinExtraInfo: ExtraDetailCoinInfo,
     recreateApplication: () -> Unit,
     informUser: (message: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    createDebugLog("coinName = $coinName")
     val context = LocalContext.current
     val viewModel: DetailViewModel = hiltViewModel()
     val detailUiState by viewModel.detailUiState.collectAsStateWithLifecycle()
+    val detailCoinVo = viewModel.detailCoin.toDetailCoinVo()
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -60,20 +64,21 @@ fun DetailRoute(
         }
     )
 
+    var coinExtraInfoInput by remember {
+        mutableStateOf(coinExtraInfo.value)
+    }
+    val editCoinExtraInfoInput: (String) -> Unit = { inputText ->
+        coinExtraInfoInput = inputText
+    }
+
     LaunchedEffect(key1 = true) {
+        viewModel.getCoinByName(coinName)
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is CryptocoinsUiEvents.ShowSnackbar -> informUser(event.message)
                 else -> Unit
             }
         }
-    }
-
-    var coinExtraInfoInput by remember {
-        mutableStateOf(detailCoinVo.extraInfo.value)
-    }
-    val editCoinExtraInfoInput: (String) -> Unit = { inputText ->
-        coinExtraInfoInput = inputText
     }
 
     DetailScreen(
@@ -120,7 +125,8 @@ fun DetailRoute(
             viewModel.onEvent(
                 DetailEvents.OnSaveButtonClick(
                     key = detailCoinVo.name,
-                    extraInfo = ExtraCoinInfo(coinExtraInfoInput)
+                    extraInfo = coinExtraInfoInput
+//                    extraInfo = detailCoinVo.extraInfo
                 )
             )
             viewModel.onEvent(
@@ -132,6 +138,7 @@ fun DetailRoute(
                 DetailUiState.ModeEdit -> viewModel.onEvent(
                     DetailEvents.OnMainBoxClick(DetailUiState.ModeRead)
                 )
+
                 DetailUiState.ModeRead -> viewModel.onEvent(
                     DetailEvents.OnMainBoxClick(DetailUiState.ModeEdit)
                 )

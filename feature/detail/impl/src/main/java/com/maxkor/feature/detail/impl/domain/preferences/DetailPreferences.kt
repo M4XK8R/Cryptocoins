@@ -1,7 +1,6 @@
 package com.maxkor.feature.detail.impl.domain.preferences
 
-import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
-
+import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 
 interface DetailPreferences {
 
@@ -10,5 +9,5 @@ interface DetailPreferences {
         extraInfo: String,
     )
 
-    fun getExtraCoinInfo(key: String) : ExtraCoinInfo
+    fun getExtraCoinInfo(key: String) : ExtraDetailCoinInfo
 }

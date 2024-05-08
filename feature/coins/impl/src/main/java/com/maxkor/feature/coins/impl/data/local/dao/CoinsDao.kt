@@ -15,6 +15,9 @@ interface CoinsDao {
     @Query("SELECT * FROM  cryptocoins WHERE id = :id")
     suspend fun getById(id: Int): CoinEntity
 
+    @Query("SELECT * FROM  cryptocoins WHERE name = :name")
+    suspend fun getByName(name: String): CoinEntity
+
     @Upsert
     suspend fun update(coinsEntities: List<CoinEntity>)
 
@@ -23,4 +26,7 @@ interface CoinsDao {
 
     @Query("SELECT * FROM  cryptocoins")
     fun getAllFlow(): Flow<List<CoinEntity>>
+
+    @Query("SELECT * FROM  cryptocoins WHERE id = :id")
+    fun getByIdFlow(id: Int): Flow<CoinEntity>
 }
