@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.maxkor.feature.detail.api.broadcast.DetailFeatureReceiver
+import com.maxkor.feature.detail.api.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.domain.service.AlarmService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -16,18 +17,16 @@ class AlarmServiceImpl @Inject constructor(
 ) : AlarmService {
 
     override fun createAlarm(
-        coinName: String,
-        coinPrice: String,
-        coinImageUrl: String,
+        detailCoin: DetailCoin,
         time: Long,
     ) = alarmManager.set(
         AlarmManager.RTC,
         time,
         createPendingAlarmIntent(
             alarmIntent = createAlarmIntent(
-                coinName = coinName,
-                coinPrice = coinPrice,
-                coinImageUrl = coinImageUrl
+                coinName = detailCoin.name,
+                coinPrice = detailCoin.price,
+                coinImageUrl = detailCoin.imageUrl
             )
         )
     )
@@ -35,14 +34,13 @@ class AlarmServiceImpl @Inject constructor(
     /**
      * Private sector
      */
-    private fun createPendingAlarmIntent(
-        alarmIntent: Intent,
-    ): PendingIntent = PendingIntent.getBroadcast(
-        context,
-        0,
-        alarmIntent,
-        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-    )
+    private fun createPendingAlarmIntent(alarmIntent: Intent): PendingIntent =
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
     private fun createAlarmIntent(
         coinName: String,

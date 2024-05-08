@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import com.maxkor.feature.detail.api.domain.model.DetailCoin
 
 interface DetailNavigationInteractor {
 
@@ -16,16 +17,11 @@ interface DetailNavigationInteractor {
         recreateApplication: () -> Unit,
         informUser: (message: String) -> Unit,
         modifier: Modifier = Modifier,
-        name: String = nameState.value,
-        price: String = priceState.value,
-        imageUrl: String = imageUrlState.value,
     )
 
     fun openScreen(
+        detailCoin: DetailCoin,
         navController: NavController,
-        name: String,
-        price: String,
-        imageUrl: String,
     )
 
     companion object {

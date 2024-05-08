@@ -1,10 +1,13 @@
 package com.maxkor.feature.detail.impl.domain.interactor
 
+import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+import com.maxkor.feature.detail.impl.domain.model.CoinReminder
+import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
+
 interface DetailInteractor {
 
-    fun saveImage(
-        url: String,
-        saveName: String,
+    fun savePicture(
+        downloadableImage: DownloadableImage,
         noPostNotificationPermissionCase: () -> Unit,
         noWriteStoragePermissionCase: () -> Unit,
         onDownloadState: (message: String) -> Unit,
@@ -13,17 +16,13 @@ interface DetailInteractor {
     fun sharePicture(url: String)
 
     fun createReminder(
-        coinName: String,
-        coinPrice: String,
-        coinImageUrl: String,
-        hour: Int,
-        minute: Int,
+        coinReminder: CoinReminder,
         noPostNotificationPermissionCase: () -> Unit,
         onIncorrectTimeInput: (String) -> Unit,
     )
 
     fun saveCoinExtraInfo(
         key: String,
-        extraInfo: String,
+        extraInfo: ExtraCoinInfo,
     )
 }

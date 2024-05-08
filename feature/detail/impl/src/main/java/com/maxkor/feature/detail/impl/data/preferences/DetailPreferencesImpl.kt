@@ -1,7 +1,7 @@
 package com.maxkor.feature.detail.impl.data.preferences
 
 import android.content.SharedPreferences
-import com.maxkor.feature.detail.impl.domain.model.ExtraCoinInfo
+import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import javax.inject.Inject
 

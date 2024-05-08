@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import com.maxkor.feature.detail.impl.domain.service.ShareImageService
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.jetbrains.annotations.NotNull
 import javax.inject.Inject
 
 class ShareImageServiceImpl @Inject constructor(

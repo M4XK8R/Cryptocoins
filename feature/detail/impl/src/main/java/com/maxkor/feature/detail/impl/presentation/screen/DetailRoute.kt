@@ -1,10 +1,10 @@
 package com.maxkor.feature.detail.impl.presentation.screen
 
-import android.Manifest
 import android.annotation.SuppressLint
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,7 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
+import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
 import com.maxkor.feature.detail.impl.R
+import com.maxkor.feature.detail.impl.domain.model.CoinReminder
+import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
+import com.maxkor.feature.detail.impl.presentation.contract.DetailEvents
+import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoin
 import com.maxkor.feature.detail.impl.presentation.model.DetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 
@@ -26,7 +32,6 @@ fun DetailRoute(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-
     val viewModel: DetailViewModel = hiltViewModel()
     val detailUiState by viewModel.detailUiState.collectAsStateWithLifecycle()
 
@@ -55,11 +60,13 @@ fun DetailRoute(
         }
     )
 
-    val grantPostNotificationRequest: () -> Unit = {
-        launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
-    }
-    val grantWriteStorageRequest: () -> Unit = {
-        launcher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is CryptocoinsUiEvents.ShowSnackbar -> informUser(event.message)
+                else -> Unit
+            }
+        }
     }
 
     var coinExtraInfoInput by remember {
@@ -74,48 +81,62 @@ fun DetailRoute(
         detailUiState = detailUiState,
         coinExtraInfoInput = coinExtraInfoInput,
         editCoinExtraInfoInput = editCoinExtraInfoInput,
-        savePicture = { url, name ->
-            viewModel.savePicture(
-                url = url,
-                saveName = name,
-                noWriteStoragePermissionCase = {
-                    grantWriteStorageRequest()
-                },
-                noPostNotificationPermissionCase = {
-                    grantPostNotificationRequest()
-                },
-                onDownloadState = informUser
+        savePicture = {
+            viewModel.onEvent(
+                DetailEvents.OnDownloadImageClick(
+                    downloadableImage = DownloadableImage(
+                        url = detailCoinVo.imageUrl,
+                        name = detailCoinVo.name
+                    ),
+                    launcher = launcher
+                )
             )
         },
-        sharePicture = { url ->
-            viewModel.sharePicture(url)
+        sharePicture = {
+            viewModel.onEvent(
+                DetailEvents.OnShareImageClick(
+                    detailCoinVo.imageUrl
+                )
+            )
         },
-        createReminder = { coinName, coinPrice, coinImageUrl, hour, minute ->
-            viewModel.createReminder(
-                coinName = coinName,
-                coinPrice = coinPrice,
-                coinImageUrl = coinImageUrl,
-                hour = hour,
-                minute = minute,
-                noPostNotificationPermissionCase = {
-                    grantPostNotificationRequest()
-                },
-                onIncorrectTimeInput = { message ->
-                    informUser(message)
-                }
+        createReminder = { hour, minute ->
+            viewModel.onEvent(
+                DetailEvents.OnBellImageClick(
+                    coinReminder = CoinReminder(
+                        detailCoin = detailCoinVo.toDetailCoin(),
+                        hour = hour,
+                        minute = minute,
+                    ),
+                    launcher = launcher
+                )
             )
         },
         addCoinExtraInfo = {
-            viewModel.setModeEdit()
-        },
-        saveCoinExtraInfo = { key, extraInfo ->
-            viewModel.saveCoinExtraInfo(
-                key = key,
-                extraInfo = extraInfo
+            viewModel.onEvent(
+                DetailEvents.OnMainBoxClick(DetailUiState.ModeEdit)
             )
-            viewModel.setModeRead()
         },
-        onTextSectionClick = { viewModel.swapMode() },
+        saveCoinExtraInfo = {
+            viewModel.onEvent(
+                DetailEvents.OnSaveButtonClick(
+                    key = detailCoinVo.name,
+                    extraInfo = ExtraCoinInfo(coinExtraInfoInput)
+                )
+            )
+            viewModel.onEvent(
+                DetailEvents.OnMainBoxClick(DetailUiState.ModeRead)
+            )
+        },
+        onTextSectionClick = {
+            when (detailUiState) {
+                DetailUiState.ModeEdit -> viewModel.onEvent(
+                    DetailEvents.OnMainBoxClick(DetailUiState.ModeRead)
+                )
+                DetailUiState.ModeRead -> viewModel.onEvent(
+                    DetailEvents.OnMainBoxClick(DetailUiState.ModeEdit)
+                )
+            }
+        },
         modifier = modifier
     )
 }

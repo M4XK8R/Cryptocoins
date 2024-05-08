@@ -1,6 +1,7 @@
 package com.maxkor.feature.detail.impl.domain.preferences
 
-import com.maxkor.feature.detail.impl.domain.model.ExtraCoinInfo
+import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+
 
 interface DetailPreferences {
 

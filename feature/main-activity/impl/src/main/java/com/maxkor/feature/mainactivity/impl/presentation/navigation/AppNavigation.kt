@@ -13,6 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
+import com.maxkor.feature.detail.api.domain.model.DetailCoin
 import com.maxkor.feature.favorites.api.FavoritesFeature
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.mainactivity.impl.domain.model.ReceivedCoinData
@@ -41,16 +42,10 @@ internal fun AppNavigation(
             popUpToRoute = CoinsFeature.ROUTE_NAME
         )
     }
-    val navigateToDetail: (
-        name: String,
-        price: String,
-        imageUrl: String,
-    ) -> Unit = { name, price, imageUrl ->
+    val navigateToDetail: (DetailCoin) -> Unit = { detailCoin ->
         detailNavigationInteractor.openScreen(
+            detailCoin = detailCoin,
             navController = navController,
-            name = name,
-            price = price,
-            imageUrl = imageUrl
         )
     }
     val currentRoute = navController.currentBackStackEntryAsState()
@@ -85,7 +80,13 @@ internal fun AppNavigation(
             coinsNavigationInteractor.graph(
                 navGraphBuilder = this,
                 navigateToDetail = { name, price, imageUrl ->
-                    navigateToDetail(name, price, imageUrl)
+                    navigateToDetail(
+                        DetailCoin(
+                            name = name,
+                            price = price,
+                            imageUrl = imageUrl,
+                        )
+                    )
                 },
                 informUser = { message ->
                     message?.let(showSnackbarMessage)
@@ -96,7 +97,13 @@ internal fun AppNavigation(
             favoritesNavigationInteractor.graph(
                 navGraphBuilder = this,
                 navigateToDetail = { name, price, imageUrl ->
-                    navigateToDetail(name, price, imageUrl)
+                    navigateToDetail(
+                        DetailCoin(
+                            name = name,
+                            price = price,
+                            imageUrl = imageUrl
+                        )
+                    )
                 },
                 modifier = Modifier.padding(paddingValues)
             )
@@ -119,9 +126,11 @@ internal fun AppNavigation(
             LaunchedEffect(key1 = null) {
                 delay(CoinsFeature.LOADING_DATA_TIME)
                 navigateToDetail(
-                    coinData.name,
-                    coinData.price,
-                    coinData.imageUrl
+                    DetailCoin(
+                        name = coinData.name,
+                        price = coinData.price,
+                        imageUrl = coinData.imageUrl,
+                    )
                 )
             }
         }

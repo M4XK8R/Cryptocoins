@@ -1,6 +1,7 @@
 package com.maxkor.feature.detail.impl.presentation.model
 
-import com.maxkor.feature.detail.impl.domain.model.ExtraCoinInfo
+import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
+
 
 data class DetailCoinVo(
     val name: String,

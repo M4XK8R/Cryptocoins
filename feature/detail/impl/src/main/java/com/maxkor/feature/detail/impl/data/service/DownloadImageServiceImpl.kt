@@ -8,6 +8,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import com.maxkor.feature.detail.impl.R
+import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
 import com.maxkor.feature.detail.impl.domain.service.DownloadImageService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -19,16 +20,15 @@ class DownloadImageServiceImpl @Inject constructor(
 ) : DownloadImageService {
 
     override fun savePicture(
-        url: String,
-        saveName: String,
+       downloadableImage: DownloadableImage,
         isNetworkAvailable: Boolean,
         onDownloadState: (message: String) -> Unit,
     ) = if (isNetworkAvailable) {
         try {
             downloadManager.enqueue(
                 createDownloadRequest(
-                    downloadUri = Uri.parse(url),
-                    saveName = saveName
+                    downloadUri = Uri.parse(downloadableImage.url),
+                    saveName = downloadableImage.name
                 )
             )
             onDownloadState(context.getString(R.string.image_download_started))

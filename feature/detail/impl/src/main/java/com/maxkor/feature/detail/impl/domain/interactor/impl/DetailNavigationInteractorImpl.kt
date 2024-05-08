@@ -8,7 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.maxkor.feature.detail.api.DetailFeature
 import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
-import com.maxkor.feature.detail.impl.domain.model.DetailCoin
+import com.maxkor.feature.detail.api.domain.model.DetailCoin
+import com.maxkor.feature.detail.api.domain.model.ExtraCoinInfo
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.screen.DetailRoute
@@ -32,16 +33,13 @@ class DetailNavigationInteractorImpl @Inject constructor(
         recreateApplication: () -> Unit,
         informUser: (message: String) -> Unit,
         modifier: Modifier,
-        name: String,
-        price: String,
-        imageUrl: String,
     ) = navGraphBuilder.composable(route = DetailFeature.ROUTE_NAME) {
-        val extraCoinInfo = detailPreferences.getExtraCoinInfo(key = name)
+        val extraCoinInfo = detailPreferences.getExtraCoinInfo(key = nameState.value)
         val detailCoin = DetailCoin(
-            name = name,
-            price = price,
-            imageUrl = imageUrl,
-            extraInfo = extraCoinInfo
+            name = nameState.value,
+            price = priceState.value,
+            imageUrl = imageUrlState.value,
+            extraInfo = ExtraCoinInfo(extraCoinInfo.value)
         )
         DetailRoute(
             detailCoinVo = detailCoin.toDetailCoinVo(),
@@ -52,14 +50,19 @@ class DetailNavigationInteractorImpl @Inject constructor(
     }
 
     override fun openScreen(
+        detailCoin: DetailCoin,
         navController: NavController,
-        name: String,
-        price: String,
-        imageUrl: String,
     ) {
         navController.navigate(route = DetailFeature.ROUTE_NAME)
-        nameState.value = name
-        priceState.value = price
-        imageUrlState.value = imageUrl
+        setDetailScreenValues(detailCoin)
+    }
+
+    /**
+     * Private sector
+     */
+    private fun setDetailScreenValues(detailCoin: DetailCoin) {
+        nameState.value = detailCoin.name
+        priceState.value = detailCoin.price
+        imageUrlState.value = detailCoin.imageUrl
     }
 }

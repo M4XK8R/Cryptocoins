@@ -1,4 +1,4 @@
-package com.maxkor.feature.detail.impl.domain.model
+package com.maxkor.feature.detail.api.domain.model
 
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -7,7 +7,7 @@ data class DetailCoin(
     val name: String,
     val price: String,
     val imageUrl: String,
-    val extraInfo: ExtraCoinInfo,
+    val extraInfo: ExtraCoinInfo = ExtraCoinInfo(""),
 ) {
     companion object {
         val testExemplar = createTestExemplar()

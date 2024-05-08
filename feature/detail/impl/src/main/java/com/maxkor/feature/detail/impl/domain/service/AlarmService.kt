@@ -1,11 +1,12 @@
 package com.maxkor.feature.detail.impl.domain.service
 
+import com.maxkor.feature.detail.api.domain.model.DetailCoin
+
+
 interface AlarmService {
 
     fun createAlarm(
-        coinName: String,
-        coinPrice: String,
-        coinImageUrl: String,
+        detailCoin: DetailCoin,
         time: Long,
     )
 

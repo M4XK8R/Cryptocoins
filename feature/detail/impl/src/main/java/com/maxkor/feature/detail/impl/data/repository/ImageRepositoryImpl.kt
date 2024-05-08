@@ -1,9 +1,10 @@
 package com.maxkor.feature.detail.impl.data.repository
 
 import com.maxkor.core.base.domain.service.InternetCheckerService
+import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
+import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
 import com.maxkor.feature.detail.impl.domain.service.DownloadImageService
 import com.maxkor.feature.detail.impl.domain.service.ShareImageService
-import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
 import javax.inject.Inject
 
 class ImageRepositoryImpl @Inject constructor(
@@ -13,12 +14,10 @@ class ImageRepositoryImpl @Inject constructor(
 ) : ImageRepository {
 
     override fun savePicture(
-        url: String,
-        saveName: String,
+        downloadableImage: DownloadableImage,
         onDownloadState: (message: String) -> Unit,
     ) = downloadImageService.savePicture(
-        url = url,
-        saveName = saveName,
+        downloadableImage = downloadableImage,
         isNetworkAvailable = with(internetCheckerService) {
             isMobileInternetAvailable() or isWifiAvailable()
         },

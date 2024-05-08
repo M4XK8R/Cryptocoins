@@ -37,8 +37,8 @@ import com.maxkor.core.ui.icons.CryptocoinsIcons
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.core.ui.util.CoilImageLoader
+import com.maxkor.feature.detail.api.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.R
-import com.maxkor.feature.detail.impl.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.presentation.components.ActionImage
 import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoEditText
 import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoText
@@ -55,19 +55,13 @@ fun DetailScreen(
     detailCoinVo: DetailCoinVo,
     detailUiState: DetailUiState,
     coinExtraInfoInput: String,
-    editCoinExtraInfoInput: (String) -> Unit,
-    savePicture: (url: String, name: String) -> Unit,
-    sharePicture: (url: String) -> Unit,
-    createReminder: (
-        coinName: String,
-        coinPrice: String,
-        coinImageUrl: String,
-        hour: Int,
-        minute: Int,
-    ) -> Unit,
+    savePicture: () -> Unit,
+    sharePicture: () -> Unit,
     addCoinExtraInfo: () -> Unit,
-    saveCoinExtraInfo: (key: String, extraInfo: String) -> Unit,
+    saveCoinExtraInfo: () -> Unit,
     onTextSectionClick: () -> Unit,
+    editCoinExtraInfoInput: (String) -> Unit,
+    createReminder: (hour: Int, minute: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -101,13 +95,7 @@ fun DetailScreen(
             },
             onToggleClick = swapTimePickerMode,
             onConfirm = { hour, minute ->
-                createReminder(
-                    detailCoinVo.name,
-                    detailCoinVo.price,
-                    detailCoinVo.imageUrl,
-                    hour,
-                    minute
-                )
+                createReminder(hour, minute)
                 dismissTimePicker()
             },
             onDecline = { dismissTimePicker() }
@@ -163,17 +151,12 @@ fun DetailScreen(
         ) {
             ActionImage(
                 imageResId = CryptocoinsImages.Download,
-                onClick = {
-                    savePicture(
-                        detailCoinVo.imageUrl,
-                        detailCoinVo.name
-                    )
-                }
+                onClick = { savePicture() }
             )
             Spacer(modifier = Modifier.size(spacing.spaceExtraSmall))
             ActionImage(
                 imageResId = CryptocoinsImages.Share,
-                onClick = { sharePicture(detailCoinVo.imageUrl) }
+                onClick = { sharePicture() }
             )
             Spacer(modifier = Modifier.size(spacing.spaceExtraSmall))
             ActionImage(
@@ -226,10 +209,7 @@ fun DetailScreen(
                             )
                         },
                         onClick = {
-                            saveCoinExtraInfo(
-                                detailCoinVo.name,
-                                coinExtraInfoInput
-                            )
+                            saveCoinExtraInfo()
                         },
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
@@ -273,10 +253,10 @@ fun RunPreviewDetailScreen() = PreviewProvider(
             detailUiState = DetailUiState.ModeRead,
             coinExtraInfoInput = "",
             editCoinExtraInfoInput = {},
-            savePicture = { _, _ -> },
+            savePicture = {},
             sharePicture = {},
-            createReminder = { _, _, _, _, _ -> },
-            saveCoinExtraInfo = { _, _ -> },
+            createReminder = { _, _ -> },
+            saveCoinExtraInfo = {},
             addCoinExtraInfo = {},
             onTextSectionClick = {}
         )
