@@ -1,7 +1,10 @@
 package com.maxkor.feature.mainactivity.impl.presentation.model
 
-data class ReceivedCoinDataVo(
-    val name: String,
-    val price: String,
-    val imageUrl: String,
-)
+import com.maxkor.feature.detail.api.broadcast.DetailFeatureReceiver
+
+data class ReceivedCoinDataVo(val name: String)
+
+fun ReceivedCoinDataVo.isDataNotUnknown(): Boolean = when {
+    this.name == DetailFeatureReceiver.UNKNOWN -> false
+    else -> true
+}

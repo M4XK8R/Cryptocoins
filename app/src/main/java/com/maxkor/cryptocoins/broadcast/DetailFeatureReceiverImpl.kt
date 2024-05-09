@@ -8,7 +8,5 @@ import javax.inject.Inject
 class DetailFeatureReceiverImpl @Inject constructor() :
     DetailFeatureReceiver(
         coinNameKey = AlarmService.COIN_NAME_KEY,
-        coinPriceKey = AlarmService.COIN_PRICE_KEY,
-        coinImageUrlKey = AlarmService.COIN_IMAGE_URL_KEY,
         activityToLaunch = MainActivity()
     )

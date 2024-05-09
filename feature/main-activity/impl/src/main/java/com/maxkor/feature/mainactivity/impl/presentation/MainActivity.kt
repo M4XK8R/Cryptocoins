@@ -12,8 +12,7 @@ import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
 import com.maxkor.feature.detail.api.broadcast.DetailFeatureReceiver
 import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
-import com.maxkor.feature.mainactivity.impl.domain.model.ReceivedCoinData
-import com.maxkor.feature.mainactivity.impl.presentation.mapper.toReceivedCoinDataVo
+import com.maxkor.feature.mainactivity.impl.presentation.model.ReceivedCoinDataVo
 import com.maxkor.feature.mainactivity.impl.presentation.navigation.AppNavigation
 import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,22 +30,22 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var detailNavigationInteractor: DetailNavigationInteractor
 
-    private var receivedCoinData: ReceivedCoinData? = null
+    private var receivedCoinDataVoNullable: ReceivedCoinDataVo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        intent?.let { intent ->
-            with(intent) {
+        intent?.let { nonNullIntent ->
+            with(nonNullIntent) {
                 if (action == DetailFeatureReceiver.ACTION_SHOW_REQUIRED_SCREEN) {
-                    receivedCoinData = ReceivedCoinData(
-                        name = getStringExtra(DetailFeatureReceiver.COIN_NAME_PARAM),
-                        price = getStringExtra(DetailFeatureReceiver.COIN_PRICE_PARAM),
-                        imageUrl = getStringExtra(DetailFeatureReceiver.COIN_IMAGE_URL_PARAM),
+                    receivedCoinDataVoNullable = ReceivedCoinDataVo(
+                        name = getStringExtra(DetailFeatureReceiver.COIN_NAME_PARAM)
+                            ?: DetailFeatureReceiver.UNKNOWN,
                     )
                 }
             }
         }
+
         enableEdgeToEdge()
         setContent {
             val viewModel: MainActivityViewModel = hiltViewModel()
@@ -60,6 +59,7 @@ class MainActivity : ComponentActivity() {
                     detailNavigationInteractor = detailNavigationInteractor,
                     showSnackbarMessage = viewModel::showSnackbarMessage,
                     recreateApplication = ::recreateApplication,
+                    receivedCoinDataVoNullable = receivedCoinDataVoNullable
                 )
             }
         }

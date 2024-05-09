@@ -12,8 +12,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 abstract class DetailFeatureReceiver(
     private val coinNameKey: String,
-    private val coinPriceKey: String,
-    private val coinImageUrlKey: String,
     private val activityToLaunch: Activity,
 ) : BroadcastReceiver() {
 
@@ -25,8 +23,6 @@ abstract class DetailFeatureReceiver(
         intent: Intent?,
     ) {
         val coinName = intent?.getStringExtra(coinNameKey)
-        val coinPrice = intent?.getStringExtra(coinPriceKey)
-        val coinImageUrl = intent?.getStringExtra(coinImageUrlKey)
 
         val launchActivityIntent = Intent(
             context,
@@ -34,8 +30,6 @@ abstract class DetailFeatureReceiver(
         ).apply {
             action = ACTION_SHOW_REQUIRED_SCREEN
             putExtra(COIN_NAME_PARAM, coinName)
-            putExtra(COIN_PRICE_PARAM, coinPrice)
-            putExtra(COIN_IMAGE_URL_PARAM, coinImageUrl)
         }
 
         val contentIntent = PendingIntent.getActivity(
@@ -57,7 +51,5 @@ abstract class DetailFeatureReceiver(
         const val UNKNOWN = "Unknown"
         const val ACTION_SHOW_REQUIRED_SCREEN = "show_detail_screen"
         const val COIN_NAME_PARAM = "coin_name"
-        const val COIN_PRICE_PARAM = "coin_price"
-        const val COIN_IMAGE_URL_PARAM = "coin_image_url"
     }
 }

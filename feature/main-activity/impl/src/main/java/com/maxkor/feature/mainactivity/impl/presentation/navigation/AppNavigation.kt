@@ -16,6 +16,8 @@ import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteracto
 import com.maxkor.feature.favorites.api.FavoritesFeature
 import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.mainactivity.impl.presentation.components.NavBottomBar
+import com.maxkor.feature.mainactivity.impl.presentation.model.ReceivedCoinDataVo
+import com.maxkor.feature.mainactivity.impl.presentation.model.isDataNotUnknown
 import kotlinx.coroutines.delay
 
 @Composable
@@ -27,7 +29,7 @@ internal fun AppNavigation(
     detailNavigationInteractor: DetailNavigationInteractor,
     showSnackbarMessage: (String) -> Unit,
     recreateApplication: () -> Unit,
-    receivedCoinName: String? = null,
+    receivedCoinDataVoNullable: ReceivedCoinDataVo? = null,
 ) {
     val navigateToCoins: () -> Unit = {
         coinsNavigationInteractor.openScreen(navController)
@@ -48,6 +50,15 @@ internal fun AppNavigation(
         .value
         ?.destination
         ?.route
+
+    receivedCoinDataVoNullable?.let { receivedCoinDataVo ->
+        if (receivedCoinDataVo.isDataNotUnknown()){
+            LaunchedEffect(key1 = true) {
+                delay(CoinsFeature.LOADING_DATA_TIME)
+                navigateToDetail(receivedCoinDataVo.name)
+            }
+        }
+    }
 
     Scaffold(
         bottomBar = {
@@ -100,12 +111,6 @@ internal fun AppNavigation(
                 },
                 modifier = Modifier.padding(paddingValues)
             )
-        }
-    }
-    receivedCoinName?.let { coinName ->
-        LaunchedEffect(key1 = null) {
-            delay(CoinsFeature.LOADING_DATA_TIME)
-            navigateToDetail(coinName)
         }
     }
 }
