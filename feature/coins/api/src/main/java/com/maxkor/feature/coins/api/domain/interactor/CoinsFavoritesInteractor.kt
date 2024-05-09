@@ -1,11 +1,11 @@
 package com.maxkor.feature.coins.api.domain.interactor
 
-import com.maxkor.feature.coins.api.domain.model.FavoriteCoin
+import com.maxkor.core.base.domain.model.Cryptocoin
 import kotlinx.coroutines.flow.Flow
 
 interface CoinsFavoritesInteractor {
 
-    fun getFavoriteCoinsFlow(): Flow<List<FavoriteCoin>>
+    fun getFavoriteCoinsFlow(): Flow<List<Cryptocoin>>
 
-    suspend fun removeFromFavorites(favoriteCoin: FavoriteCoin)
+    suspend fun removeFromFavorites(cryptocoin: Cryptocoin)
 }

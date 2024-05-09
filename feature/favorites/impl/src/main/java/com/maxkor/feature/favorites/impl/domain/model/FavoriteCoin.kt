@@ -1,4 +1,4 @@
-package com.maxkor.feature.coins.api.domain.model
+package com.maxkor.feature.favorites.impl.domain.model
 
 import kotlin.math.roundToInt
 import kotlin.random.Random

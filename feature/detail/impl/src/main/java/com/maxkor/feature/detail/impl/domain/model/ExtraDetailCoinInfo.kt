@@ -1,4 +1,4 @@
-package com.maxkor.feature.coins.api.domain.model
+package com.maxkor.feature.detail.impl.domain.model
 
 @JvmInline
 value class ExtraDetailCoinInfo(val value: String)

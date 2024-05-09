@@ -11,7 +11,7 @@ import com.maxkor.core.ui.components.ConfirmationDialog
 import com.maxkor.core.ui.components.CryptocoinCard
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
-import com.maxkor.feature.coins.api.domain.model.FavoriteCoin
+import com.maxkor.feature.favorites.impl.domain.model.FavoriteCoin
 import com.maxkor.feature.favorites.impl.R
 import com.maxkor.feature.favorites.impl.presentation.mapper.toCryptocoinVo
 import com.maxkor.feature.favorites.impl.presentation.mapper.toFavoriteCoinVo
@@ -25,12 +25,8 @@ fun FavoriteCoinCard(
     modifier: Modifier = Modifier,
 ) {
     var shouldShowDialog by remember { mutableStateOf(false) }
-    val showDialog: () -> Unit = {
-        shouldShowDialog = true
-    }
-    val dismissDialog: () -> Unit = {
-        shouldShowDialog = false
-    }
+    val showDialog: () -> Unit = { shouldShowDialog = true }
+    val dismissDialog: () -> Unit = { shouldShowDialog = false }
 
     CryptocoinCard(
         cryptocoinVo = favoriteCoinVo.toCryptocoinVo(),
@@ -59,7 +55,8 @@ fun FavoriteCoinCard(
 fun RunPreviewFavoriteCoinCard() = PreviewProvider(
     content = {
         FavoriteCoinCard(
-            favoriteCoinVo = FavoriteCoin.testExemplar.toFavoriteCoinVo(),
+            favoriteCoinVo = FavoriteCoin.testExemplar
+                .toFavoriteCoinVo(),
             onCardClick = {},
             onFavoriteIconClick = {}
         )

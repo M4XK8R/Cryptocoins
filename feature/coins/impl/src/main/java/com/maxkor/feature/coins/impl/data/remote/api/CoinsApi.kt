@@ -11,7 +11,9 @@ interface CoinsApi {
     suspend fun getResponse(): Response<CoinsResponseDto>
 
     companion object {
-        private const val API_KEY = "coinranking9b6a731a17c7fcfa9ff07829122ba58eed22a0d0806113ee"
+        private const val API_KEY =
+            "coinranking9b6a731a17c7fcfa9ff07829122ba58eed22a0d0806113ee"
+
         const val BASE_URL = "https://api.coinranking.com/"
     }
 }

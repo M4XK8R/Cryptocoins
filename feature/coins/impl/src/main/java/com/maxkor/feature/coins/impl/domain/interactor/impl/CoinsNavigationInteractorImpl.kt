@@ -16,7 +16,9 @@ class CoinsNavigationInteractorImpl @Inject constructor() : CoinsNavigationInter
         navigateToDetail: (coinName: String) -> Unit,
         informUser: (String?) -> Unit,
         modifier: Modifier,
-    ) = navGraphBuilder.composable(route = CoinsFeature.ROUTE_NAME) {
+    ) = navGraphBuilder.composable(
+        route = CoinsFeature.ROUTE_NAME
+    ) {
         CoinsRoute(
             navigateToDetail = navigateToDetail,
             informUser = informUser,

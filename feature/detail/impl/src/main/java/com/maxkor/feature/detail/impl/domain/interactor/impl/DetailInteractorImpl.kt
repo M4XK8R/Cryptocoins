@@ -1,10 +1,10 @@
 package com.maxkor.feature.detail.impl.domain.interactor.impl
 
 import com.maxkor.core.base.domain.repository.CheckerRepository
-import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
+import com.maxkor.feature.detail.impl.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
 import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository

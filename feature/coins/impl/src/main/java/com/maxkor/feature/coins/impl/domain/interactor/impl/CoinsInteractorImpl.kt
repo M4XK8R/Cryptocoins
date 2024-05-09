@@ -30,7 +30,9 @@ class CoinsInteractorImpl @Inject constructor(
             coinsRepository.updateCoin(updatedCoin)
         }
 
-    override suspend fun updateData(informUserOnFailure: (String) -> Unit): Unit =
+    override suspend fun updateData(
+        informUserOnFailure: (String) -> Unit,
+    ): Unit =
         if (checkerRepository.hasInternetConnection()) {
             withContext(dispatcherIo) {
                 val newCoins = coinsRepository.getCoinsFromServer(

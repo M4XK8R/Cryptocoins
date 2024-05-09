@@ -103,9 +103,9 @@ class CoinsViewModel @Inject constructor(
         )
     }
 
-    private fun sendNavigateUiEvent(coinId: String) = launch {
+    private fun sendNavigateUiEvent(coinName: String) = launch {
         _uiEvent.send(
-            CryptocoinsUiEvents.Navigate(coinId)
+            CryptocoinsUiEvents.Navigate(coinName)
         )
     }
 

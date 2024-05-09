@@ -4,16 +4,13 @@ import android.Manifest
 import android.os.Build
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
 import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.feature.coins.api.domain.interactor.CoinsDetailInteractor
-import com.maxkor.feature.coins.api.domain.model.DetailCoin
-import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
+import com.maxkor.feature.detail.impl.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.presentation.contract.DetailEvents
+import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -31,13 +28,9 @@ class DetailViewModel @Inject constructor(
     private val coinsDetailInteractor: CoinsDetailInteractor,
 ) : BaseViewModel() {
 
-    var detailCoin by mutableStateOf(DetailCoin.testExemplar)
-
-    fun getCoinByName(coinName: String) = launch {
-        detailCoin = coinsDetailInteractor.getCoinByName(coinName)
-    }
-
-    private val _detailUiState = MutableStateFlow<DetailUiState>(DetailUiState.ModeRead)
+    private val _detailUiState = MutableStateFlow<DetailUiState>(
+        DetailUiState.ModeRead()
+    )
     val detailUiState = _detailUiState.asStateFlow()
 
     private val _uiEvent = Channel<CryptocoinsUiEvents>()
@@ -46,6 +39,8 @@ class DetailViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun onEvent(event: DetailEvents) {
         when (event) {
+            is DetailEvents.OnScreenOpening -> setStateValue(event.coinName)
+
             is DetailEvents.OnBellImageClick -> interactor.createReminder(
                 coinReminder = event.coinReminder,
                 noPostNotificationPermissionCase = {
@@ -76,12 +71,12 @@ class DetailViewModel @Inject constructor(
 
             is DetailEvents.OnShareImageClick -> interactor.sharePicture(event.imageUrl)
 
-            is DetailEvents.OnMainBoxClick -> setScreenMode(event.mode)
-
             is DetailEvents.OnSaveButtonClick -> interactor.saveCoinExtraInfo(
                 key = event.key,
                 extraInfo = ExtraDetailCoinInfo(event.extraInfo)
             )
+
+            is DetailEvents.OnMainBoxClick -> swapScreenMode()
         }
     }
 
@@ -98,8 +93,40 @@ class DetailViewModel @Inject constructor(
     /**
      * Private sector
      */
-    private fun setScreenMode(mode: DetailUiState) = launch {
-        _detailUiState.emit(mode)
+    private fun setStateValue(coinName: String) = launch {
+        val detailCoinVo = coinsDetailInteractor
+            .getCoinByName(coinName)
+            .toDetailCoinVo()
+
+        val newState = createDetailUiState(
+            modeEditCase = { modeEditState ->
+                modeEditState.copy(
+                    detailCoinVo = detailCoinVo
+                )
+            },
+            modeReadCase = { modeReadState ->
+                modeReadState.copy(
+                    detailCoinVo = detailCoinVo
+                )
+            }
+        )
+        emitState(newState)
+    }
+
+    private fun swapScreenMode() {
+        val newState = createDetailUiState(
+            modeEditCase = { modeEditState ->
+                DetailUiState.ModeRead(
+                    detailCoinVo = modeEditState.detailCoinVo
+                )
+            },
+            modeReadCase = { modeReadState ->
+                DetailUiState.ModeEdit(
+                    detailCoinVo = modeReadState.detailCoinVo
+                )
+            }
+        )
+        emitState(newState)
     }
 
     private fun grantPermission(
@@ -111,6 +138,19 @@ class DetailViewModel @Inject constructor(
         _uiEvent.send(
             CryptocoinsUiEvents.ShowSnackbar(message)
         )
+    }
+
+    // Utils
+    private fun emitState(state: DetailUiState) = launch {
+        _detailUiState.emit(state)
+    }
+
+    private fun createDetailUiState(
+        modeEditCase: (DetailUiState.ModeEdit) -> DetailUiState,
+        modeReadCase: (DetailUiState.ModeRead) -> DetailUiState,
+    ): DetailUiState = when (val state = _detailUiState.value) {
+        is DetailUiState.ModeEdit -> modeEditCase(state)
+        is DetailUiState.ModeRead -> modeReadCase(state)
     }
 
     private fun millisecondsToSeconds(milliseconds: Long): String =

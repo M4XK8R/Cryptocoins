@@ -14,14 +14,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
-import com.maxkor.core.base.util.createDebugLog
-import com.maxkor.feature.coins.api.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
+import com.maxkor.feature.detail.impl.domain.model.ExtraDetailCoinInfo
 import com.maxkor.feature.detail.impl.presentation.contract.DetailEvents
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoin
-import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.viewmodel.DetailViewModel
 
 @SuppressLint("InlinedApi")
@@ -33,11 +31,17 @@ fun DetailRoute(
     informUser: (message: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    createDebugLog("coinName = $coinName")
     val context = LocalContext.current
     val viewModel: DetailViewModel = hiltViewModel()
-    val detailUiState by viewModel.detailUiState.collectAsStateWithLifecycle()
-    val detailCoinVo = viewModel.detailCoin.toDetailCoinVo()
+    val detailUiState by viewModel.detailUiState
+        .collectAsStateWithLifecycle()
+
+    val detailCoinVo = when (detailUiState) {
+        is DetailUiState.ModeEdit ->
+            (detailUiState as DetailUiState.ModeEdit).detailCoinVo
+        is DetailUiState.ModeRead ->
+            (detailUiState as DetailUiState.ModeRead).detailCoinVo
+    }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -72,10 +76,13 @@ fun DetailRoute(
     }
 
     LaunchedEffect(key1 = true) {
-        viewModel.getCoinByName(coinName)
+        viewModel.onEvent(
+            DetailEvents.OnScreenOpening(coinName)
+        )
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is CryptocoinsUiEvents.ShowSnackbar -> informUser(event.message)
+                is CryptocoinsUiEvents.ShowSnackbar ->
+                    informUser(event.message)
                 else -> Unit
             }
         }
@@ -117,32 +124,19 @@ fun DetailRoute(
             )
         },
         addCoinExtraInfo = {
-            viewModel.onEvent(
-                DetailEvents.OnMainBoxClick(DetailUiState.ModeEdit)
-            )
+            viewModel.onEvent(DetailEvents.OnMainBoxClick)
         },
         saveCoinExtraInfo = {
             viewModel.onEvent(
                 DetailEvents.OnSaveButtonClick(
                     key = detailCoinVo.name,
                     extraInfo = coinExtraInfoInput
-//                    extraInfo = detailCoinVo.extraInfo
                 )
             )
-            viewModel.onEvent(
-                DetailEvents.OnMainBoxClick(DetailUiState.ModeRead)
-            )
+            viewModel.onEvent(DetailEvents.OnMainBoxClick)
         },
         onTextSectionClick = {
-            when (detailUiState) {
-                DetailUiState.ModeEdit -> viewModel.onEvent(
-                    DetailEvents.OnMainBoxClick(DetailUiState.ModeRead)
-                )
-
-                DetailUiState.ModeRead -> viewModel.onEvent(
-                    DetailEvents.OnMainBoxClick(DetailUiState.ModeEdit)
-                )
-            }
+            viewModel.onEvent(DetailEvents.OnMainBoxClick)
         },
         modifier = modifier
     )

@@ -1,17 +1,18 @@
 package com.maxkor.feature.favorites.impl.presentation.viewmodel
 
+import com.maxkor.core.base.presentation.contract.CryptocoinsUiEvents
 import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
-import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
-import com.maxkor.feature.coins.api.domain.model.FavoriteCoin
+import com.maxkor.feature.favorites.impl.presentation.contract.FavoritesEvents
+import com.maxkor.feature.favorites.impl.presentation.mapper.toCryptocoin
 import com.maxkor.feature.favorites.impl.presentation.mapper.toFavoriteCoinVo
 import com.maxkor.feature.favorites.impl.presentation.screen.FavoritesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +24,6 @@ class FavoritesViewModel @Inject constructor(
 
     val favoritesUiState: StateFlow<FavoritesUiState> = interactor
         .getFavoriteCoinsFlow()
-        .onStart {}
-        .onEach { createDebugLog("onEach") }
         .map { favoriteCoins ->
             if (favoriteCoins.isNotEmpty()) {
                 val favoritesCoinsVos = favoriteCoins.map { it.toFavoriteCoinVo() }
@@ -39,7 +38,28 @@ class FavoritesViewModel @Inject constructor(
             initialValue = FavoritesUiState.Loading
         )
 
-    fun removeFromFavorites(favoriteCoin: FavoriteCoin) = launch {
-        interactor.removeFromFavorites(favoriteCoin)
+    private val _uiEvent = Channel<CryptocoinsUiEvents>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
+    fun onEvent(event: FavoritesEvents) {
+        when (event) {
+            is FavoritesEvents.OnFavoriteCardClick ->
+                sendNavigateUiEvent(event.coinName)
+
+            is FavoritesEvents.OnFavoriteIconClick -> launch {
+                interactor.removeFromFavorites(
+                    event.favoriteCoinVo.toCryptocoin()
+                )
+            }
+        }
+    }
+
+    /**
+     * Private sector
+     */
+    private fun sendNavigateUiEvent(coinName: String) = launch {
+        _uiEvent.send(
+            CryptocoinsUiEvents.Navigate(coinName)
+        )
     }
 }

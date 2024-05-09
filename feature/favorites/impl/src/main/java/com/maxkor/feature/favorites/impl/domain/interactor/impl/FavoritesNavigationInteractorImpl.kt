@@ -9,13 +9,16 @@ import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
 import com.maxkor.feature.favorites.impl.presentation.screen.FavoritesRoute
 import javax.inject.Inject
 
-class FavoritesNavigationInteractorImpl @Inject constructor() : FavoritesNavigationInteractor {
+class FavoritesNavigationInteractorImpl @Inject constructor() :
+    FavoritesNavigationInteractor {
 
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
         navigateToDetail: (coinId: String) -> Unit,
         modifier: Modifier,
-    ) = navGraphBuilder.composable(route = FavoritesFeature.ROUTE_NAME) {
+    ) = navGraphBuilder.composable(
+        route = FavoritesFeature.ROUTE_NAME
+    ) {
         FavoritesRoute(
             navigateToDetail = navigateToDetail,
             modifier = modifier
@@ -25,9 +28,9 @@ class FavoritesNavigationInteractorImpl @Inject constructor() : FavoritesNavigat
     override fun openScreen(
         navController: NavController,
         popUpToRoute: String,
+    ) = navController.navigate(
+        route = FavoritesFeature.ROUTE_NAME
     ) {
-        navController.navigate(route = FavoritesFeature.ROUTE_NAME) {
-            popUpTo(route = popUpToRoute)
-        }
+        popUpTo(route = popUpToRoute)
     }
 }

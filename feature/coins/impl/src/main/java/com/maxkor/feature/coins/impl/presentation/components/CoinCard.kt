@@ -32,7 +32,7 @@ fun RunPreviewCoinCard() = PreviewProvider(
     content = {
         CoinCard(
             coinVo = Coin.testExemplar.toCoinVo(),
-            onCardClick = { },
+            onCardClick = {},
             onFavoriteIconClick = {}
         )
     }

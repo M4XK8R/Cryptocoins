@@ -24,15 +24,18 @@ fun CoinsRoute(
     modifier: Modifier = Modifier,
 ) {
     val viewModel: CoinsViewModel = hiltViewModel()
-    val coinsUiState by viewModel.coinsUiState.collectAsStateWithLifecycle()
+    val coinsUiState by viewModel.coinsUiState
+        .collectAsStateWithLifecycle()
     val lazyListState = rememberLazyListState()
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is CryptocoinsUiEvents.ShowSnackbar -> informUser(event.message)
-                is CryptocoinsUiEvents.Navigate -> { navigateToDetail(event.coinName) }
+                is CryptocoinsUiEvents.ShowSnackbar ->
+                    informUser(event.message)
+                is CryptocoinsUiEvents.Navigate ->
+                    navigateToDetail(event.coinName)
             }
         }
     }

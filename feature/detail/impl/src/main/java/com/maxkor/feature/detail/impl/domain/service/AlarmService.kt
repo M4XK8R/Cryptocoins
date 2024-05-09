@@ -1,6 +1,6 @@
 package com.maxkor.feature.detail.impl.domain.service
 
-import com.maxkor.feature.coins.api.domain.model.DetailCoin
+import com.maxkor.feature.detail.impl.domain.model.DetailCoin
 
 interface AlarmService {
 

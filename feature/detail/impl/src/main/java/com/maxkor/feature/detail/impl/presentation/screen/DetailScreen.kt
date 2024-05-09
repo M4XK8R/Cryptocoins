@@ -37,8 +37,8 @@ import com.maxkor.core.ui.icons.CryptocoinsIcons
 import com.maxkor.core.ui.preview.PreviewProvider
 import com.maxkor.core.ui.preview.annotations.RawPreview
 import com.maxkor.core.ui.util.CoilImageLoader
-import com.maxkor.feature.coins.api.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.R
+import com.maxkor.feature.detail.impl.domain.model.DetailCoin
 import com.maxkor.feature.detail.impl.presentation.components.ActionImage
 import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoEditText
 import com.maxkor.feature.detail.impl.presentation.components.CoinExtraInfoText
@@ -181,7 +181,7 @@ fun DetailScreen(
                 )
         ) {
             when (detailUiState) {
-                DetailUiState.ModeEdit -> {
+                is DetailUiState.ModeEdit -> {
                     CoinExtraInfoEditText(
                         value = coinExtraInfoInput,
                         onValueChange = { editCoinExtraInfoInput(it) },
@@ -220,7 +220,7 @@ fun DetailScreen(
                     )
                 }
 
-                DetailUiState.ModeRead ->
+                is DetailUiState.ModeRead ->
                     CoinExtraInfoText(
                         text = coinExtraInfoInput,
                         fontScaling = fontScaling.increasingSmall,
@@ -250,7 +250,7 @@ fun RunPreviewDetailScreen() = PreviewProvider(
     content = {
         DetailScreen(
             detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo(),
-            detailUiState = DetailUiState.ModeRead,
+            detailUiState = DetailUiState.ModeRead(),
             coinExtraInfoInput = "",
             editCoinExtraInfoInput = {},
             savePicture = {},

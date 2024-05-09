@@ -78,7 +78,8 @@ fun CoinsScreenContent(
 fun RunPreviewCoinsScreenContent() = PreviewProvider(
     content = {
         CoinsScreenContent(
-            coinVos = Coin.testExemplars.map { it.toCoinVo() },
+            coinVos = Coin.testExemplars
+                .map { it.toCoinVo() },
             lazyListState = rememberLazyListState(),
             onCoinCardClick = {},
             onFavoriteIconClick = {},

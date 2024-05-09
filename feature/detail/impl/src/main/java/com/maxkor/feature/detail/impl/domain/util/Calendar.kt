@@ -18,4 +18,5 @@ fun Calendar.setUpCalendar(
     isLenient = false
 }
 
-fun Calendar.getCalendarTime(): Long = this.timeInMillis
+fun Calendar.getCalendarTime(): Long =
+    this.timeInMillis
