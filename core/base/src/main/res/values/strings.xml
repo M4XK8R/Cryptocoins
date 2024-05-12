@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Cryptocoins</string>
+    <string name="no_valid_data">No valid data is available</string>
+    <string name="no_permission_warning">The app won\'t work properly without the permission</string>
+    <string name="cryptocoin_picture">Cryptocoin picture</string>
+    <string name="icon">Icon</string>
+    <string name="no_internet_connection_warning">No internet connection</string>
+    <string name="favorite_image">Favorite image</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="channel_description">Channel for notifications</string>
+</resources>

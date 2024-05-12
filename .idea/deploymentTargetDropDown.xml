@@ -2,6 +2,60 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="RunPreviewCoinsScreen">
+        <State />
+      </entry>
+      <entry key="RunPreviewNavBottomBar">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_30_11_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-19T07:24:17.074426300Z" />
+        </State>
+      </entry>
+      <entry key="TimePickerDialogPreview">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_29_10_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T11:24:52.361564800Z" />
+        </State>
+      </entry>
+      <entry key="TimePickerDialogPreview (1)">
+        <State />
+      </entry>
+      <entry key="TimePickerSwitchablePreview">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\faitt\.android\avd\Medium_Phone_API_29_10_.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-19T05:33:52.964043400Z" />
+        </State>
+      </entry>
       <entry key="app">
         <State />
       </entry>
