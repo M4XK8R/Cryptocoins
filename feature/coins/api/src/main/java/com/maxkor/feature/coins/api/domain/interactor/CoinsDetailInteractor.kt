@@ -5,9 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsDetailInteractor {
 
-    suspend fun getDetailCoinById(id: Int): Cryptocoin
-
-    suspend fun getCoinByName(name: String): Cryptocoin
-
-    fun getDetailCoinByIdFlow(id: Int): Flow<Cryptocoin>
+    fun getCoinByNameFlow(name: String): Flow<Cryptocoin>
 }

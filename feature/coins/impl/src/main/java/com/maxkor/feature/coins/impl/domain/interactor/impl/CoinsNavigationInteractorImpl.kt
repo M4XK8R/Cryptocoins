@@ -1,6 +1,7 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -15,6 +16,7 @@ class CoinsNavigationInteractorImpl @Inject constructor() : CoinsNavigationInter
         navGraphBuilder: NavGraphBuilder,
         navigateToDetail: (coinName: String) -> Unit,
         informUser: (String?) -> Unit,
+        lifecycleOwner: LifecycleOwner,
         modifier: Modifier,
     ) = navGraphBuilder.composable(
         route = CoinsFeature.ROUTE_NAME
@@ -22,6 +24,7 @@ class CoinsNavigationInteractorImpl @Inject constructor() : CoinsNavigationInter
         CoinsRoute(
             navigateToDetail = navigateToDetail,
             informUser = informUser,
+            lifecycleOwner = lifecycleOwner,
             modifier = modifier
         )
     }

@@ -21,13 +21,13 @@ private const val COINS_UPDATE_INTERVAL = 30_000L
 fun CoinsRoute(
     navigateToDetail: (coinName: String) -> Unit,
     informUser: (String) -> Unit,
+    lifecycleOwner: LifecycleOwner,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: CoinsViewModel = hiltViewModel()
     val coinsUiState by viewModel.coinsUiState
         .collectAsStateWithLifecycle()
     val lazyListState = rememberLazyListState()
-    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->

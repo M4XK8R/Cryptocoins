@@ -94,23 +94,22 @@ class DetailViewModel @Inject constructor(
      * Private sector
      */
     private fun setStateValue(coinName: String) = launch {
-        val detailCoinVo = coinsDetailInteractor
-            .getCoinByName(coinName)
-            .toDetailCoinVo()
-
-        val newState = createDetailUiState(
-            modeEditCase = { modeEditState ->
-                modeEditState.copy(
-                    detailCoinVo = detailCoinVo
+        coinsDetailInteractor.getCoinByNameFlow(coinName)
+            .collect { cryptocoin ->
+                val newState = createDetailUiState(
+                    modeEditCase = { modeEditState ->
+                        modeEditState.copy(
+                            detailCoinVo = cryptocoin.toDetailCoinVo()
+                        )
+                    },
+                    modeReadCase = { modeReadState ->
+                        modeReadState.copy(
+                            detailCoinVo = cryptocoin.toDetailCoinVo()
+                        )
+                    }
                 )
-            },
-            modeReadCase = { modeReadState ->
-                modeReadState.copy(
-                    detailCoinVo = detailCoinVo
-                )
+                emitState(newState)
             }
-        )
-        emitState(newState)
     }
 
     private fun swapScreenMode() {

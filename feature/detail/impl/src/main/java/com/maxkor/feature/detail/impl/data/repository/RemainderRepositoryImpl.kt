@@ -8,10 +8,10 @@ import com.maxkor.feature.detail.impl.data.di.qualifiers.DetailFeatureImplementa
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository
 import com.maxkor.feature.detail.impl.domain.service.AlarmService
-import com.maxkor.feature.detail.impl.domain.util.getCalendar
-import com.maxkor.feature.detail.impl.domain.util.getCalendarTime
-import com.maxkor.feature.detail.impl.domain.util.setUpCalendar
+import com.maxkor.feature.detail.impl.data.ktx.getCalendarTime
+import com.maxkor.feature.detail.impl.data.ktx.setUpCalendar
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.Calendar
 import javax.inject.Inject
 
 class RemainderRepositoryImpl @Inject constructor(
@@ -24,7 +24,7 @@ class RemainderRepositoryImpl @Inject constructor(
         coinReminder: CoinReminder,
         onIncorrectTimeInput: (String) -> Unit,
     ) {
-        val calendar = getCalendar()
+        val calendar = Calendar.getInstance()
         createDebugLog("now is ${calendar.time}")
         val currentTime = calendar.getCalendarTime()
         calendar.setUpCalendar(

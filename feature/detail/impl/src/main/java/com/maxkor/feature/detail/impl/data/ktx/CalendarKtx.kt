@@ -1,11 +1,8 @@
-package com.maxkor.feature.detail.impl.domain.util
+package com.maxkor.feature.detail.impl.data.ktx
 
 import java.util.Calendar
 
 private const val DEFAULT_SECOND_VALUE = 0
-
-fun getCalendar(): Calendar =
-    Calendar.getInstance()
 
 fun Calendar.setUpCalendar(
     hour: Int,

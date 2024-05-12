@@ -16,19 +16,7 @@ class CoinsDetailInteractorImpl @Inject constructor(
     private val coinsRepository: CoinsRepository,
 ) : CoinsDetailInteractor {
 
-    override suspend fun getDetailCoinById(id: Int): Cryptocoin =
-        withContext(dispatcherIo) {
-            val coin = coinsRepository.getCoinById(id)
-            coin.toCryptocoin()
-        }
-
-    override suspend fun getCoinByName(name: String): Cryptocoin =
-        withContext(dispatcherIo) {
-            val coin = coinsRepository.getCoinByName(name)
-            coin.toCryptocoin()
-        }
-
-    override fun getDetailCoinByIdFlow(id: Int): Flow<Cryptocoin> =
-        coinsRepository.getCoinByIdFlow(id)
+    override fun getCoinByNameFlow(name: String): Flow<Cryptocoin> =
+        coinsRepository.getCoinByNameFlow(name)
             .map { it.toCryptocoin() }
 }
