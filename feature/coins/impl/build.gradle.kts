@@ -62,5 +62,14 @@ dependencies {
     implementation(libs.compose.lifecycle)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.8.0")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
+    androidTestImplementation(libs.test.android.espresso.core)
+    androidTestImplementation(libs.test.android.junit)
+    androidTestImplementation("org.mockito:mockito-android:2.24.5")
 }
 

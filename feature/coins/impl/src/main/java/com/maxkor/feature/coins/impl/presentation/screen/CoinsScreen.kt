@@ -50,7 +50,7 @@ fun CoinsScreen(
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinsScreen() = PreviewProvider(
+private fun RunPreviewCoinsScreen() = PreviewProvider(
     content = {
         CoinsScreen(
             coinsUiState = CoinsUiState.Loading,

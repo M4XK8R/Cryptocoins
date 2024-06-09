@@ -246,7 +246,7 @@ private sealed class TimePickerMode {
  */
 @Composable
 @RawPreview
-fun RunPreviewDetailScreen() = PreviewProvider(
+private fun RunPreviewDetailScreen() = PreviewProvider(
     content = {
         DetailScreen(
             detailCoinVo = DetailCoin.testExemplar.toDetailCoinVo(),

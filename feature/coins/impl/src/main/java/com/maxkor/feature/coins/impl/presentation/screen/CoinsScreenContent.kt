@@ -75,7 +75,7 @@ fun CoinsScreenContent(
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinsScreenContent() = PreviewProvider(
+private fun RunPreviewCoinsScreenContent() = PreviewProvider(
     content = {
         CoinsScreenContent(
             coinVos = Coin.testExemplars

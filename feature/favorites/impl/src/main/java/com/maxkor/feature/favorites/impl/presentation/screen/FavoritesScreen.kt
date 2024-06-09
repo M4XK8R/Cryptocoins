@@ -38,7 +38,7 @@ fun FavoritesScreen(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoritesScreen() = PreviewProvider(
+private fun RunPreviewFavoritesScreen() = PreviewProvider(
     content = {
         FavoritesScreen(
             favoritesUiState = FavoritesUiState.NoDataAvailable,

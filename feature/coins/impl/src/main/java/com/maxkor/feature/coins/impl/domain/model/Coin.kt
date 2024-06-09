@@ -14,7 +14,7 @@ data class Coin(
         val testExemplar = createTestExemplar()
         val testExemplars = List(60) { createTestExemplar(id = it) }
 
-        private fun createTestExemplar(
+        fun createTestExemplar(
             id: Int = 0,
             name: String = "Name $id",
             price: String = "${((Random.nextDouble() * 10000).roundToInt()) / 100.0}$",

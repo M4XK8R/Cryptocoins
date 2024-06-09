@@ -60,7 +60,7 @@ fun NavBottomBar(
  */
 @Composable
 @Preview
-fun RunPreviewNavBottomBar() = PreviewProvider(
+private fun RunPreviewNavBottomBar() = PreviewProvider(
     content = {
         NavBottomBar(
             currentRoute = null,

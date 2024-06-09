@@ -38,7 +38,7 @@ fun FavoritesScreenContent(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoritesScreenContent() = PreviewProvider(
+private fun RunPreviewFavoritesScreenContent() = PreviewProvider(
     content = {
         FavoritesScreenContent(
             favoriteCoinsVos = FavoriteCoin.testExemplars
