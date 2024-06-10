@@ -1,7 +1,7 @@
 package com.maxkor.cryptocoins.di.modules
 
 import com.maxkor.cryptocoins.broadcast.DetailFeatureReceiverImpl
-import com.maxkor.feature.detail.api.broadcast.DetailFeatureReceiver
+import com.maxkor.feature.detail.api.presentation.broadcast.DetailFeatureReceiver
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

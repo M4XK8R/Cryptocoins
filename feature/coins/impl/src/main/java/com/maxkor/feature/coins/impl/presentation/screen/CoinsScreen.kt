@@ -16,7 +16,7 @@ import com.maxkor.feature.coins.impl.presentation.model.CoinVo
 fun CoinsScreen(
     coinsUiState: CoinsUiState,
     lazyListState: LazyListState,
-    navigateToDetail: (coinName: String) -> Unit,
+    onCoinCardClick: (coinName: String) -> Unit,
     changeFavoriteState: (CoinVo) -> Unit,
     searchedCoin: String,
     search: (String) -> Unit,
@@ -36,7 +36,7 @@ fun CoinsScreen(
         CoinsScreenContent(
             coinVos = filteredCoinsVos,
             lazyListState = lazyListState,
-            onCoinCardClick = navigateToDetail,
+            onCoinCardClick = onCoinCardClick,
             onFavoriteIconClick = changeFavoriteState,
             searchedCoin = searchedCoin,
             search = search,
@@ -55,7 +55,7 @@ private fun RunPreviewCoinsScreen() = PreviewProvider(
         CoinsScreen(
             coinsUiState = CoinsUiState.Loading,
             lazyListState = rememberLazyListState(),
-            navigateToDetail = {},
+            onCoinCardClick = {},
             changeFavoriteState = {},
             searchedCoin = "",
             search = {}

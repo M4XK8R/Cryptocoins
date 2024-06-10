@@ -8,10 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.maxkor.core.theme.CryptocoinsTheme
-import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
-import com.maxkor.feature.detail.api.broadcast.DetailFeatureReceiver
-import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
-import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
+import com.maxkor.feature.coins.api.presentation.navigation.CoinsNavigation
+import com.maxkor.feature.detail.api.presentation.broadcast.DetailFeatureReceiver
+import com.maxkor.feature.detail.api.presentation.navigation.DetailNavigation
+import com.maxkor.feature.favorites.api.presentation.navigation.FavoritesNavigation
 import com.maxkor.feature.mainactivity.impl.presentation.model.ReceivedCoinDataVo
 import com.maxkor.feature.mainactivity.impl.presentation.navigation.AppNavigation
 import com.maxkor.feature.mainactivity.impl.presentation.viewmodel.MainActivityViewModel
@@ -22,13 +22,13 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var coinsNavigationInteractor: CoinsNavigationInteractor
+    lateinit var coinsNavigation: CoinsNavigation
 
     @Inject
-    lateinit var favoritesNavigationInteractor: FavoritesNavigationInteractor
+    lateinit var favoritesNavigation: FavoritesNavigation
 
     @Inject
-    lateinit var detailNavigationInteractor: DetailNavigationInteractor
+    lateinit var detailNavigation: DetailNavigation
 
     private var receivedCoinDataVoNullable: ReceivedCoinDataVo? = null
 
@@ -54,9 +54,9 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(
                     navController = navController,
                     snackbarHostState = viewModel.snackbarHostState,
-                    coinsNavigationInteractor = coinsNavigationInteractor,
-                    favoritesNavigationInteractor = favoritesNavigationInteractor,
-                    detailNavigationInteractor = detailNavigationInteractor,
+                    coinsNavigation = coinsNavigation,
+                    favoritesNavigation = favoritesNavigation,
+                    detailNavigation = detailNavigation,
                     showSnackbarMessage = viewModel::showSnackbarMessage,
                     recreateApplication = ::recreateApplication,
                     receivedCoinDataVoNullable = receivedCoinDataVoNullable

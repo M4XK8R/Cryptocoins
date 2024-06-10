@@ -1,4 +1,4 @@
-package com.maxkor.feature.detail.api.broadcast
+package com.maxkor.feature.detail.api.presentation.broadcast
 
 import android.app.Activity
 import android.app.PendingIntent

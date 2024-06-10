@@ -1,19 +1,16 @@
-package com.maxkor.feature.coins.api.domain.interactor
+package com.maxkor.feature.coins.api.presentation.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
-interface CoinsNavigationInteractor {
+interface CoinsNavigation {
 
     fun graph(
         navGraphBuilder: NavGraphBuilder,
-        navigateToDetail: (coinName: String) -> Unit,
+        onCoinCardClick: (coinName: String) -> Unit,
         informUser: (String?) -> Unit,
         lifecycleOwner: LifecycleOwner,
         modifier: Modifier = Modifier,
     )
-
-    fun openScreen(navController: NavController)
 }

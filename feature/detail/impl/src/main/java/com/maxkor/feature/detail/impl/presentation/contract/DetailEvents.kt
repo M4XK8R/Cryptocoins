@@ -6,6 +6,7 @@ import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
 
 sealed class DetailEvents {
+
     data class OnScreenOpening(val coinName: String) : DetailEvents()
 
     data class OnBellImageClick(
