@@ -7,9 +7,9 @@ interface CoinsInteractor {
 
     fun getCoinsFlow(): Flow<List<Coin>>
 
-    suspend fun changeCoinFavoriteState(coin: Coin)
-
-    suspend fun updateData(
+    suspend fun updateCoins(
         informUserOnFailure: (String) -> Unit,
     )
+
+    suspend fun changeCoinFavoriteState(coin: Coin)
 }

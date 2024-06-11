@@ -20,29 +20,80 @@ class CoinsRepositoryImpl @Inject constructor(
     private val api: CoinsApi,
 ) : CoinsRepository {
 
+    override fun getCoinByNameFlow(name: String): Flow<Coin> = dao
+        .getByNameFlow(name)
+        .map { it.toCoin() }
+
     override fun getCoinsFlow(): Flow<List<Coin>> = dao
         .getAllFlow()
         .map { coinsEntities ->
             coinsEntities.map { it.toCoin() }
         }
 
-    override fun getCoinByNameFlow(name: String): Flow<Coin>  = dao
-        .getByNameFlow(name)
-        .map { it.toCoin() }
-
-    override suspend fun getCoins(): List<Coin> = dao
-        .getAll()
-        .map { it.toCoin() }
-
     override suspend fun updateCoin(coin: Coin) = dao
         .update(coin.toCoinEntity())
 
-    override suspend fun updateCoins(coins: List<Coin>) = dao
+    override suspend fun updateCoins(
+        hasInternetConnection: Boolean,
+        informUserOnFailure: (String) -> Unit,
+    ) {
+        if (hasInternetConnection) {
+            val newCoins = getCoinsFromServer(
+                informUserOnFailure = informUserOnFailure
+            )
+            if (newCoins.isNullOrEmpty()) {
+                return
+            }
+            val currentCoins = getCoins()
+            if (currentCoins.isEmpty()) {
+                insertCoinsToDatabase(newCoins)
+            }
+            if (currentCoins.isNotEmpty()) {
+                val parsedCoins = parseCoins(
+                    updatedCoins = newCoins,
+                    currentCoins = currentCoins
+                )
+                insertCoinsToDatabase(parsedCoins)
+            }
+        } else {
+            informUserOnFailure(
+                context.getString(
+                    com.maxkor.core.base.R.string.no_internet_connection_warning
+                )
+            )
+        }
+    }
+
+    /**
+     * Private sector
+     */
+    private fun parseCoins(
+        updatedCoins: List<Coin>,
+        currentCoins: List<Coin>,
+    ): List<Coin> {
+        val parsedCoins = mutableListOf<Coin>()
+        updatedCoins.forEach { updatedCoin ->
+            val currentCoin = currentCoins.first { currentCoin ->
+                currentCoin.id == updatedCoin.id
+            }
+            val parsedCoin = updatedCoin.copy(
+                isFavorite = currentCoin.isFavorite
+            )
+            parsedCoins.add(parsedCoin)
+        }
+        return parsedCoins.toList()
+    }
+
+    private suspend fun insertCoinsToDatabase(coins: List<Coin>) = dao
         .update(
             coins.map { it.toCoinEntity() }
         )
 
-    override suspend fun getCoinsFromServer(
+    private suspend fun getCoins(): List<Coin> = dao
+        .getAll()
+        .map { it.toCoin() }
+
+    private suspend fun getCoinsFromServer(
         informUserOnFailure: (String) -> Unit,
     ): List<Coin>? {
         try {

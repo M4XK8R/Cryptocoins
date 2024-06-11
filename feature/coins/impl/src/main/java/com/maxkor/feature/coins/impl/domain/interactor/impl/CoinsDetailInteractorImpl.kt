@@ -8,7 +8,6 @@ import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoinsDetailInteractorImpl @Inject constructor(

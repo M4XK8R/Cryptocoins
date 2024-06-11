@@ -90,7 +90,7 @@ class CoinsViewModel @Inject constructor(
 
     private fun updateCoins(downtime: Long) = launch {
         while (shouldLoadCoins) {
-            interactor.updateData(
+            interactor.updateCoins(
                 informUserOnFailure = ::sendShowSnackbarUiEvent
             )
             delay(downtime)
