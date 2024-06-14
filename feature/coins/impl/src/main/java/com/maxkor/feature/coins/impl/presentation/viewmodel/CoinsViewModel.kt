@@ -8,6 +8,8 @@ import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
+import com.maxkor.feature.coins.impl.domain.model.parameters.ChangeCoinFavoriteStateParams
+import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCoinsParams
 import com.maxkor.feature.coins.impl.presentation.contract.CoinsEvents
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
@@ -79,7 +81,7 @@ class CoinsViewModel @Inject constructor(
     private fun startUpdatingCoins(downtime: Long) {
         createDebugLog("startUpdatingCoins")
         shouldLoadCoins = true
-        coinsLoaderJob = updateCoins(downtime)
+        coinsLoaderJob = downloadAndUpdateCoins(downtime)
     }
 
     private fun stopUpdatingCoins() {
@@ -88,10 +90,12 @@ class CoinsViewModel @Inject constructor(
         coinsLoaderJob?.cancel()
     }
 
-    private fun updateCoins(downtime: Long) = launch {
+    private fun downloadAndUpdateCoins(downtime: Long) = launch {
         while (shouldLoadCoins) {
-            interactor.updateCoins(
-                informUserOnFailure = ::sendShowSnackbarUiEvent
+            interactor.downloadAndUpdateCoins(
+                DownloadAndUpdateCoinsParams(
+                    informUserOnFailure = ::sendShowSnackbarUiEvent
+                )
             )
             delay(downtime)
         }
@@ -99,7 +103,9 @@ class CoinsViewModel @Inject constructor(
 
     private fun changeCoinFavoriteState(coinVo: CoinVo) = launch {
         interactor.changeCoinFavoriteState(
-            coin = coinVo.toCoin()
+            ChangeCoinFavoriteStateParams(
+                coin = coinVo.toCoin()
+            )
         )
     }
 

@@ -11,6 +11,14 @@ data class Cryptocoin(
     val isFavorite: Boolean,
 ) {
     companion object {
+        val Empty = Cryptocoin(
+            id = -1,
+            name = "",
+            price = "",
+            imageUrl = "",
+            isFavorite = false
+        )
+
         val testExemplar = createTestExemplar()
         val testExemplars = List(60) { createTestExemplar(id = it) }
 

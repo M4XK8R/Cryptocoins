@@ -1,9 +1,9 @@
 package com.maxkor.feature.detail.impl.data.di.modules
 
 import com.maxkor.feature.detail.impl.data.repository.ImageRepositoryImpl
-import com.maxkor.feature.detail.impl.data.repository.RemainderRepositoryImpl
+import com.maxkor.feature.detail.impl.data.repository.ReminderRepositoryImpl
 import com.maxkor.feature.detail.impl.domain.repository.ImageRepository
-import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository
+import com.maxkor.feature.detail.impl.domain.repository.ReminderRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,6 +20,6 @@ interface RepositoryModule {
 
     @Binds
     fun bindRemainderRepository(
-        impl: RemainderRepositoryImpl,
-    ): RemainderRepository
+        impl: ReminderRepositoryImpl,
+    ): ReminderRepository
 }

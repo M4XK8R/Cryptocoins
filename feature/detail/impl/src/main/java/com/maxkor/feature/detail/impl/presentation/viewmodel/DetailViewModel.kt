@@ -9,6 +9,10 @@ import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.feature.coins.api.domain.interactor.CoinsDetailInteractor
 import com.maxkor.feature.detail.impl.domain.interactor.DetailInteractor
 import com.maxkor.feature.detail.impl.domain.model.ExtraDetailCoinInfo
+import com.maxkor.feature.detail.impl.domain.model.parameters.CreateReminderParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.SaveCoinExtraInfoParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.SavePictureParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.SharePictureParams
 import com.maxkor.feature.detail.impl.presentation.contract.DetailEvents
 import com.maxkor.feature.detail.impl.presentation.mapper.toDetailCoinVo
 import com.maxkor.feature.detail.impl.presentation.screen.DetailUiState
@@ -42,38 +46,46 @@ class DetailViewModel @Inject constructor(
             is DetailEvents.OnScreenOpening -> setStateValue(event.coinName)
 
             is DetailEvents.OnBellImageClick -> interactor.createReminder(
-                coinReminder = event.coinReminder,
-                noPostNotificationPermissionCase = {
-                    grantPermission(
-                        permission = Manifest.permission.POST_NOTIFICATIONS,
-                        launcher = event.launcher
-                    )
-                },
-                onIncorrectTimeInput = ::sendShowSnackbarUiEvent
+                CreateReminderParams(
+                    coinReminder = event.coinReminder,
+                    noPostNotificationPermissionCase = {
+                        grantPermission(
+                            permission = Manifest.permission.POST_NOTIFICATIONS,
+                            launcher = event.launcher
+                        )
+                    },
+                    onIncorrectTimeInput = ::sendShowSnackbarUiEvent
+                )
             )
 
             is DetailEvents.OnDownloadImageClick -> interactor.savePicture(
-                downloadableImage = event.downloadableImage,
-                noWriteStoragePermissionCase = {
-                    grantPermission(
-                        permission = Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        launcher = event.launcher
-                    )
-                },
-                noPostNotificationPermissionCase = {
-                    grantPermission(
-                        permission = Manifest.permission.POST_NOTIFICATIONS,
-                        launcher = event.launcher
-                    )
-                },
-                onDownloadState = ::sendShowSnackbarUiEvent
+                SavePictureParams(
+                    downloadableImage = event.downloadableImage,
+                    noWriteStoragePermissionCase = {
+                        grantPermission(
+                            permission = Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            launcher = event.launcher
+                        )
+                    },
+                    noPostNotificationPermissionCase = {
+                        grantPermission(
+                            permission = Manifest.permission.POST_NOTIFICATIONS,
+                            launcher = event.launcher
+                        )
+                    },
+                    onDownloadState = ::sendShowSnackbarUiEvent
+                )
             )
 
-            is DetailEvents.OnShareImageClick -> interactor.sharePicture(event.imageUrl)
+            is DetailEvents.OnShareImageClick -> interactor.sharePicture(
+                SharePictureParams(event.imageUrl)
+            )
 
             is DetailEvents.OnSaveButtonClick -> interactor.saveCoinExtraInfo(
-                key = event.key,
-                extraInfo = ExtraDetailCoinInfo(event.extraInfo)
+                SaveCoinExtraInfoParams(
+                    key = event.key,
+                    extraInfo = ExtraDetailCoinInfo(event.extraInfo)
+                )
             )
 
             is DetailEvents.OnMainBoxClick -> swapScreenMode()

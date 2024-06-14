@@ -31,29 +31,29 @@ class CoinsRepositoryImpl @Inject constructor(
         }
 
     override suspend fun updateCoin(coin: Coin) = dao
-        .update(coin.toCoinEntity())
+        .insertOrUpdate(coin.toCoinEntity())
 
-    override suspend fun updateCoins(
+    override suspend fun downloadAndUpdateCoins(
         hasInternetConnection: Boolean,
         informUserOnFailure: (String) -> Unit,
     ) {
         if (hasInternetConnection) {
-            val newCoins = getCoinsFromServer(
+            val newCoins = downloadCoins(
                 informUserOnFailure = informUserOnFailure
             )
             if (newCoins.isNullOrEmpty()) {
                 return
             }
-            val currentCoins = getCoins()
+            val currentCoins = getCoinsFromDatabase()
             if (currentCoins.isEmpty()) {
-                insertCoinsToDatabase(newCoins)
+                addCoinsToDatabase(newCoins)
             }
             if (currentCoins.isNotEmpty()) {
                 val parsedCoins = parseCoins(
                     updatedCoins = newCoins,
                     currentCoins = currentCoins
                 )
-                insertCoinsToDatabase(parsedCoins)
+                addCoinsToDatabase(parsedCoins)
             }
         } else {
             informUserOnFailure(
@@ -84,16 +84,16 @@ class CoinsRepositoryImpl @Inject constructor(
         return parsedCoins.toList()
     }
 
-    private suspend fun insertCoinsToDatabase(coins: List<Coin>) = dao
-        .update(
+    private suspend fun addCoinsToDatabase(coins: List<Coin>) = dao
+        .insertOrUpdate(
             coins.map { it.toCoinEntity() }
         )
 
-    private suspend fun getCoins(): List<Coin> = dao
+    private suspend fun getCoinsFromDatabase(): List<Coin> = dao
         .getAll()
         .map { it.toCoin() }
 
-    private suspend fun getCoinsFromServer(
+    private suspend fun downloadCoins(
         informUserOnFailure: (String) -> Unit,
     ): List<Coin>? {
         try {

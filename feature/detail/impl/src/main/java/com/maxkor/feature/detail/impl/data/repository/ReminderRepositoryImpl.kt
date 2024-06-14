@@ -6,7 +6,7 @@ import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.detail.impl.R
 import com.maxkor.feature.detail.impl.data.di.qualifiers.DetailFeatureImplementation
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
-import com.maxkor.feature.detail.impl.domain.repository.RemainderRepository
+import com.maxkor.feature.detail.impl.domain.repository.ReminderRepository
 import com.maxkor.feature.detail.impl.domain.service.AlarmService
 import com.maxkor.feature.detail.impl.data.ktx.getCalendarTime
 import com.maxkor.feature.detail.impl.data.ktx.setUpCalendar
@@ -14,11 +14,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Calendar
 import javax.inject.Inject
 
-class RemainderRepositoryImpl @Inject constructor(
+class ReminderRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     @DetailFeatureImplementation private val notificationService: NotificationService,
     private val alarmService: AlarmService,
-) : RemainderRepository {
+) : ReminderRepository {
 
     override fun createReminder(
         coinReminder: CoinReminder,

@@ -13,10 +13,10 @@ interface CoinsDao {
     suspend fun getAll(): List<CoinEntity>
 
     @Upsert
-    suspend fun update(coinsEntities: List<CoinEntity>)
+    suspend fun insertOrUpdate(coinsEntities: List<CoinEntity>)
 
     @Upsert
-    suspend fun update(vararg coinsEntities: CoinEntity)
+    suspend fun insertOrUpdate(vararg coinsEntities: CoinEntity)
 
     @Query("SELECT * FROM  cryptocoins")
     fun getAllFlow(): Flow<List<CoinEntity>>

@@ -11,7 +11,7 @@ interface CoinsRepository {
 
     suspend fun updateCoin(coin: Coin)
 
-    suspend fun updateCoins(
+    suspend fun downloadAndUpdateCoins(
         hasInternetConnection: Boolean,
         informUserOnFailure: (String) -> Unit,
     )

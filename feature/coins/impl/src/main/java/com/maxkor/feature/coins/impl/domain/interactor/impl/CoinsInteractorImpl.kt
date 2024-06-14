@@ -1,38 +1,43 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
-import com.maxkor.core.base.domain.dispatchers.IoDispatcher
-import com.maxkor.core.base.domain.repository.CheckerRepository
+import com.maxkor.core.base.domain.usecase.UseCase
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
-import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
-import kotlinx.coroutines.CoroutineDispatcher
+import com.maxkor.feature.coins.impl.domain.model.parameters.ChangeCoinFavoriteStateParams
+import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCoinsParams
+import com.maxkor.feature.coins.impl.domain.usecase.ChangeCoinFavoriteStateUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.DownloadAndUpdateCoinsUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.GetCoinsFlowUseCase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class CoinsInteractorImpl @Inject constructor(
-    @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
-    private val coinsRepository: CoinsRepository,
-    private val checkerRepository: CheckerRepository,
+    private val getCoinsFlowUseCase: GetCoinsFlowUseCase,
+    private val downloadAndUpdateCoinsUseCase: DownloadAndUpdateCoinsUseCase,
+    private val changeCoinFavoriteStateUseCase: ChangeCoinFavoriteStateUseCase,
 ) : CoinsInteractor {
 
     override fun getCoinsFlow(): Flow<List<Coin>> =
-        coinsRepository.getCoinsFlow()
+        when (val result = getCoinsFlowUseCase.invoke(null)) {
+            is UseCase.Result.Success -> result.value
+            is UseCase.Result.Failure -> flowOf(emptyList())
+        }
 
-    override suspend fun updateCoins(
-        informUserOnFailure: (String) -> Unit,
-    ) = withContext(dispatcherIo) {
-        coinsRepository.updateCoins(
-            hasInternetConnection = checkerRepository.hasInternetConnection(),
-            informUserOnFailure = informUserOnFailure
-        )
+    override suspend fun downloadAndUpdateCoins(
+        downloadAndUpdateCoinsParams: DownloadAndUpdateCoinsParams,
+    ) {
+        downloadAndUpdateCoinsUseCase.invoke(downloadAndUpdateCoinsParams)
     }
 
-    override suspend fun changeCoinFavoriteState(coin: Coin) =
-        withContext(dispatcherIo) {
-            val updatedCoin = coin.copy(
-                isFavorite = !coin.isFavorite
+    override suspend fun changeCoinFavoriteState(
+        changeCoinFavoriteStateParams: ChangeCoinFavoriteStateParams,
+    ) {
+        val updatedParams = ChangeCoinFavoriteStateParams(
+            coin = changeCoinFavoriteStateParams.coin.copy(
+                isFavorite = !changeCoinFavoriteStateParams.coin.isFavorite
             )
-            coinsRepository.updateCoin(updatedCoin)
-        }
+        )
+        changeCoinFavoriteStateUseCase.invoke(updatedParams)
+    }
 }
