@@ -1,5 +1,6 @@
 package com.maxkor.feature.coins.impl.data.local.mapper
 
+import com.maxkor.feature.coins.impl.data.local.model.CoinCached
 import com.maxkor.feature.coins.impl.data.local.model.CoinEntity
 import com.maxkor.feature.coins.impl.domain.model.Coin
 
@@ -12,6 +13,22 @@ fun Coin.toCoinEntity() = CoinEntity(
 )
 
 fun CoinEntity.toCoin() = Coin(
+    id = id,
+    name = name,
+    price = price,
+    imageUrl = imageUrl,
+    isFavorite = isFavorite
+)
+
+fun Coin.toCoinCached() = CoinCached(
+    id = id,
+    name = name,
+    price = price,
+    imageUrl = imageUrl,
+    isFavorite = isFavorite
+)
+
+fun CoinCached.toCoin() = Coin(
     id = id,
     name = name,
     price = price,

@@ -3,6 +3,7 @@ package com.maxkor.feature.coins.impl.domain.interactor.impl
 import com.maxkor.core.base.domain.model.Cryptocoin
 import com.maxkor.core.base.domain.usecase.UseCase
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
+import com.maxkor.feature.coins.impl.domain.mapper.toCoin
 import com.maxkor.feature.coins.impl.domain.mapper.toCryptocoin
 import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
 import com.maxkor.feature.coins.impl.domain.usecase.GetCoinsFlowUseCase
@@ -32,6 +33,8 @@ class CoinsFavoritesInteractorImpl @Inject constructor(
         }
 
     override suspend fun removeFromFavorites(cryptocoin: Cryptocoin) {
-        updateCoinUseCase.invoke(UpdateCoinParams(cryptocoin))
+        updateCoinUseCase.invoke(
+            UpdateCoinParams(cryptocoin.toCoin())
+        )
     }
 }

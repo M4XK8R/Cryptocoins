@@ -1,5 +1,5 @@
 package com.maxkor.feature.coins.impl.domain.model.parameters
 
-import com.maxkor.core.base.domain.model.Cryptocoin
+import com.maxkor.feature.coins.impl.domain.model.Coin
 
-data class UpdateCoinParams(val cryptocoin: Cryptocoin)
+data class UpdateCoinParams(val coin: Coin)

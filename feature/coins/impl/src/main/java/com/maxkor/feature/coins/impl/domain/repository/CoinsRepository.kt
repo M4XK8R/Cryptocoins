@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsRepository {
 
-    fun getCoinByNameFlow(name: String): Flow<Coin>
+    val coinsFlow: Flow<List<Coin>>
 
-    fun getCoinsFlow(): Flow<List<Coin>>
+    fun getCoinByNameFlow(name: String): Flow<Coin>
 
     suspend fun updateCoin(coin: Coin)
 

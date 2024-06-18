@@ -11,6 +11,6 @@ class GetCoinsFlowUseCase @Inject constructor(
 ) : UseCase<Nothing?, Flow<List<Coin>>>() {
 
     override fun execute(parameters: Nothing?): Flow<List<Coin>> =
-        coinsRepository.getCoinsFlow()
+        coinsRepository.coinsFlow
 }
 

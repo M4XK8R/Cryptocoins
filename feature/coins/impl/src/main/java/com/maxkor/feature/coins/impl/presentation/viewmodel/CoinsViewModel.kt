@@ -8,8 +8,8 @@ import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
-import com.maxkor.feature.coins.impl.domain.model.parameters.ChangeCoinFavoriteStateParams
 import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCoinsParams
+import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
 import com.maxkor.feature.coins.impl.presentation.contract.CoinsEvents
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
@@ -103,7 +103,7 @@ class CoinsViewModel @Inject constructor(
 
     private fun changeCoinFavoriteState(coinVo: CoinVo) = launch {
         interactor.changeCoinFavoriteState(
-            ChangeCoinFavoriteStateParams(
+            UpdateCoinParams(
                 coin = coinVo.toCoin()
             )
         )

@@ -2,15 +2,16 @@ package com.maxkor.feature.coins.impl.data.repository
 
 import android.content.Context
 import com.maxkor.feature.coins.impl.R
+import com.maxkor.feature.coins.impl.data.local.cache.CoinsCache
 import com.maxkor.feature.coins.impl.data.local.dao.CoinsDao
-import com.maxkor.feature.coins.impl.data.local.mapper.toCoin
-import com.maxkor.feature.coins.impl.data.local.mapper.toCoinEntity
 import com.maxkor.feature.coins.impl.data.remote.api.CoinsApi
 import com.maxkor.feature.coins.impl.data.remote.mapper.toCoin
 import com.maxkor.feature.coins.impl.domain.model.Coin
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -18,20 +19,30 @@ class CoinsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dao: CoinsDao,
     private val api: CoinsApi,
+    private val cache: CoinsCache,
 ) : CoinsRepository {
 
-    override fun getCoinByNameFlow(name: String): Flow<Coin> = dao
-        .getByNameFlow(name)
-        .map { it.toCoin() }
+    private val _coinsFlow: MutableStateFlow<List<Coin>> =
+        MutableStateFlow(emptyList())
 
-    override fun getCoinsFlow(): Flow<List<Coin>> = dao
-        .getAllFlow()
-        .map { coinsEntities ->
-            coinsEntities.map { it.toCoin() }
+    override val coinsFlow: Flow<List<Coin>>
+        get() = _coinsFlow
+
+    override fun getCoinByNameFlow(name: String): Flow<Coin> =
+        _coinsFlow.map { coins ->
+            coins.first { it.name == name }
         }
 
-    override suspend fun updateCoin(coin: Coin) = dao
-        .insertOrUpdate(coin.toCoinEntity())
+    override suspend fun updateCoin(coin: Coin) {
+        val isCoinOnList = _coinsFlow.value.find { it.name == coin.name } != null
+        if (isCoinOnList) {
+            _coinsFlow.getAndUpdate { coins ->
+                coins.map { currentCoin ->
+                    if (currentCoin.name == coin.name) coin else currentCoin
+                }
+            }
+        }
+    }
 
     override suspend fun downloadAndUpdateCoins(
         hasInternetConnection: Boolean,
@@ -44,16 +55,15 @@ class CoinsRepositoryImpl @Inject constructor(
             if (newCoins.isNullOrEmpty()) {
                 return
             }
-            val currentCoins = getCoinsFromDatabase()
+            val currentCoins = _coinsFlow.value
             if (currentCoins.isEmpty()) {
-                addCoinsToDatabase(newCoins)
-            }
-            if (currentCoins.isNotEmpty()) {
+                _coinsFlow.value = newCoins
+            } else {
                 val parsedCoins = parseCoins(
                     updatedCoins = newCoins,
                     currentCoins = currentCoins
                 )
-                addCoinsToDatabase(parsedCoins)
+                _coinsFlow.value = parsedCoins
             }
         } else {
             informUserOnFailure(
@@ -83,15 +93,6 @@ class CoinsRepositoryImpl @Inject constructor(
         }
         return parsedCoins.toList()
     }
-
-    private suspend fun addCoinsToDatabase(coins: List<Coin>) = dao
-        .insertOrUpdate(
-            coins.map { it.toCoinEntity() }
-        )
-
-    private suspend fun getCoinsFromDatabase(): List<Coin> = dao
-        .getAll()
-        .map { it.toCoin() }
 
     private suspend fun downloadCoins(
         informUserOnFailure: (String) -> Unit,

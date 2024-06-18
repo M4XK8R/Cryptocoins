@@ -1,9 +1,7 @@
 package com.maxkor.feature.coins.impl.domain.usecase
 
 import com.maxkor.core.base.domain.dispatchers.IoDispatcher
-import com.maxkor.core.base.domain.model.Cryptocoin
 import com.maxkor.core.base.domain.usecase.SuspendUseCase
-import com.maxkor.feature.coins.impl.domain.mapper.toCoin
 import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
 import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,5 +13,5 @@ class UpdateCoinUseCase @Inject constructor(
 ) : SuspendUseCase<UpdateCoinParams, Unit>(dispatcherIo) {
 
     override suspend fun execute(parameters: UpdateCoinParams) =
-        coinsRepository.updateCoin(parameters.cryptocoin.toCoin())
+        coinsRepository.updateCoin(parameters.coin)
 }

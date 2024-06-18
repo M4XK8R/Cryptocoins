@@ -3,11 +3,11 @@ package com.maxkor.feature.coins.impl.domain.interactor.impl
 import com.maxkor.core.base.domain.usecase.UseCase
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
-import com.maxkor.feature.coins.impl.domain.model.parameters.ChangeCoinFavoriteStateParams
 import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCoinsParams
-import com.maxkor.feature.coins.impl.domain.usecase.ChangeCoinFavoriteStateUseCase
+import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
 import com.maxkor.feature.coins.impl.domain.usecase.DownloadAndUpdateCoinsUseCase
 import com.maxkor.feature.coins.impl.domain.usecase.GetCoinsFlowUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.UpdateCoinUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class CoinsInteractorImpl @Inject constructor(
     private val getCoinsFlowUseCase: GetCoinsFlowUseCase,
     private val downloadAndUpdateCoinsUseCase: DownloadAndUpdateCoinsUseCase,
-    private val changeCoinFavoriteStateUseCase: ChangeCoinFavoriteStateUseCase,
+    private val updateCoinUseCase: UpdateCoinUseCase,
 ) : CoinsInteractor {
 
     override fun getCoinsFlow(): Flow<List<Coin>> =
@@ -31,13 +31,11 @@ class CoinsInteractorImpl @Inject constructor(
     }
 
     override suspend fun changeCoinFavoriteState(
-        changeCoinFavoriteStateParams: ChangeCoinFavoriteStateParams,
+        updateCoinParams: UpdateCoinParams,
     ) {
-        val updatedParams = ChangeCoinFavoriteStateParams(
-            coin = changeCoinFavoriteStateParams.coin.copy(
-                isFavorite = !changeCoinFavoriteStateParams.coin.isFavorite
-            )
+        val updatedCoin = updateCoinParams.coin.copy(
+            isFavorite = !updateCoinParams.coin.isFavorite
         )
-        changeCoinFavoriteStateUseCase.invoke(updatedParams)
+        updateCoinUseCase.invoke(UpdateCoinParams(updatedCoin))
     }
 }
