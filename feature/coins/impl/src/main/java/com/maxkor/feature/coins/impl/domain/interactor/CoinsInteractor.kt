@@ -16,4 +16,6 @@ interface CoinsInteractor {
     suspend fun changeCoinFavoriteState(
         updateCoinParams: UpdateCoinParams,
     )
+
+    suspend fun saveCoinsToDatabase()
 }

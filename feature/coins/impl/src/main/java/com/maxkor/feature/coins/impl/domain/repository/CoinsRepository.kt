@@ -7,7 +7,7 @@ interface CoinsRepository {
 
     val coinsFlow: Flow<List<Coin>>
 
-    fun getCoinByNameFlow(name: String): Flow<Coin>
+    suspend fun saveCoinsToDatabase()
 
     suspend fun updateCoin(coin: Coin)
 

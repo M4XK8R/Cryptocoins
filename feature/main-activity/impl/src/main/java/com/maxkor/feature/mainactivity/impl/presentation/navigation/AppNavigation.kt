@@ -62,7 +62,7 @@ internal fun AppNavigation(
     receivedCoinDataVoNullable?.let { receivedCoinDataVo ->
         if (receivedCoinDataVo.isDataNotUnknown()) {
             LaunchedEffect(key1 = true) {
-                delay(CoinsFeature.LOADING_DATA_TIME)
+                delay(CoinsFeature.LOADING_IMITATION_TIME)
                 navigateToDetail(receivedCoinDataVo.name)
             }
         }

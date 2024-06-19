@@ -19,19 +19,3 @@ fun CoinEntity.toCoin() = Coin(
     imageUrl = imageUrl,
     isFavorite = isFavorite
 )
-
-fun Coin.toCoinCached() = CoinCached(
-    id = id,
-    name = name,
-    price = price,
-    imageUrl = imageUrl,
-    isFavorite = isFavorite
-)
-
-fun CoinCached.toCoin() = Coin(
-    id = id,
-    name = name,
-    price = price,
-    imageUrl = imageUrl,
-    isFavorite = isFavorite
-)

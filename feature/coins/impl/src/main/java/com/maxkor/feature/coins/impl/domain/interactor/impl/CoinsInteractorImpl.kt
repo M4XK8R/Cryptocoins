@@ -7,6 +7,7 @@ import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCo
 import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
 import com.maxkor.feature.coins.impl.domain.usecase.DownloadAndUpdateCoinsUseCase
 import com.maxkor.feature.coins.impl.domain.usecase.GetCoinsFlowUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.SaveCoinsToDatabaseUseCase
 import com.maxkor.feature.coins.impl.domain.usecase.UpdateCoinUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -16,6 +17,7 @@ class CoinsInteractorImpl @Inject constructor(
     private val getCoinsFlowUseCase: GetCoinsFlowUseCase,
     private val downloadAndUpdateCoinsUseCase: DownloadAndUpdateCoinsUseCase,
     private val updateCoinUseCase: UpdateCoinUseCase,
+    private val saveCoinsToDatabaseUseCase: SaveCoinsToDatabaseUseCase,
 ) : CoinsInteractor {
 
     override fun getCoinsFlow(): Flow<List<Coin>> =
@@ -37,5 +39,9 @@ class CoinsInteractorImpl @Inject constructor(
             isFavorite = !updateCoinParams.coin.isFavorite
         )
         updateCoinUseCase.invoke(UpdateCoinParams(updatedCoin))
+    }
+
+    override suspend fun saveCoinsToDatabase() {
+        saveCoinsToDatabaseUseCase.invoke(null)
     }
 }

@@ -1,7 +1,6 @@
 package com.maxkor.feature.coins.impl.data.di
 
 import android.content.Context
-import com.maxkor.feature.coins.impl.data.local.cache.CoinsCache
 import com.maxkor.feature.coins.impl.data.local.dao.CoinsDao
 import com.maxkor.feature.coins.impl.data.local.db.CoinsDatabase
 import dagger.Module
@@ -29,9 +28,4 @@ object LocalDataSourceModule {
     fun provideCoinsDao(
         appDatabase: CoinsDatabase,
     ): CoinsDao = appDatabase.coinsDao()
-
-    @Provides
-    @Singleton
-    fun provideCoinsCache(): CoinsCache =
-        CoinsCache()
 }
