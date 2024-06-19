@@ -1,6 +1,8 @@
 package com.maxkor.feature.coins.impl.data.repository
 
+import com.maxkor.feature.coins.impl.data.util.TokenBucket
 import android.content.Context
+import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.impl.R
 import com.maxkor.feature.coins.impl.data.local.dao.CoinsDao
 import com.maxkor.feature.coins.impl.data.local.mapper.toCoin
@@ -19,6 +21,7 @@ class CoinsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val dao: CoinsDao,
     private val api: CoinsApi,
+    private val tokenBucket: TokenBucket,
 ) : CoinsRepository {
 
     private var firsTimeCoinsLoading: Boolean = true
@@ -53,42 +56,44 @@ class CoinsRepositoryImpl @Inject constructor(
         hasInternetConnection: Boolean,
         informUserOnFailure: (String) -> Unit,
     ) {
-        val coins: MutableList<Coin> = mutableListOf()
+        if (tokenBucket.tryAcquire()) {
+            val coins: MutableList<Coin> = mutableListOf()
 
-        if (firsTimeCoinsLoading) {
-            val coinsFromDataBase = getCoinsFromDatabase()
-            if (coinsFromDataBase.isNotEmpty()) {
-                _coinsFlow.value = coinsFromDataBase
-                coins.addAll(coinsFromDataBase)
-            }
-            firsTimeCoinsLoading = false
-        } else {
-            if (_coinsFlow.value.isNotEmpty()) {
-                coins.addAll(_coinsFlow.value)
-            }
-        }
-
-        if (hasInternetConnection) {
-            val coinsFromServer = downloadCoins(
-                informUserOnFailure = informUserOnFailure
-            )
-            if (coinsFromServer.isNotEmpty()) {
-                if (coins.isNotEmpty()) {
-                    val parsedCoins = parseCoins(
-                        newCoins = coinsFromServer,
-                        currentCoins = coins
-                    )
-                    _coinsFlow.value = parsedCoins
-                } else {
-                    _coinsFlow.value = coinsFromServer
+            if (firsTimeCoinsLoading) {
+                val coinsFromDataBase = getCoinsFromDatabase()
+                if (coinsFromDataBase.isNotEmpty()) {
+                    _coinsFlow.value = coinsFromDataBase
+                    coins.addAll(coinsFromDataBase)
+                }
+                firsTimeCoinsLoading = false
+            } else {
+                if (_coinsFlow.value.isNotEmpty()) {
+                    coins.addAll(_coinsFlow.value)
                 }
             }
-        } else {
-            informUserOnFailure(
-                context.getString(
-                    com.maxkor.core.base.R.string.no_internet_connection_warning
+
+            if (hasInternetConnection) {
+                val coinsFromServer = downloadCoins(
+                    informUserOnFailure = informUserOnFailure
                 )
-            )
+                if (coinsFromServer.isNotEmpty()) {
+                    if (coins.isNotEmpty()) {
+                        val parsedCoins = parseCoins(
+                            newCoins = coinsFromServer,
+                            currentCoins = coins
+                        )
+                        _coinsFlow.value = parsedCoins
+                    } else {
+                        _coinsFlow.value = coinsFromServer
+                    }
+                }
+            } else {
+                informUserOnFailure(
+                    context.getString(
+                        com.maxkor.core.base.R.string.no_internet_connection_warning
+                    )
+                )
+            }
         }
     }
 
