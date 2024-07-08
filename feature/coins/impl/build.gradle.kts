@@ -64,12 +64,11 @@ dependencies {
     implementation(libs.bundles.compose)
 
     testImplementation(libs.test.unit.junit)
-//    testImplementation("org.mockito:mockito-core:5.8.0")
     testImplementation(libs.test.unit.mockk)
     testImplementation(libs.test.unit.coroutines)
 
     androidTestImplementation(libs.test.android.espresso.core)
     androidTestImplementation(libs.test.android.junit)
-    androidTestImplementation(libs.test.android.mockito)
+    androidTestImplementation (libs.test.android.mockk)
 }
 
