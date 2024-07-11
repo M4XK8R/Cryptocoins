@@ -1,30 +1,21 @@
 package com.maxkor.feature.detail.impl.domain.interactor
 
-import com.maxkor.feature.detail.impl.domain.model.CoinReminder
-import com.maxkor.feature.detail.impl.domain.model.DownloadableImage
 import com.maxkor.feature.detail.impl.domain.model.ExtraDetailCoinInfo
+import com.maxkor.feature.detail.impl.domain.model.parameters.CreateReminderParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.GetCoinExtraInfoParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.SaveCoinExtraInfoParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.SavePictureParams
+import com.maxkor.feature.detail.impl.domain.model.parameters.SharePictureParams
 
 interface DetailInteractor {
 
-    fun savePicture(
-        downloadableImage: DownloadableImage,
-        noPostNotificationPermissionCase: () -> Unit,
-        noWriteStoragePermissionCase: () -> Unit,
-        onDownloadState: (message: String) -> Unit,
-    )
+    fun savePicture(savePictureParams: SavePictureParams)
 
-    fun sharePicture(url: String)
+    fun sharePicture(sharePictureParams: SharePictureParams)
 
-    fun createReminder(
-        coinReminder: CoinReminder,
-        noPostNotificationPermissionCase: () -> Unit,
-        onIncorrectTimeInput: (String) -> Unit,
-    )
+    fun createReminder(createReminderParams: CreateReminderParams)
 
-    fun saveCoinExtraInfo(
-        key: String,
-        extraInfo: ExtraDetailCoinInfo,
-    )
+    fun saveCoinExtraInfo(saveCoinExtraInfoParams: SaveCoinExtraInfoParams)
 
-    fun getCoinExtraInfo(key: String): ExtraDetailCoinInfo
+    fun getCoinExtraInfo(getCoinExtraInfoParams: GetCoinExtraInfoParams): ExtraDetailCoinInfo
 }

@@ -94,17 +94,16 @@ private fun ToggleButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun TimePickerSwitchablePreview() =
-    PreviewProvider(
-        content = {
-            TimePickerSwitchable(
-                timePickerState = rememberTimePickerState(),
-                isTimePickerExpanded = true,
-                onToggleClick = {},
-                onConfirm = { _, _ -> },
-                onDecline = {},
-            )
-        }
-    ).DeviceRunnable()
+private fun TimePickerSwitchablePreview() = PreviewProvider(
+    content = {
+        TimePickerSwitchable(
+            timePickerState = rememberTimePickerState(),
+            isTimePickerExpanded = true,
+            onToggleClick = {},
+            onConfirm = { _, _ -> },
+            onDecline = {},
+        )
+    }
+).DeviceRunnable()
 
 

@@ -13,7 +13,7 @@ import com.maxkor.feature.favorites.impl.presentation.viewmodel.FavoritesViewMod
 
 @Composable
 fun FavoritesRoute(
-    navigateToDetail: (coinId: String) -> Unit,
+    onFavoriteCardClick: (coinId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: FavoritesViewModel = hiltViewModel()
@@ -25,7 +25,7 @@ fun FavoritesRoute(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is CryptocoinsUiEvents.Navigate ->
-                    navigateToDetail(event.coinName)
+                    onFavoriteCardClick(event.coinName)
 
                 else -> Unit
             }
@@ -35,7 +35,7 @@ fun FavoritesRoute(
     FavoritesScreen(
         favoritesUiState = favoritesUiState,
         lazyListState = lazyListState,
-        navigateToDetail = navigateToDetail,
+        onFavoriteCardClick = onFavoriteCardClick,
         removeFromFavorites = { favoriteCoinVo ->
             viewModel.onEvent(
                 FavoritesEvents.OnFavoriteIconClick(favoriteCoinVo)

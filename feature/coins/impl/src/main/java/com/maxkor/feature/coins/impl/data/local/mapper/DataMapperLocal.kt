@@ -1,5 +1,6 @@
 package com.maxkor.feature.coins.impl.data.local.mapper
 
+import com.maxkor.feature.coins.impl.data.local.model.CoinCached
 import com.maxkor.feature.coins.impl.data.local.model.CoinEntity
 import com.maxkor.feature.coins.impl.domain.model.Coin
 

@@ -5,17 +5,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinsRepository {
 
-    fun getCoinsFlow(): Flow<List<Coin>>
+    val coinsFlow: Flow<List<Coin>>
 
-    fun getCoinByNameFlow(name: String): Flow<Coin>
-
-    suspend fun getCoins(): List<Coin>
+    suspend fun saveCoinsToDatabase()
 
     suspend fun updateCoin(coin: Coin)
 
-    suspend fun updateCoins(coins: List<Coin>)
-
-    suspend fun getCoinsFromServer(
+    suspend fun downloadAndUpdateCoins(
+        hasInternetConnection: Boolean,
         informUserOnFailure: (String) -> Unit,
-    ): List<Coin>?
+    )
 }

@@ -1,33 +1,40 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
-import com.maxkor.core.base.domain.dispatchers.IoDispatcher
 import com.maxkor.core.base.domain.model.Cryptocoin
+import com.maxkor.core.base.domain.usecase.UseCase
 import com.maxkor.feature.coins.api.domain.interactor.CoinsFavoritesInteractor
 import com.maxkor.feature.coins.impl.domain.mapper.toCoin
 import com.maxkor.feature.coins.impl.domain.mapper.toCryptocoin
-import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
-import kotlinx.coroutines.CoroutineDispatcher
+import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
+import com.maxkor.feature.coins.impl.domain.usecase.GetCoinsFlowUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.UpdateCoinUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.transform
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoinsFavoritesInteractorImpl @Inject constructor(
-    @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
-    private val coinsRepository: CoinsRepository,
+    private val getCoinsFlowUseCase: GetCoinsFlowUseCase,
+    private val updateCoinUseCase: UpdateCoinUseCase,
 ) : CoinsFavoritesInteractor {
 
     override fun getFavoriteCoinsFlow(): Flow<List<Cryptocoin>> =
-        coinsRepository.getCoinsFlow()
-            .transform { coins ->
-                val favoriteCoins = coins
-                    .filter { it.isFavorite }
-                    .map { it.toCryptocoin() }
-                emit(favoriteCoins)
+        when (val result = getCoinsFlowUseCase.invoke(null)) {
+            is UseCase.Result.Success -> {
+                result.value.transform { coins ->
+                    val favoriteCoins = coins
+                        .filter { it.isFavorite }
+                        .map { it.toCryptocoin() }
+                    emit(favoriteCoins)
+                }
             }
 
-    override suspend fun removeFromFavorites(cryptocoin: Cryptocoin) =
-        withContext(dispatcherIo) {
-            coinsRepository.updateCoin(cryptocoin.toCoin())
+            is UseCase.Result.Failure -> flowOf(emptyList())
         }
+
+    override suspend fun removeFromFavorites(cryptocoin: Cryptocoin) {
+        updateCoinUseCase.invoke(
+            UpdateCoinParams(cryptocoin.toCoin())
+        )
+    }
 }

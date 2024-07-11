@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -19,7 +18,7 @@ private const val COINS_UPDATE_INTERVAL = 30_000L
 
 @Composable
 fun CoinsRoute(
-    navigateToDetail: (coinName: String) -> Unit,
+    onCoinCardClick: (coinName: String) -> Unit,
     informUser: (String) -> Unit,
     lifecycleOwner: LifecycleOwner,
     modifier: Modifier = Modifier,
@@ -35,7 +34,7 @@ fun CoinsRoute(
                 is CryptocoinsUiEvents.ShowSnackbar ->
                     informUser(event.message)
                 is CryptocoinsUiEvents.Navigate ->
-                    navigateToDetail(event.coinName)
+                    onCoinCardClick(event.coinName)
             }
         }
     }
@@ -59,7 +58,7 @@ fun CoinsRoute(
     CoinsScreen(
         coinsUiState = coinsUiState,
         lazyListState = lazyListState,
-        navigateToDetail = { coinName ->
+        onCoinCardClick = { coinName ->
             viewModel.onEvent(
                 CoinsEvents.OnCoinCardClick(coinName)
             )

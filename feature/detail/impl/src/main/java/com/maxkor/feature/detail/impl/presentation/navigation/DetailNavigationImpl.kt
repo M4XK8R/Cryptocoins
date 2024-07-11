@@ -1,18 +1,17 @@
-package com.maxkor.feature.detail.impl.domain.interactor.impl
+package com.maxkor.feature.detail.impl.presentation.navigation
 
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.maxkor.feature.detail.api.DetailFeature
-import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
+import com.maxkor.feature.detail.api.presentation.navigation.DetailNavigation
 import com.maxkor.feature.detail.impl.domain.preferences.DetailPreferences
 import com.maxkor.feature.detail.impl.presentation.screen.DetailRoute
 import javax.inject.Inject
 
-class DetailNavigationInteractorImpl @Inject constructor(
+class DetailNavigationImpl @Inject constructor(
     private val detailPreferences: DetailPreferences,
-) : DetailNavigationInteractor {
+) : DetailNavigation {
 
     override fun graph(
         navGraphBuilder: NavGraphBuilder,
@@ -34,11 +33,4 @@ class DetailNavigationInteractorImpl @Inject constructor(
             informUser = informUser
         )
     }
-
-    override fun openScreen(
-        coinName: String,
-        navController: NavController,
-    ) = navController.navigate(
-        route = DetailFeature.getRouteWithArgs(coinName)
-    )
 }

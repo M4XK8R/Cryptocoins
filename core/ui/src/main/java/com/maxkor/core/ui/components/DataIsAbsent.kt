@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.maxkor.core.ui.components.TitleText
 
 @Composable
 fun DataIsAbsent(
@@ -17,7 +16,8 @@ fun DataIsAbsent(
     modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.background)
-        .then(modifier), contentAlignment = Alignment.Center
+        .then(modifier),
+    contentAlignment = Alignment.Center
 ) {
     TitleText(text = text)
 }

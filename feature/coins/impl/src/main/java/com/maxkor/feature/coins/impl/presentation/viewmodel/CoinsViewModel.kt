@@ -8,6 +8,8 @@ import com.maxkor.core.base.presentation.viewmodel.BaseViewModel
 import com.maxkor.core.base.util.createDebugLog
 import com.maxkor.feature.coins.api.CoinsFeature
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
+import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCoinsParams
+import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
 import com.maxkor.feature.coins.impl.presentation.contract.CoinsEvents
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoin
 import com.maxkor.feature.coins.impl.presentation.mapper.toCoinVo
@@ -34,7 +36,7 @@ class CoinsViewModel @Inject constructor(
 
     val coinsUiState: StateFlow<CoinsUiState> = interactor
         .getCoinsFlow()
-        .onStart { delay(CoinsFeature.LOADING_DATA_TIME) }
+        .onStart { delay(CoinsFeature.LOADING_IMITATION_TIME) }
         .onEach { createDebugLog("onEach") }
         .map { coins ->
             if (coins.isNotEmpty()) {
@@ -65,13 +67,20 @@ class CoinsViewModel @Inject constructor(
             is CoinsEvents.OnCoinCardClick -> sendNavigateUiEvent(event.coinId)
             is CoinsEvents.OnSearch -> findCoinByName(event.query)
             is CoinsEvents.OnStartUpdatingCoins -> startUpdatingCoins(event.downtime)
-            is CoinsEvents.OnStopUpdatingCoins -> stopUpdatingCoins()
+            is CoinsEvents.OnStopUpdatingCoins -> {
+                stopUpdatingCoins()
+                saveCoinsToDatabase()
+            }
         }
     }
 
     /**
      * Private sector
      */
+    private fun saveCoinsToDatabase() = launch {
+        interactor.saveCoinsToDatabase()
+    }
+
     private fun findCoinByName(name: String) {
         searchedText = name
     }
@@ -79,7 +88,7 @@ class CoinsViewModel @Inject constructor(
     private fun startUpdatingCoins(downtime: Long) {
         createDebugLog("startUpdatingCoins")
         shouldLoadCoins = true
-        coinsLoaderJob = updateCoins(downtime)
+        coinsLoaderJob = downloadAndUpdateCoins(downtime)
     }
 
     private fun stopUpdatingCoins() {
@@ -88,10 +97,12 @@ class CoinsViewModel @Inject constructor(
         coinsLoaderJob?.cancel()
     }
 
-    private fun updateCoins(downtime: Long) = launch {
+    private fun downloadAndUpdateCoins(downtime: Long) = launch {
         while (shouldLoadCoins) {
-            interactor.updateData(
-                informUserOnFailure = ::sendShowSnackbarUiEvent
+            interactor.downloadAndUpdateCoins(
+                DownloadAndUpdateCoinsParams(
+                    informUserOnFailure = ::sendShowSnackbarUiEvent
+                )
             )
             delay(downtime)
         }
@@ -99,7 +110,9 @@ class CoinsViewModel @Inject constructor(
 
     private fun changeCoinFavoriteState(coinVo: CoinVo) = launch {
         interactor.changeCoinFavoriteState(
-            coin = coinVo.toCoin()
+            UpdateCoinParams(
+                coin = coinVo.toCoin()
+            )
         )
     }
 

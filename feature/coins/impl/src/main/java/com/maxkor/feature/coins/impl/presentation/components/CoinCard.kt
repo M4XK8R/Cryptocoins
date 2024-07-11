@@ -28,7 +28,7 @@ fun CoinCard(
  */
 @Composable
 @RawPreview
-fun RunPreviewCoinCard() = PreviewProvider(
+private fun RunPreviewCoinCard() = PreviewProvider(
     content = {
         CoinCard(
             coinVo = Coin.testExemplar.toCoinVo(),

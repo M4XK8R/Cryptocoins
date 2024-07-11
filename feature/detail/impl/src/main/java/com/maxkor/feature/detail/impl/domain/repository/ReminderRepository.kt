@@ -2,7 +2,7 @@ package com.maxkor.feature.detail.impl.domain.repository
 
 import com.maxkor.feature.detail.impl.domain.model.CoinReminder
 
-interface RemainderRepository {
+interface ReminderRepository {
 
     fun createReminder(
         coinReminder: CoinReminder,

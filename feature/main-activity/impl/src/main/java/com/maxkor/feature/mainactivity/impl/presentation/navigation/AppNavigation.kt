@@ -13,10 +13,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.maxkor.feature.coins.api.CoinsFeature
-import com.maxkor.feature.coins.api.domain.interactor.CoinsNavigationInteractor
-import com.maxkor.feature.detail.api.domain.interactor.DetailNavigationInteractor
+import com.maxkor.feature.coins.api.presentation.navigation.CoinsNavigation
+import com.maxkor.feature.detail.api.DetailFeature
+import com.maxkor.feature.detail.api.presentation.navigation.DetailNavigation
 import com.maxkor.feature.favorites.api.FavoritesFeature
-import com.maxkor.feature.favorites.api.interactor.FavoritesNavigationInteractor
+import com.maxkor.feature.favorites.api.presentation.navigation.FavoritesNavigation
 import com.maxkor.feature.mainactivity.impl.presentation.components.NavBottomBar
 import com.maxkor.feature.mainactivity.impl.presentation.ktx.isDataNotUnknown
 import com.maxkor.feature.mainactivity.impl.presentation.model.ReceivedCoinDataVo
@@ -26,9 +27,9 @@ import kotlinx.coroutines.delay
 internal fun AppNavigation(
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
-    coinsNavigationInteractor: CoinsNavigationInteractor,
-    favoritesNavigationInteractor: FavoritesNavigationInteractor,
-    detailNavigationInteractor: DetailNavigationInteractor,
+    coinsNavigation: CoinsNavigation,
+    favoritesNavigation: FavoritesNavigation,
+    detailNavigation: DetailNavigation,
     showSnackbarMessage: (String) -> Unit,
     recreateApplication: () -> Unit,
     receivedCoinDataVoNullable: ReceivedCoinDataVo? = null,
@@ -36,18 +37,18 @@ internal fun AppNavigation(
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
     val navigateToCoins: () -> Unit = {
-        coinsNavigationInteractor.openScreen(navController)
+        CoinsFeature.openScreen(navController)
     }
 
     val navigateToFavorites: () -> Unit = {
-        favoritesNavigationInteractor.openScreen(
+        FavoritesFeature.openScreen(
             navController = navController,
             popUpToRoute = CoinsFeature.ROUTE_NAME
         )
     }
 
     val navigateToDetail: (coinName: String) -> Unit = { coinName ->
-        detailNavigationInteractor.openScreen(
+        DetailFeature.openScreen(
             coinName = coinName,
             navController = navController,
         )
@@ -61,7 +62,7 @@ internal fun AppNavigation(
     receivedCoinDataVoNullable?.let { receivedCoinDataVo ->
         if (receivedCoinDataVo.isDataNotUnknown()) {
             LaunchedEffect(key1 = true) {
-                delay(CoinsFeature.LOADING_DATA_TIME)
+                delay(CoinsFeature.LOADING_IMITATION_TIME)
                 navigateToDetail(receivedCoinDataVo.name)
             }
         }
@@ -91,9 +92,9 @@ internal fun AppNavigation(
             navController = navController,
             startDestination = CoinsFeature.ROUTE_NAME
         ) {
-            coinsNavigationInteractor.graph(
+            coinsNavigation.graph(
                 navGraphBuilder = this,
-                navigateToDetail = { coinName ->
+                onCoinCardClick = { coinName ->
                     navigateToDetail(coinName)
                 },
                 informUser = { message ->
@@ -103,15 +104,15 @@ internal fun AppNavigation(
                 modifier = Modifier.padding(paddingValues)
             )
 
-            favoritesNavigationInteractor.graph(
+            favoritesNavigation.graph(
                 navGraphBuilder = this,
-                navigateToDetail = { coinName ->
+                onFavoriteCardClick = { coinName ->
                     navigateToDetail(coinName)
                 },
                 modifier = Modifier.padding(paddingValues)
             )
 
-            detailNavigationInteractor.graph(
+            detailNavigation.graph(
                 navGraphBuilder = this,
                 recreateApplication = recreateApplication,
                 informUser = { message ->

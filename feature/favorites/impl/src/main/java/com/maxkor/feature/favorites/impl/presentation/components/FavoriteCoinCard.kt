@@ -52,7 +52,7 @@ fun FavoriteCoinCard(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoriteCoinCard() = PreviewProvider(
+private fun RunPreviewFavoriteCoinCard() = PreviewProvider(
     content = {
         FavoriteCoinCard(
             favoriteCoinVo = FavoriteCoin.testExemplar

@@ -4,6 +4,7 @@ import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 
 
 sealed class FavoritesEvents {
+
     data class OnFavoriteIconClick(
         val favoriteCoinVo: FavoriteCoinVo,
     ) : FavoritesEvents()

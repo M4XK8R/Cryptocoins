@@ -1,83 +1,47 @@
 package com.maxkor.feature.coins.impl.domain.interactor.impl
 
-import android.content.Context
-import com.maxkor.core.base.domain.dispatchers.IoDispatcher
-import com.maxkor.core.base.domain.repository.CheckerRepository
+import com.maxkor.core.base.domain.usecase.UseCase
 import com.maxkor.feature.coins.impl.domain.interactor.CoinsInteractor
 import com.maxkor.feature.coins.impl.domain.model.Coin
-import com.maxkor.feature.coins.impl.domain.repository.CoinsRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
+import com.maxkor.feature.coins.impl.domain.model.parameters.DownloadAndUpdateCoinsParams
+import com.maxkor.feature.coins.impl.domain.model.parameters.UpdateCoinParams
+import com.maxkor.feature.coins.impl.domain.usecase.DownloadAndUpdateCoinsUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.GetCoinsFlowUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.SaveCoinsToDatabaseUseCase
+import com.maxkor.feature.coins.impl.domain.usecase.UpdateCoinUseCase
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class CoinsInteractorImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @IoDispatcher private val dispatcherIo: CoroutineDispatcher,
-    private val coinsRepository: CoinsRepository,
-    private val checkerRepository: CheckerRepository,
+    private val getCoinsFlowUseCase: GetCoinsFlowUseCase,
+    private val downloadAndUpdateCoinsUseCase: DownloadAndUpdateCoinsUseCase,
+    private val updateCoinUseCase: UpdateCoinUseCase,
+    private val saveCoinsToDatabaseUseCase: SaveCoinsToDatabaseUseCase,
 ) : CoinsInteractor {
 
     override fun getCoinsFlow(): Flow<List<Coin>> =
-        coinsRepository.getCoinsFlow()
-
-    override suspend fun changeCoinFavoriteState(coin: Coin) =
-        withContext(dispatcherIo) {
-            val updatedCoin = coin.copy(
-                isFavorite = !coin.isFavorite
-            )
-            coinsRepository.updateCoin(updatedCoin)
+        when (val result = getCoinsFlowUseCase.invoke(null)) {
+            is UseCase.Result.Success -> result.value
+            is UseCase.Result.Failure -> flowOf(emptyList())
         }
 
-    override suspend fun updateData(
-        informUserOnFailure: (String) -> Unit,
-    ): Unit =
-        if (checkerRepository.hasInternetConnection()) {
-            withContext(dispatcherIo) {
-                val newCoins = coinsRepository.getCoinsFromServer(
-                    informUserOnFailure = informUserOnFailure
-                )
-                if (newCoins.isNullOrEmpty()) {
-                    return@withContext
-                }
-                val currentCoins = coinsRepository.getCoins()
-                if (currentCoins.isEmpty()) {
-                    coinsRepository.updateCoins(newCoins)
-                }
-                if (currentCoins.isNotEmpty()) {
-                    val parsedCoins = parseCoins(
-                        updatedCoins = newCoins,
-                        currentCoins = currentCoins
-                    )
-                    coinsRepository.updateCoins(parsedCoins)
-                }
-            }
-        } else {
-            informUserOnFailure(
-                context.getString(
-                    com.maxkor.core.base.R.string.no_internet_connection_warning
-                )
-            )
-        }
+    override suspend fun downloadAndUpdateCoins(
+        downloadAndUpdateCoinsParams: DownloadAndUpdateCoinsParams,
+    ) {
+        downloadAndUpdateCoinsUseCase.invoke(downloadAndUpdateCoinsParams)
+    }
 
-    /**
-     * Private sector
-     */
-    private fun parseCoins(
-        updatedCoins: List<Coin>,
-        currentCoins: List<Coin>,
-    ): List<Coin> {
-        val parsedCoins = mutableListOf<Coin>()
-        updatedCoins.forEach { updatedCoin ->
-            val currentCoin = currentCoins.first { currentCoin ->
-                currentCoin.id == updatedCoin.id
-            }
-            val parsedCoin = updatedCoin.copy(
-                isFavorite = currentCoin.isFavorite
-            )
-            parsedCoins.add(parsedCoin)
-        }
-        return parsedCoins.toList()
+    override suspend fun changeCoinFavoriteState(
+        updateCoinParams: UpdateCoinParams,
+    ) {
+        val updatedCoin = updateCoinParams.coin.copy(
+            isFavorite = !updateCoinParams.coin.isFavorite
+        )
+        updateCoinUseCase.invoke(UpdateCoinParams(updatedCoin))
+    }
+
+    override suspend fun saveCoinsToDatabase() {
+        saveCoinsToDatabaseUseCase.invoke(null)
     }
 }

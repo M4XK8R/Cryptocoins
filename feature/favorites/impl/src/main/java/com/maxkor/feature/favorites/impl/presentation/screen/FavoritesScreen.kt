@@ -16,7 +16,7 @@ import com.maxkor.feature.favorites.impl.presentation.model.FavoriteCoinVo
 fun FavoritesScreen(
     favoritesUiState: FavoritesUiState,
     lazyListState: LazyListState,
-    navigateToDetail: (coinId: String) -> Unit,
+    onFavoriteCardClick: (coinId: String) -> Unit,
     removeFromFavorites: (FavoriteCoinVo) -> Unit,
     modifier: Modifier = Modifier,
 ) = when (favoritesUiState) {
@@ -27,7 +27,7 @@ fun FavoritesScreen(
     is FavoritesUiState.Success -> FavoritesScreenContent(
         favoriteCoinsVos = favoritesUiState.coins,
         lazyListState = lazyListState,
-        onFavoriteCardClick = navigateToDetail,
+        onFavoriteCardClick = onFavoriteCardClick,
         onFavoriteIconClick = removeFromFavorites,
         modifier = modifier
     )
@@ -38,12 +38,12 @@ fun FavoritesScreen(
  */
 @Composable
 @RawPreview
-fun RunPreviewFavoritesScreen() = PreviewProvider(
+private fun RunPreviewFavoritesScreen() = PreviewProvider(
     content = {
         FavoritesScreen(
             favoritesUiState = FavoritesUiState.NoDataAvailable,
             lazyListState = rememberLazyListState(),
-            navigateToDetail = {},
+            onFavoriteCardClick = {},
             removeFromFavorites = {}
         )
     }
